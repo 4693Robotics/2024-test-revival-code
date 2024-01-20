@@ -66,8 +66,10 @@ public final class Constants {
 
   public static final class IntakeConstants {
     public static final int kIntakeCanId = 9;
+    public static final int kIntakeMiniCanId = 10;
 
     public static final IdleMode kIntakeIdleMode = IdleMode.kBrake;
+    public static final IdleMode kIntakeMiniIdleMode = IdleMode.kBrake;
   }
 
   public static final class ModuleConstants {
