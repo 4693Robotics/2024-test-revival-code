@@ -23,10 +23,12 @@ public class IntakeSubsystem extends SubsystemBase {
         m_IntakeMiniMotor.setIdleMode(IntakeConstants.kIntakeMiniIdleMode);
     }
 
+    //Function to make intake move
     public void moveIntake(double speed) {
         m_IntakeMotor.set(speed);
     }
     
+    //Function 
     public void moveIntakeMini(double speed) {
         m_IntakeMiniMotor.set(speed);
     }
