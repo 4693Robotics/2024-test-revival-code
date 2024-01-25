@@ -4,8 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -35,6 +34,8 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
 
+
+
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -46,29 +47,36 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
 
-  private UsbCamera camera = CameraServer.startAutomaticCapture();
-
   private PowerDistribution m_pdh = new PowerDistribution();
 
+  HttpCamera m_camera = new HttpCamera("el camera", "http://photonvision.local:1181/stream.mjpg");
+   
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   XboxController m_subsystemController = new XboxController(OIConstants.kSubsystemsControllerPort);
 
   ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
 
+  ComplexWidget CameraWidget = TeleopTab
+  .addCamera("camera", "camera", "http://photonvision.local:1181/stream.mjpg")
+  .withWidget(BuiltInWidgets.kCameraStream);
+
   ComplexWidget PdhWidget = TeleopTab
   .add("Power",m_pdh)
   .withWidget(BuiltInWidgets.kPowerDistribution);
 
 public Object drive;
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() { 
+    //Camera config
+    m_camera.setBrightness(50);
+    m_camera.setExposureAuto();
+    m_camera.setResolution(640,480);
     // Configure the button bindings
     configureButtonBindings();
-
+  
     m_robotIntake.setDefaultCommand(new IntakeStart( m_subsystemController, m_robotIntake));
 
     // Configure default commands
