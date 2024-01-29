@@ -227,6 +227,10 @@ public class DriveSubsystem extends SubsystemBase {
     m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
   }
 
+  public void rotateToAngle(double Speed, double FinalDirection) {
+    this.drive(0, 0, Speed, false, false);
+  }
+
   /**
    * Sets the swerve ModuleStates.
    *
@@ -272,7 +276,7 @@ public class DriveSubsystem extends SubsystemBase {
     return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
-  private double invertGyro_Angle(){
+  public double invertGyro_Angle(){
     return -m_gyro.getAngle();
   }
 }
