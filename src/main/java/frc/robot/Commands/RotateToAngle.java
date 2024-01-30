@@ -13,6 +13,8 @@ public class RotateToAngle extends Command {
         rotationSpeed = speed;
         endDirection = finalDirection;
         driveSystem = DriveSubsystem;
+
+        addRequirements(DriveSubsystem);
     }
 
     public void execute() {
