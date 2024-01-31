@@ -21,7 +21,10 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Commands.IntakeStart;
+import frc.robot.Commands.Auto.AutosCommands;
 //import frc.robot.Commands.Drive_With_Joysticks;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -47,15 +50,21 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
 
+  //Creates the pdh for pdh widget
   private PowerDistribution m_pdh = new PowerDistribution();
 
   HttpCamera m_camera = new HttpCamera("el camera", "http://photonvision.local:1181/stream.mjpg");
+  
+  private final SendableChooser<Command> autoChooser = new SendableChooser<>();
    
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   XboxController m_subsystemController = new XboxController(OIConstants.kSubsystemsControllerPort);
 
+
+  // Creates the teleoptab
   ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
+  ShuffleboardTab PreGameTab = Shuffleboard.getTab("Pre Game");
 
   ComplexWidget CameraWidget = TeleopTab
   .addCamera("camera", "camera", "http://photonvision.local:1181/stream.mjpg")
@@ -65,11 +74,20 @@ public class RobotContainer {
   .add("Power",m_pdh)
   .withWidget(BuiltInWidgets.kPowerDistribution);
 
+  ComplexWidget AutoSelector = PreGameTab
+  .add("Auto", autoChooser)
+  .withWidget(BuiltInWidgets.kComboBoxChooser)
+  .withSize(3, 2);
+
 public Object drive;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() { 
+    autoChooser.addOption("No auto", null);
+    autoChooser.addOption("Auto1", new AutosCommands().Auto1(m_robotDrive));
+    autoChooser.addOption("auto 2", new AutosCommands().Auto2(m_robotDrive, m_robotIntake));
+    
     //Camera config
     m_camera.setBrightness(50);
     m_camera.setExposureAuto();
@@ -134,8 +152,10 @@ public Object drive;
    *
    * @return the command to run in autonomous
    */
+
   public Command getAutonomousCommand() {
-    // Create config for trajectory
+    return autoChooser.getSelected();
+  /*   // Create config for trajectory
     TrajectoryConfig config = new TrajectoryConfig(
         AutoConstants.kMaxSpeedMetersPerSecond,
         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
@@ -172,6 +192,6 @@ public Object drive;
     m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));
+    return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));*/
   }
 }

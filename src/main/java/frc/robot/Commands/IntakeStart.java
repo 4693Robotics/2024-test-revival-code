@@ -22,14 +22,14 @@ public class IntakeStart extends Command {
      public void execute() {
         double XLeftspeed = -MathUtil.applyDeadband(controllerXAxis.getLeftX(), OIConstants.KSubsystemsDeadband);
         double XRightspeed = -MathUtil.applyDeadband(controllerXAxis.getRightX(), OIConstants.KSubsystemsDeadband);
-        intakeSubsystem.moveIntake(XLeftspeed/10);
-        intakeSubsystem.moveIntakeMini(XRightspeed);
+        intakeSubsystem.moveIntakeArm(XLeftspeed/10);
+        intakeSubsystem.moveIntakeRoller(XRightspeed);
      }
 
      @Override
      public void end(boolean interrupted) {
-        intakeSubsystem.moveIntake(0);
-        intakeSubsystem.moveIntakeMini(0);
+        intakeSubsystem.moveIntakeArm(0);
+        intakeSubsystem.moveIntakeRoller(0);
      }
 
      @Override

@@ -10,25 +10,35 @@ import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
     //Creates motors
-    private final CANSparkMax m_IntakeMotor = new CANSparkMax(IntakeConstants.kIntakeCanId, MotorType.kBrushless);
-    private final CANSparkMax m_IntakeMiniMotor = new CANSparkMax(IntakeConstants.kIntakeMiniCanId, MotorType.kBrushless);
+    private final CANSparkMax m_IntakeArm = new CANSparkMax(IntakeConstants.kIntakeCanId, MotorType.kBrushless);
+    private final CANSparkMax m_IntakeRoller = new CANSparkMax(IntakeConstants.kIntakeMiniCanId, MotorType.kBrushless);
 
     ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
 
     public IntakeSubsystem() {
-
         //Sets motors to brushless config
-        m_IntakeMotor.setIdleMode(IntakeConstants.kIntakeIdleMode);
-        m_IntakeMiniMotor.setIdleMode(IntakeConstants.kIntakeMiniIdleMode);
+        m_IntakeArm.setIdleMode(IntakeConstants.kIntakeIdleMode);
+        m_IntakeRoller.setIdleMode(IntakeConstants.kIntakeMiniIdleMode);
+
+        //Sets motors currentlimit
+        m_IntakeArm.setSmartCurrentLimit(40);
     }
 
     //Function to make intake move
-    public void moveIntake(double speed) {
-        m_IntakeMotor.set(speed);
+    public void moveIntakeArm(double speed) {
+        m_IntakeArm.set(speed);
     }
     
     //Function 
-    public void moveIntakeMini(double speed) {
-        m_IntakeMiniMotor.set(speed);
+    public void moveIntakeRoller(double speed) {
+        m_IntakeRoller.set(speed);
+    }
+
+    public void intakeOn() {
+        m_IntakeRoller.set(1);
+    }
+
+    public void intakeOff() {
+        m_IntakeRoller.set(0);
     }
 }
