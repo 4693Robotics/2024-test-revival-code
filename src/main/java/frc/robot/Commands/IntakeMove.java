@@ -6,12 +6,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeStart extends Command {
+public class IntakeMove extends Command {
 
     IntakeSubsystem intakeSubsystem;
     XboxController controllerXAxis;
 
-     public IntakeStart(XboxController controller, IntakeSubsystem Intake) {
+     public IntakeMove(XboxController controller, IntakeSubsystem Intake) {
         intakeSubsystem = Intake;
         controllerXAxis = controller;
 

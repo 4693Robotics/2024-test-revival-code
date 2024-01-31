@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.Commands.IntakeStart;
+import frc.robot.Commands.IntakeMove;
 import frc.robot.Commands.Auto.AutosCommands;
 //import frc.robot.Commands.Drive_With_Joysticks;
 import frc.robot.Constants.AutoConstants;
@@ -61,6 +61,7 @@ public class RobotContainer {
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   XboxController m_subsystemController = new XboxController(OIConstants.kSubsystemsControllerPort);
 
+  public Object drive;
 
   // Creates the teleoptab
   ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
@@ -79,34 +80,28 @@ public class RobotContainer {
   .withWidget(BuiltInWidgets.kComboBoxChooser)
   .withSize(3, 2);
 
-public Object drive;
+ 
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() { 
     autoChooser.addOption("No auto", null);
-    autoChooser.addOption("Auto1", new AutosCommands().Auto1(m_robotDrive));
-    autoChooser.addOption("auto 2", new AutosCommands().Auto2(m_robotDrive, m_robotIntake));
+    autoChooser.addOption("Auto 1", new AutosCommands().Auto1(m_robotDrive));
+    autoChooser.addOption("Auto 2", new AutosCommands().Auto2(m_robotDrive, m_robotIntake));
+    autoChooser.addOption("Auto 3", new AutosCommands().Auto3(m_robotDrive, m_robotIntake));
     
     //Camera config
     m_camera.setBrightness(50);
     m_camera.setExposureAuto();
     m_camera.setResolution(640,480);
+
     // Configure the button bindings
     configureButtonBindings();
   
-    m_robotIntake.setDefaultCommand(new IntakeStart( m_subsystemController, m_robotIntake));
-
-    // Configure default commands
-/*     m_robotDrive.setDefaultCommand(new Drive_With_Joysticks(()-> -m_driverController.getLeftY(),
-                                                            ()-> -m_driverController.getLeftX(), 
-                                                            ()-> -m_driverController.getRightX(), 
-                                                            false, 
-                                                            false, 
-                                                            m_robotDrive)); */
+   
+    // sets drive default command
     m_robotDrive.setDefaultCommand(
-        // The left stick controls translation of the robot. 
-        // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> m_robotDrive.drive(
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
@@ -114,6 +109,9 @@ public Object drive;
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
                 true, true),
             m_robotDrive));
+
+    // sets intake default command
+    m_robotIntake.setDefaultCommand(new IntakeMove( m_subsystemController, m_robotIntake));
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -143,6 +141,11 @@ public Object drive;
         .whileTrue(new RunCommand(
             () -> m_robotDrive.zeroHeading()
         ));
+
+    new JoystickButton(m_subsystemController, Button.kY.value)
+        .toggleOnTrue(new RunCommand(
+            () -> m_robotIntake.moveIntakeRoller(0.3),
+            m_robotIntake));
   }
 
   

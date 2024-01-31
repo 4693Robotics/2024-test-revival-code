@@ -10,35 +10,46 @@ import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
     //Creates motors
-    private final CANSparkMax m_IntakeArm = new CANSparkMax(IntakeConstants.kIntakeCanId, MotorType.kBrushless);
-    private final CANSparkMax m_IntakeRoller = new CANSparkMax(IntakeConstants.kIntakeMiniCanId, MotorType.kBrushless);
+    private final CANSparkMax m_IntakeArm = new CANSparkMax(IntakeConstants.kIntakeArmCanId, MotorType.kBrushless);
+    private final CANSparkMax m_IntakeRoller = new CANSparkMax(IntakeConstants.kIntakeRollerCanId, MotorType.kBrushless);
 
     ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
 
     public IntakeSubsystem() {
         //Sets motors to brushless config
-        m_IntakeArm.setIdleMode(IntakeConstants.kIntakeIdleMode);
-        m_IntakeRoller.setIdleMode(IntakeConstants.kIntakeMiniIdleMode);
+        m_IntakeArm.setIdleMode(IntakeConstants.kIntakeArmIdleMode);
+        m_IntakeRoller.setIdleMode(IntakeConstants.kIntakeRollerIdleMode);
 
         //Sets motors currentlimit
-        m_IntakeArm.setSmartCurrentLimit(40);
+        m_IntakeArm.setSmartCurrentLimit(IntakeConstants.kIntakeArmCurrentLimit);
+        m_IntakeRoller.setSmartCurrentLimit(IntakeConstants.kIntakeRollerCurrentLimit);
+
+        m_IntakeRoller.setInverted(true);
     }
 
-    //Function to make intake move
+    //Function to make intake arm move
     public void moveIntakeArm(double speed) {
         m_IntakeArm.set(speed);
     }
     
-    //Function 
+    //Function to make intake roller move
     public void moveIntakeRoller(double speed) {
         m_IntakeRoller.set(speed);
     }
 
-    public void intakeOn() {
+    public void intakeForward() {
+        m_IntakeRoller.set(1);
+    }
+
+    public void intakeBackward() {
         m_IntakeRoller.set(1);
     }
 
     public void intakeOff() {
         m_IntakeRoller.set(0);
+    }
+
+    public double getArmPosition() {
+        return m_IntakeArm.getEncoder().getPosition();
     }
 }

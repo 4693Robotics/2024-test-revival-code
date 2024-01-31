@@ -11,11 +11,12 @@ public class AutosCommands {
     
     public SequentialCommandGroup Auto1(DriveSubsystem drivesystem) {
      return new SequentialCommandGroup(
-        new InstantCommand(() -> drivesystem.drive(0.5, 0, 0, true, false)),
-        new WaitCommand(2),
-        new RotateToAngle(drivesystem, 90),
-        new InstantCommand(() -> drivesystem.drive(0, 0.5, 0, true, false)),
-        new WaitCommand(2),
+        new InstantCommand(() -> drivesystem.zeroHeading()),
+        new InstantCommand(() -> drivesystem.drive(0.3, 0, 0, true, false)),
+        new WaitCommand(1),
+        new RotateToAngle(drivesystem, 90, 0.25),
+        new InstantCommand(() -> drivesystem.drive(0, 0.3, 0, true, false)),
+        new WaitCommand(1),
         new InstantCommand(() -> drivesystem.drive(0, 0, 0, true, false)),
         new InstantCommand(() -> drivesystem.setX())
         );
@@ -23,19 +24,30 @@ public class AutosCommands {
 
     public SequentialCommandGroup Auto2(DriveSubsystem drivesystem, IntakeSubsystem intakesystem) {
       return new SequentialCommandGroup(
-        new InstantCommand(() -> drivesystem.drive(0.5, 0, 0, true, false)),
+        new InstantCommand(() -> drivesystem.drive(0.3, 0, 0, true, false)),
         new WaitCommand(1),
         new InstantCommand(() -> drivesystem.drive(0, 0, 0, true, false)),
-        new RotateToAngle(drivesystem, 180),
-        new InstantCommand(() -> intakesystem.intakeOn()),
-        new InstantCommand(() -> drivesystem.drive(-0.2, 0, 0, true, false)),
+        new RotateToAngle(drivesystem, 180, 0.25),
+        new InstantCommand(() -> intakesystem.moveIntakeRoller(1)),
+        new WaitCommand(1),
+        new InstantCommand(() -> drivesystem.drive(-0.3, 0, 0, true, false)),
         new WaitCommand(1),
         new InstantCommand(() -> drivesystem.drive(0, 0, 0, true, false)),
         new InstantCommand(() -> intakesystem.intakeOff()),
-        new RotateToAngle(drivesystem, 0),
+        new RotateToAngle(drivesystem, 0, 0.1),
         new InstantCommand(() -> drivesystem.setX())    
         );
-        
+    }
+    
+    public SequentialCommandGroup Auto3(DriveSubsystem drivesystem, IntakeSubsystem intakesystem) {
+        return new SequentialCommandGroup(
+            new InstantCommand(() -> drivesystem.zeroHeading()),
+            new InstantCommand(() -> intakesystem.moveIntakeRoller(1)),
+            new InstantCommand(() -> drivesystem.drive(0.3, 0, 0 ,true, false)),
+            new WaitCommand(1),
+            new InstantCommand(() -> drivesystem.drive(0, 0, 0, true, false)),
+            new InstantCommand(() -> drivesystem.setX())
+        );
     }
 }
 
