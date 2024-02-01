@@ -45,15 +45,14 @@ public class RotateToAngle extends Command {
     }
 
     @Override
-    public boolean isFinished() {
-        // This command is finished when the robot's angle is close to the target angle
-        return pidController.atSetpoint();
-    }
-
-    @Override
     public void end(boolean interrupted) {
         // Stop the rotation when the command ends
         DriveSubsystem.drive(0, 0, 0, true, false);
     }
 
+    @Override
+    public boolean isFinished() {
+        // This command is finished when the robot's angle is close to the target angle
+        return pidController.atSetpoint();
+    }
 }

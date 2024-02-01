@@ -4,16 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -21,23 +12,17 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Commands.IntakeMove;
 import frc.robot.Commands.Auto.AutosCommands;
 //import frc.robot.Commands.Drive_With_Joysticks;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import java.util.List;
-
-
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -49,12 +34,11 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
+  private final CameraSubsystem m_robotCameras = new CameraSubsystem();
 
   //Creates the pdh for pdh widget
   private PowerDistribution m_pdh = new PowerDistribution();
 
-  HttpCamera m_camera = new HttpCamera("el camera", "http://photonvision.local:1181/stream.mjpg");
-  
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
    
   // The driver's controller
@@ -67,10 +51,6 @@ public class RobotContainer {
   ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
   ShuffleboardTab PreGameTab = Shuffleboard.getTab("Pre Game");
 
-  ComplexWidget CameraWidget = TeleopTab
-  .addCamera("camera", "camera", "http://photonvision.local:1181/stream.mjpg")
-  .withWidget(BuiltInWidgets.kCameraStream);
-
   ComplexWidget PdhWidget = TeleopTab
   .add("Power",m_pdh)
   .withWidget(BuiltInWidgets.kPowerDistribution);
@@ -80,8 +60,6 @@ public class RobotContainer {
   .withWidget(BuiltInWidgets.kComboBoxChooser)
   .withSize(3, 2);
 
- 
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -90,11 +68,6 @@ public class RobotContainer {
     autoChooser.addOption("Auto 1", new AutosCommands().Auto1(m_robotDrive));
     autoChooser.addOption("Auto 2", new AutosCommands().Auto2(m_robotDrive, m_robotIntake));
     autoChooser.addOption("Auto 3", new AutosCommands().Auto3(m_robotDrive, m_robotIntake));
-    
-    //Camera config
-    m_camera.setBrightness(50);
-    m_camera.setExposureAuto();
-    m_camera.setResolution(640,480);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -142,9 +115,9 @@ public class RobotContainer {
             () -> m_robotDrive.zeroHeading()
         ));
 
-    new JoystickButton(m_subsystemController, Button.kY.value)
+    new JoystickButton(m_subsystemController, Button.kA.value)
         .toggleOnTrue(new RunCommand(
-            () -> m_robotIntake.moveIntakeRoller(0.3),
+            () -> m_robotIntake.moveIntakeRoller(-1),
             m_robotIntake));
   }
 
@@ -158,43 +131,9 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
-  /*   // Create config for trajectory
-    TrajectoryConfig config = new TrajectoryConfig(
-        AutoConstants.kMaxSpeedMetersPerSecond,
-        AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-        // Add kinematics to ensure max speed is actually obeyed
-        .setKinematics(DriveConstants.kDriveKinematics);
+  }
 
-    // An example trajectory to follow. All units in meters.
-    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-        // Start at the origin facing the +X direction
-        new Pose2d(0, 0, new Rotation2d(0)),
-        // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-        // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),
-        config);
-
-    var thetaController = new ProfiledPIDController(
-        AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
-    thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-    SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-        exampleTrajectory,
-        m_robotDrive::getPose, // Functional interface to feed supplier
-        DriveConstants.kDriveKinematics,
-
-        // Position controllers
-        new PIDController(AutoConstants.kPXController, 0, 0),
-        new PIDController(AutoConstants.kPYController, 0, 0),
-        thetaController,
-        m_robotDrive::setModuleStates,
-        m_robotDrive);
-
-    // Reset odometry to the starting pose of the trajectory.
-    m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
-
-    // Run path following command, then stop at the end.
-    return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false, false));*/
+  public String getSelectedAuto() {
+    return autoChooser.toString();
   }
 }
