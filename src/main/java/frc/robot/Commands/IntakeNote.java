@@ -1,32 +1,38 @@
 package frc.robot.Commands;
 
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeNote extends Command {
 
-    double intakeSpeed;
-    double time;
-    IntakeSubsystem intakeSubsystem;
+    IntakeSubsystem intakesystem;
+    PIDController armPIDController;
 
-    public IntakeNote(double durration, IntakeSubsystem intake) {
-        this.time = durration;
-        this.intakeSubsystem = intake;
+    double intakeRollerSpeed;
+    double armPosition;
 
-        intakeSpeed = 1;
+
+    public IntakeNote(IntakeSubsystem IntakeSubsystem) {
+        this.intakesystem = IntakeSubsystem;
+
+        intakeRollerSpeed = 1;
     }
 
     @Override
     public void execute() {
-        intakeSubsystem.moveIntakeRoller(intakeSpeed);
-        Timer.delay(time);
+        new SequentialCommandGroup(
+            new InstantCommand(() -> intakesystem.moveIntakeRoller(intakeRollerSpeed))
+
+        );
     }
 
     @Override
     public void end(boolean interrupted) {
-       intakeSubsystem.moveIntakeArm(0);
-       intakeSubsystem.moveIntakeRoller(0);
+     intakesystem.moveIntakeArm(0);
+     intakesystem.moveIntakeRoller(0);
     }
 
     @Override

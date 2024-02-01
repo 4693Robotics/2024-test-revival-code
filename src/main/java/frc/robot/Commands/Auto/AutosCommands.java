@@ -5,7 +5,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Commands.IntakeNote;
 import frc.robot.Commands.LoadNote;
+import frc.robot.Commands.MoveToTagPosition;
 import frc.robot.Commands.RotateToAngle;
+import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -46,6 +48,12 @@ public class AutosCommands {
         new InstantCommand(() -> drivesystem.zeroHeading()),
         new RotateToAngle(drivesystem, 90, 0.6)
             );
+    }
+
+    public SequentialCommandGroup Auto4(DriveSubsystem drivesystem, IntakeSubsystem intakesystem, CameraSubsystem camerasystem) {
+        return new SequentialCommandGroup(
+            new MoveToTagPosition(drivesystem, camerasystem, 30, 40, 0.3)
+        );
     }
 }
 

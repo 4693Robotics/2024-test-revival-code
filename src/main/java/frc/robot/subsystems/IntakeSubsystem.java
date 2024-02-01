@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 
@@ -25,6 +26,11 @@ public class IntakeSubsystem extends SubsystemBase {
         m_IntakeRoller.setSmartCurrentLimit(IntakeConstants.kIntakeRollerCurrentLimit);
 
         m_IntakeRoller.setInverted(true);
+    }
+
+    public void periodic() {
+        SmartDashboard.putNumber("Intake Arm Position Rotations", m_IntakeArm.getEncoder().getPosition());
+        SmartDashboard.putNumber("Roller Speed RPM", m_IntakeRoller.getEncoder().getVelocity());
     }
 
     //Function to make intake arm move

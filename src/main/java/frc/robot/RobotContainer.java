@@ -47,14 +47,16 @@ public class RobotContainer {
 
   public Object drive;
 
-  // Creates the teleoptab
+  // Creates the tabs in shuffleboard
   ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
   ShuffleboardTab PreGameTab = Shuffleboard.getTab("Pre Game");
 
+  // creates widget for the rev board
   ComplexWidget PdhWidget = TeleopTab
   .add("Power",m_pdh)
   .withWidget(BuiltInWidgets.kPowerDistribution);
 
+  //makes the widget for the auto selector
   ComplexWidget AutoSelector = PreGameTab
   .add("Auto", autoChooser)
   .withWidget(BuiltInWidgets.kComboBoxChooser)
@@ -64,10 +66,13 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() { 
+
+    // sets all the options for the auto chooser
     autoChooser.addOption("No auto", null);
     autoChooser.addOption("Auto 1", new AutosCommands().Auto1(m_robotDrive));
     autoChooser.addOption("Auto 2", new AutosCommands().Auto2(m_robotDrive, m_robotIntake));
     autoChooser.addOption("Auto 3", new AutosCommands().Auto3(m_robotDrive, m_robotIntake));
+    autoChooser.addOption("Auto 4", new AutosCommands().Auto4(m_robotDrive, m_robotIntake, m_robotCameras));
 
     // Configure the button bindings
     configureButtonBindings();
