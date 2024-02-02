@@ -103,7 +103,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     SmartDashboard.putBoolean("Gyro Connect", m_gyro.isConnected());
 
-
+        
   }
 
   /**

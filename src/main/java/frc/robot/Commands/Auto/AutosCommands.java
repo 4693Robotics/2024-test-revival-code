@@ -52,7 +52,8 @@ public class AutosCommands {
 
     public SequentialCommandGroup Auto4(DriveSubsystem drivesystem, IntakeSubsystem intakesystem, CameraSubsystem camerasystem) {
         return new SequentialCommandGroup(
-            new MoveToTagPosition(drivesystem, camerasystem, 30, 40, 0.3)
+            new MoveToTagPosition(drivesystem, camerasystem, 2, 0, 0.5),
+            new WaitCommand(100)
         );
     }
 }

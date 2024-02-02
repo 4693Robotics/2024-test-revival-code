@@ -29,7 +29,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        SmartDashboard.putNumber("Intake Arm Position Rotations", m_IntakeArm.getEncoder().getPosition());
+        SmartDashboard.putNumber("Intake Arm Position Rotations", m_IntakeArm.getEncoder().getPosition()* 360);
         SmartDashboard.putNumber("Roller Speed RPM", m_IntakeRoller.getEncoder().getVelocity());
     }
 

@@ -1,5 +1,7 @@
 package frc.robot.Commands;
 
+import java.util.List;
+
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -10,7 +12,8 @@ import frc.robot.subsystems.DriveSubsystem;
 public class MoveToTagPosition extends Command {
 
     private DriveSubsystem drivesystem;
-    private PhotonTrackedTarget selectedTarget;
+    private CameraSubsystem camerasystem;
+    private List<PhotonTrackedTarget> selectedTarget;
     private PIDController xPIDController;
     private PIDController yPIDController;
 
@@ -23,15 +26,13 @@ public class MoveToTagPosition extends Command {
     public MoveToTagPosition(DriveSubsystem DriveSubsystem, CameraSubsystem CameraSubsystem, double xdistance, double ydistance, double maxSpeed) {
 
         this.drivesystem = DriveSubsystem;
-        this.selectedTarget = CameraSubsystem.getTarget();  
+        this.camerasystem = CameraSubsystem;
         xPIDController = new PIDController(0.1, 0, 0);
         yPIDController = new PIDController(0.1, 0, 0);
 
         this.maxSpeed = maxSpeed;
         this.xdistance = xdistance;
         this.ydistance = ydistance;
-
-        inPosition = xPIDController.atSetpoint() && yPIDController.atSetpoint();
     }
 
     public void initialize() {
@@ -39,18 +40,22 @@ public class MoveToTagPosition extends Command {
         xPIDController.setSetpoint(xdistance);
         yPIDController.setSetpoint(ydistance);
 
-        xPIDController.setTolerance(0.5);
-        yPIDController.setTolerance(0.5);
+        xPIDController.setTolerance(0.01);
+        yPIDController.setTolerance(0.01);
     }
 
     public void execute() {
-        double xOutput = xPIDController.calculate(selectedTarget.getAlternateCameraToTarget().getX());
+        selectedTarget = camerasystem.getTarget();
+
+        double xOutput = xPIDController.calculate(selectedTarget.get(0).getBestCameraToTarget().getX());
         double xOutputLimit = Math.copySign(Math.min(Math.abs(xOutput), maxSpeed), xOutput);
 
-        double yOutput = yPIDController.calculate(selectedTarget.getAlternateCameraToTarget().getY());
+        double yOutput = yPIDController.calculate(selectedTarget.get(0).getBestCameraToTarget().getY());
         double yOutputLimit = Math.copySign(Math.min(Math.abs(yOutput), maxSpeed), yOutput);
 
-        drivesystem.drive(xOutputLimit, yOutputLimit, 0, false, false);
+        drivesystem.drive(xOutput, yOutput, 0, false, false);
+
+        inPosition = xPIDController.atSetpoint() && yPIDController.atSetpoint();
     }
 
     public void end(boolean interrupted) {
