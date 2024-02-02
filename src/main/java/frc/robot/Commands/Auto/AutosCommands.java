@@ -3,13 +3,16 @@ package frc.robot.Commands.Auto;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Commands.DriveTranslation;
 import frc.robot.Commands.IntakeNote;
 import frc.robot.Commands.LoadNote;
 import frc.robot.Commands.MoveToTagPosition;
 import frc.robot.Commands.RotateToAngle;
+import frc.robot.Commands.ShootNote;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class AutosCommands {
     
@@ -54,6 +57,13 @@ public class AutosCommands {
         return new SequentialCommandGroup(
             new MoveToTagPosition(drivesystem, camerasystem, 2, 0, 0.5),
             new WaitCommand(100)
+        );
+    }
+
+    public SequentialCommandGroup Auto5(DriveSubsystem drivesystem, ShooterSubsystem shootersystem) {
+        return new SequentialCommandGroup(
+            new DriveTranslation(drivesystem, 1, 1.5, 0.4)
+
         );
     }
 }

@@ -14,12 +14,14 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Commands.IntakeMove;
+import frc.robot.Commands.ShootNote;
 import frc.robot.Commands.Auto.AutosCommands;
 //import frc.robot.Commands.Drive_With_Joysticks;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -34,6 +36,7 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
+  private final ShooterSubsystem m_robotShooter = new ShooterSubsystem();
   private final CameraSubsystem m_robotCameras = new CameraSubsystem();
 
   //Creates the pdh for pdh widget
@@ -73,11 +76,11 @@ public class RobotContainer {
     autoChooser.addOption("Auto 2", new AutosCommands().Auto2(m_robotDrive, m_robotIntake));
     autoChooser.addOption("Auto 3", new AutosCommands().Auto3(m_robotDrive, m_robotIntake));
     autoChooser.addOption("Auto 4", new AutosCommands().Auto4(m_robotDrive, m_robotIntake, m_robotCameras));
+    autoChooser.addOption("Auto 5", new AutosCommands().Auto5(m_robotDrive, m_robotShooter));
 
     // Configure the button bindings
     configureButtonBindings();
   
-   
     // sets drive default command
     m_robotDrive.setDefaultCommand(
         new RunCommand(
@@ -90,6 +93,8 @@ public class RobotContainer {
 
     // sets intake default command
     m_robotIntake.setDefaultCommand(new IntakeMove( m_subsystemController, m_robotIntake));
+
+    m_robotShooter.setDefaultCommand(new ShootNote(m_robotShooter, m_subsystemController));
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -138,7 +143,4 @@ public class RobotContainer {
     return autoChooser.getSelected();
   }
 
-  public String getSelectedAuto() {
-    return autoChooser.toString();
-  }
 }

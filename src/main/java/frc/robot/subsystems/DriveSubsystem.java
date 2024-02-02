@@ -275,4 +275,18 @@ public class DriveSubsystem extends SubsystemBase {
   public double invertGyro_Angle(){
     return -m_gyro.getAngle();
   }
+
+  public double getXDisplacement() {
+    return m_gyro.getDisplacementX();
+  }
+
+  public double getyDisplacement() {
+    return m_gyro.getDisplacementY();
+  }
+
+  public void resetDisplacement() {
+    m_gyro.resetDisplacement();
+  }
+
+  
 }

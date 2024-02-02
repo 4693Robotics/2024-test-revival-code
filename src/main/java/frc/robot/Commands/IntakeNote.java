@@ -19,6 +19,8 @@ public class IntakeNote extends Command {
         this.intakesystem = IntakeSubsystem;
 
         intakeRollerSpeed = 1;
+
+        addRequirements(IntakeSubsystem);
     }
 
     @Override

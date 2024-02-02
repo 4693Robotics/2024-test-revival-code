@@ -5,7 +5,6 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -82,7 +81,10 @@ public final class Constants {
     public static final int kSchooterLeftCanId  = 12;
 
     public static final IdleMode kShooterRightIdleMode = IdleMode.kCoast;
-    public static final IdleMode kShooterLeftCanIdleMode = IdleMode.kCoast;
+    public static final IdleMode kShooterLeftIdleMode = IdleMode.kCoast;
+
+    public static final boolean kShooterRightInverted = true;
+    public static final boolean kShooterLeftInverted = false;
 
     public static final int kShooterRightCurrentLimit = 50;
     public static final int kShooterLeftCurrentLimit = 50;

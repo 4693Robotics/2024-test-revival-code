@@ -12,10 +12,10 @@ public class RotateToAngle extends Command {
     private PIDController pidController;
     private double maxRotationSpeed;
 
-    public RotateToAngle(DriveSubsystem DriveSubsystem, double targetAngle, double maxSpeed) {
+    public RotateToAngle(DriveSubsystem DriveSubsystem, double targetAngle, double maximumSpeed) {
         this.DriveSubsystem = DriveSubsystem;
         this.targetAngle = targetAngle;
-        this.maxRotationSpeed = maxSpeed;
+        this.maxRotationSpeed = maximumSpeed;
         
         // Tune these PID constants based on your robot and testing
         this.pidController = new PIDController(0.1, 0, 0);
