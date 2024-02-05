@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Commands.DriveTranslation;
 import frc.robot.Commands.IntakeNote;
-import frc.robot.Commands.LoadNote;
 import frc.robot.Commands.MoveToTagPosition;
 import frc.robot.Commands.RotateToAngle;
 import frc.robot.Commands.ShootNote;
@@ -63,9 +62,7 @@ public class AutosCommands {
     public SequentialCommandGroup Auto5(DriveSubsystem drivesystem, ShooterSubsystem shootersystem) {
         return new SequentialCommandGroup(
             new DriveTranslation(drivesystem, 1, 1.5, 0.4)
-
         );
+
     }
-}
-
-
+ }
