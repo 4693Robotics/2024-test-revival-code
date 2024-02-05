@@ -6,24 +6,52 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class CameraSubsystem extends SubsystemBase{
     
-    private PhotonCamera m_Photon1 = new PhotonCamera("Microsoft_LifeCam_HD-3000");
+  /** Creates a new Vision. */
+  PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
+  PhotonPipelineResult result;
+  List<PhotonTrackedTarget> tags;
+  PhotonTrackedTarget bestTag;
+  public CameraSubsystem() {}
 
-    private List<PhotonTrackedTarget> target;
-
-    public CameraSubsystem() {
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    result = camera.getLatestResult();
+    if(result.hasTargets()){
+      tags = result.getTargets();
+      bestTag = result.getBestTarget();
     }
-
-    public void periodic() {
-        PhotonPipelineResult photon1Result = m_Photon1.getLatestResult();
-
-        target = photon1Result.getTargets();
-    }  
-    
-    public List<PhotonTrackedTarget> getTarget() {
-        return target;
+    else{
+      tags = null;
+      bestTag = null;
     }
+  }
+  public double getBestTagXDistance(){
+    if(bestTag != null)
+        return bestTag.getAlternateCameraToTarget().getX();
+    else
+      return -1;
+  }
+
+  public double getBestTagYDistance(){
+    if(bestTag != null)
+        return bestTag.getAlternateCameraToTarget().getY();
+    else
+      return -1;
+  }
+
+  public double getBestTagYaw(){
+    if( bestTag != null)
+      return bestTag.getYaw();
+    else{
+      return 0.0;
+     }
+
+ }
 }

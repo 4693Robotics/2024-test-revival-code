@@ -1,9 +1,5 @@
 package frc.robot.Commands;
 
-import java.util.List;
-
-import org.photonvision.targeting.PhotonTrackedTarget;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -14,7 +10,6 @@ public class MoveToTagPosition extends Command {
 
     private DriveSubsystem drivesystem;
     private CameraSubsystem camerasystem;
-    private List<PhotonTrackedTarget> selectedTarget;
     private PIDController xPIDController;
     private PIDController yPIDController;
 
@@ -48,18 +43,20 @@ public class MoveToTagPosition extends Command {
     }
 
     public void execute() {
-        selectedTarget = camerasystem.getTarget();
-
-        double xOutput = xPIDController.calculate(selectedTarget.get(0).getBestCameraToTarget().getX());
+        if (camerasystem.getBestTagXDistance() != -1 && camerasystem.getBestTagYDistance() != -1) {
+        double xOutput = xPIDController.calculate(camerasystem.getBestTagXDistance());
         double xOutputLimit = Math.copySign(Math.min(Math.abs(xOutput), maxSpeed), xOutput);
 
-        double yOutput = yPIDController.calculate(selectedTarget.get(0).getBestCameraToTarget().getY());
+        double yOutput = yPIDController.calculate(camerasystem.getBestTagYDistance());
         double yOutputLimit = Math.copySign(Math.min(Math.abs(yOutput), maxSpeed), yOutput);
 
         drivesystem.drive(xOutputLimit, yOutputLimit, 0, false, false);
 
         SmartDashboard.putNumber("April tag x", xOutput);
         SmartDashboard.putNumber("April tag y", yOutput);
+        } else {
+            drivesystem.drive(0, 0, 0, false, false);
+        }
 
         inPosition = xPIDController.atSetpoint() && yPIDController.atSetpoint();
     }
