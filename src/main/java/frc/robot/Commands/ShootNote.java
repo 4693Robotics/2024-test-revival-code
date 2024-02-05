@@ -10,28 +10,38 @@ public class ShootNote extends Command {
 
     private final ShooterSubsystem shooter;
     private final XboxController controller;
-    private final POVButton increaseButton;
-    private final POVButton decreaseButton;
+    private final POVButton upDpad;
+    private final POVButton downDpad;
+    private final POVButton rightDpad;
+    private final POVButton leftDpad;
 
     public ShootNote(ShooterSubsystem shooter, XboxController XboxController) {
         this.shooter = shooter;
         this.controller = XboxController;
 
         // Assuming D-pad Up and D-pad Down for increase and decrease
-        increaseButton = new POVButton(controller, 180);
-        decreaseButton = new POVButton(controller, 0);
+        upDpad = new POVButton(controller, 0);
+        downDpad = new POVButton(controller, 180);
+        rightDpad = new POVButton(controller, 90);
+        leftDpad = new POVButton(controller, 270);
 
         addRequirements(shooter);
     }
 
     @Override
     public void execute() {
-        if (increaseButton.getAsBoolean()) {
-            // Increase shooter speed when D-pad Up is pressed
-            shooter.setShooterSpeed(shooter.getShooterSpeed() + 0.1);
-        } else if (decreaseButton.getAsBoolean()) {
-            // Decrease shooter speed when D-pad Down is pressed
-            shooter.setShooterSpeed(shooter.getShooterSpeed() - 0.1);
+        if (upDpad.getAsBoolean()) {
+         
+            shooter.setShooterSpeed(0.1);
+        } else if (downDpad.getAsBoolean()) {
+            
+            shooter.setShooterSpeed(0);
+        } else if (rightDpad.getAsBoolean()) {
+            
+            shooter.setShooterSpeed(0.3);
+        } else if (leftDpad.getAsBoolean()) {
+
+            shooter.setShooterSpeed(-0.1);
         }
     }
 }

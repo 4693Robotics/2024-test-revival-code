@@ -24,16 +24,18 @@ public class ShooterSubsystem extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putNumber("Right RPM", m_ShooterRight.getEncoder().getVelocity());
         SmartDashboard.putNumber("Left RPM", m_ShooterLeft.getEncoder().getVelocity());
+        SmartDashboard.putNumber("Right power", m_ShooterLeft.get());
+        SmartDashboard.putNumber("Left power", m_ShooterLeft.get());
     }
 
     public void setShooterSpeed(double speed) {
 
         m_ShooterRight.set(speed);
-        m_ShooterRight.set(speed);
+        m_ShooterLeft.set(speed);
     }
 
     public double getShooterSpeed() {
-        
+
         double avarage = (m_ShooterRight.get() + m_ShooterLeft.get()) / 2;
 
         return avarage;
