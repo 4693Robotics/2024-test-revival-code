@@ -1,6 +1,7 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -21,8 +22,8 @@ public class DriveTranslation extends Command{
 
         this.drivesystem = DriveSubsystem;
 
-        this.xPIDController = new PIDController(0.1, 0, 0);
-        this.yPIDController = new PIDController(0.1, 0, 0);
+        this.xPIDController = new PIDController(0.8, 0, 0);
+        this.yPIDController = new PIDController(0.8, 0, 0);
 
         this.xdistance = xDistanceMeters;
         this.ydistance = yDistanceMeters;
@@ -49,6 +50,9 @@ public class DriveTranslation extends Command{
         double yOutput = yPIDController.calculate(drivesystem.getyDisplacement());
         double xOutputLimit = Math.copySign(Math.min(Math.abs(xOutput), maxSpeed), xOutput);
         double yOutputLimit = Math.copySign(Math.min(Math.abs(yOutput), maxSpeed), yOutput);
+
+        SmartDashboard.putNumber("xDis", drivesystem.getXDisplacement());
+        SmartDashboard.putNumber("yDis", drivesystem.getyDisplacement());
 
         drivesystem.drive(xOutputLimit, yOutputLimit, 0, false, false);
 

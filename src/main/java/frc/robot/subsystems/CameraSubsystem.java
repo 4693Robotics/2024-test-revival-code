@@ -6,7 +6,7 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CameraSubsystem extends SubsystemBase{
@@ -30,6 +30,8 @@ public class CameraSubsystem extends SubsystemBase{
       tags = null;
       bestTag = null;
     }
+
+        SmartDashboard.putNumber("April Tag Yaw", this.getBestTagYaw());
   }
   public double getBestTagXDistance(){
     if(bestTag != null)
@@ -49,7 +51,7 @@ public class CameraSubsystem extends SubsystemBase{
     if( bestTag != null)
       return bestTag.getYaw();
     else{
-      return 0.0;
+      return 4;
      }
 
  }

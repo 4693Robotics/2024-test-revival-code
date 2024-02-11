@@ -18,6 +18,8 @@ public class IntakeNote extends Command {
     public IntakeNote(IntakeSubsystem IntakeSubsystem) {
         this.intakesystem = IntakeSubsystem;
 
+        this.armPIDController = new PIDController(0.1, 0, 0);
+
         intakeRollerSpeed = 1;
 
         addRequirements(IntakeSubsystem);
@@ -25,6 +27,13 @@ public class IntakeNote extends Command {
 
     @Override
     public void execute() {
+
+        if (intakesystem.getAtLimit()) {
+            intakesystem.setArmPosition(0);
+        }
+
+        
+
         new SequentialCommandGroup(
             new InstantCommand(() -> intakesystem.moveIntakeRoller(intakeRollerSpeed))
 

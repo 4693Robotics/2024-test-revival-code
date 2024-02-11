@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -13,6 +14,8 @@ public class IntakeSubsystem extends SubsystemBase {
     //Creates motors
     private final CANSparkMax m_IntakeArm = new CANSparkMax(IntakeConstants.kIntakeArmCanId, MotorType.kBrushless);
     private final CANSparkMax m_IntakeRoller = new CANSparkMax(IntakeConstants.kIntakeRollerCanId, MotorType.kBrushless);
+
+    private final DigitalInput m_IntakeLimit = new DigitalInput(0);
 
     ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
 
@@ -31,6 +34,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putNumber("Intake Arm Position Rotations", m_IntakeArm.getEncoder().getPosition()* 360);
         SmartDashboard.putNumber("Roller Speed RPM", m_IntakeRoller.getEncoder().getVelocity());
+        SmartDashboard.putBoolean("limit switch", m_IntakeLimit.get());
     }
 
     //Function to make intake arm move
@@ -57,5 +61,13 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public double getArmPosition() {
         return m_IntakeArm.getEncoder().getPosition();
+    }
+
+    public void setArmPosition(double Position) {
+        m_IntakeArm.getEncoder().setPosition(Position);
+    }
+
+    public boolean getAtLimit() {
+        return m_IntakeLimit.get();
     }
 }

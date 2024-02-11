@@ -16,6 +16,7 @@ public class MoveToTagPosition extends Command {
     private double maxSpeed;
     private double xdistance;
     private double ydistance;
+    
 
     private boolean inPosition;
 
@@ -23,8 +24,8 @@ public class MoveToTagPosition extends Command {
 
         this.drivesystem = DriveSubsystem;
         this.camerasystem = CameraSubsystem;
-        xPIDController = new PIDController(0.1, 0, 0);
-        yPIDController = new PIDController(0.1, 0, 0);
+        xPIDController = new PIDController(10, 0, 0);
+        yPIDController = new PIDController(10, 0, 0);
 
         this.maxSpeed = maxSpeed;
         this.xdistance = xdistance;
@@ -37,9 +38,6 @@ public class MoveToTagPosition extends Command {
 
         xPIDController.setSetpoint(xdistance);
         yPIDController.setSetpoint(ydistance);
-
-        xPIDController.setTolerance(0.01);
-        yPIDController.setTolerance(0.01);
     }
 
     public void execute() {
@@ -50,10 +48,11 @@ public class MoveToTagPosition extends Command {
         double yOutput = yPIDController.calculate(camerasystem.getBestTagYDistance());
         double yOutputLimit = Math.copySign(Math.min(Math.abs(yOutput), maxSpeed), yOutput);
 
-        drivesystem.drive(xOutputLimit, yOutputLimit, 0, false, false);
+        drivesystem.drive(-xOutputLimit, -yOutputLimit, 0, false, false);
 
-        SmartDashboard.putNumber("April tag x", xOutput);
-        SmartDashboard.putNumber("April tag y", yOutput);
+        SmartDashboard.putNumber("April tag x", camerasystem.getBestTagXDistance());
+        SmartDashboard.putNumber("April tag y", camerasystem.getBestTagYDistance());
+        SmartDashboard.putBoolean("in position", inPosition);
         } else {
             drivesystem.drive(0, 0, 0, false, false);
         }

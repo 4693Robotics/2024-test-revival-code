@@ -7,6 +7,7 @@ import frc.robot.Commands.DriveTranslation;
 import frc.robot.Commands.IntakeNote;
 import frc.robot.Commands.MoveToTagPosition;
 import frc.robot.Commands.RotateToAngle;
+import frc.robot.Commands.RotateToTagPosition;
 import frc.robot.Commands.ShootNote;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -18,13 +19,10 @@ public class AutosCommands {
     public SequentialCommandGroup Auto1(DriveSubsystem drivesystem) {
      return new SequentialCommandGroup(
         new InstantCommand(() -> drivesystem.zeroHeading()),
-        new InstantCommand(() -> drivesystem.drive(0.3, 0, 0, true, false)),
-        new WaitCommand(1),
-        new RotateToAngle(drivesystem, 90, 0.25),
-        new InstantCommand(() -> drivesystem.drive(0, 0.3, 0, true, false)),
-        new WaitCommand(1),
-        new InstantCommand(() -> drivesystem.drive(0, 0, 0, true, false)),
-        new InstantCommand(() -> drivesystem.setX())
+        new InstantCommand(() -> drivesystem.drive(0, 0.4, 0, true, false)),
+        new WaitCommand(3),
+        new RotateToAngle(drivesystem, 0, 0),
+        new InstantCommand(() -> drivesystem.drive(0, 0, 0, true, false))
         );
     }
 
@@ -54,15 +52,28 @@ public class AutosCommands {
 
     public SequentialCommandGroup Auto4(DriveSubsystem drivesystem, IntakeSubsystem intakesystem, CameraSubsystem camerasystem) {
         return new SequentialCommandGroup(
+            new RotateToTagPosition(drivesystem, camerasystem, 0.15),
             new MoveToTagPosition(drivesystem, camerasystem, 2, 0, 0.5),
-            new WaitCommand(100)
+            new RotateToTagPosition(drivesystem, camerasystem, 0.15)
         );
     }
 
     public SequentialCommandGroup Auto5(DriveSubsystem drivesystem, ShooterSubsystem shootersystem) {
         return new SequentialCommandGroup(
-            new DriveTranslation(drivesystem, 1, 1.5, 0.4)
+            new InstantCommand(() -> drivesystem.drive(0, 0.4, 0, false, false)),
+            new WaitCommand(0.5),
+            new InstantCommand(() -> drivesystem.drive(0, 0, 0, false, false))
         );
 
+    }
+
+    public SequentialCommandGroup MagicAuto(DriveSubsystem drivesystem, IntakeSubsystem intakesystem, ShooterSubsystem shootersystem) {
+        return new SequentialCommandGroup(
+            new IntakeNote(intakesystem),
+            new InstantCommand(() -> drivesystem.drive(0, -0.5, 0, false, false)),
+            new WaitCommand(2),
+            new RotateToAngle(drivesystem, 180, 0.5)
+            
+        );
     }
  }

@@ -1,6 +1,7 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -31,7 +32,7 @@ public class ShootNote extends Command {
     public void execute() {
         if (upDpad.getAsBoolean()) {
          
-            shooter.setShooterSpeed(0.1);
+            shooter.setShooterSpeed(1);
         } else if (downDpad.getAsBoolean()) {
             
             shooter.setShooterSpeed(0);

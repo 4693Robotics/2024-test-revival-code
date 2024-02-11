@@ -31,12 +31,12 @@ public final class Constants {
 
     public static final double kDirectionSlewRate = 1.2; // radians per second
     public static final double kMagnitudeSlewRate = 2.0; // percent per second (1 = 100%)
-    public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
+    public static final double kRotationalSlewRate = 1; // percent per second (1 = 100%)
 
     // Chassis configuration
-    public static final double kTrackWidth = Units.inchesToMeters(25.5);
+    public static final double kTrackWidth = Units.inchesToMeters(25);
     // Distance between centers of right and left wheels on robot
-    public static final double kWheelBase = Units.inchesToMeters(25.5);
+    public static final double kWheelBase = Units.inchesToMeters(25);
     // Distance between front and back wheels on robot
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
         new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -51,15 +51,15 @@ public final class Constants {
     public static final double kBackRightChassisAngularOffset = Math.PI / 2;
 
     // SPARK MAX CAN IDs
-    public static final int kFrontLeftDrivingCanId = 1;
-    public static final int kRearLeftDrivingCanId = 4;
-    public static final int kFrontRightDrivingCanId = 2;
-    public static final int kRearRightDrivingCanId = 3;
+    public static final int kFrontLeftDrivingCanId = 3;
+    public static final int kRearLeftDrivingCanId = 2;
+    public static final int kFrontRightDrivingCanId = 4;
+    public static final int kRearRightDrivingCanId = 1;
 
-    public static final int kFrontLeftTurningCanId = 5;
-    public static final int kRearLeftTurningCanId = 8;
-    public static final int kFrontRightTurningCanId = 6;
-    public static final int kRearRightTurningCanId = 7;
+    public static final int kFrontLeftTurningCanId = 7;
+    public static final int kRearLeftTurningCanId = 6;
+    public static final int kFrontRightTurningCanId = 8;
+    public static final int kRearRightTurningCanId = 5;
 
     public static final boolean kGyroReversed = false;
   }
