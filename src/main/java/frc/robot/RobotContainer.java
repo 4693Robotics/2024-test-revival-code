@@ -78,6 +78,7 @@ public class RobotContainer {
     autoChooser.addOption("Auto 4", new AutosCommands().Auto4(m_robotDrive, m_robotIntake, m_robotCameras));
     autoChooser.addOption("Auto 5", new AutosCommands().Auto5(m_robotDrive, m_robotShooter));
     autoChooser.addOption("Magic Auto", new AutosCommands().MagicAuto(m_robotDrive, m_robotIntake, m_robotShooter));
+    autoChooser.addOption("Armtest", new AutosCommands().ArmOutTestAuto(m_robotDrive, m_robotIntake));
 
     // Configure the button bindings
     configureButtonBindings();

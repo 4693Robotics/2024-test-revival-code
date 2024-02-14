@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Commands.DriveTranslation;
+import frc.robot.Commands.IntakeMove;
 import frc.robot.Commands.IntakeNote;
 import frc.robot.Commands.MoveToTagPosition;
 import frc.robot.Commands.RotateToAngle;
@@ -76,4 +77,12 @@ public class AutosCommands {
             
         );
     }
+    
+    public SequentialCommandGroup ArmOutTestAuto(DriveSubsystem DriveSubsystem, IntakeSubsystem IntakeSubsystem) {
+        IntakeNote noteIntake1 = new IntakeNote(IntakeSubsystem);
+        return new SequentialCommandGroup(
+           noteIntake1
+        ); 
+    }
+
  }

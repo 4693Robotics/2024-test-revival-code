@@ -66,13 +66,16 @@ public final class Constants {
 
   public static final class IntakeConstants {
     public static final int kIntakeArmCanId = 9;
-    public static final int kIntakeRollerCanId = 10;
+    public static final int kIntakeTopRollerCanId = 10;
+    public static final int kIntakeBottomRollerCanId = 13;
 
     public static final IdleMode kIntakeArmIdleMode = IdleMode.kBrake;
-    public static final IdleMode kIntakeRollerIdleMode = IdleMode.kBrake;
+    public static final IdleMode kIntakeTopRollerIdleMode = IdleMode.kBrake;
+    public static final IdleMode kIntakeBottomRollerIdleMode = IdleMode.kBrake;
 
     public static final int kIntakeArmCurrentLimit = 50; // amps
-    public static final int kIntakeRollerCurrentLimit = 20; // amps
+    public static final int kIntakeTopRollerCurrentLimit = 50; // amps
+    public static final int kIntakeBottomRollerCurrentLimit = 50; // amps
 
   }
 

@@ -13,7 +13,8 @@ import frc.robot.Constants.IntakeConstants;
 public class IntakeSubsystem extends SubsystemBase {
     //Creates motors
     private final CANSparkMax m_IntakeArm = new CANSparkMax(IntakeConstants.kIntakeArmCanId, MotorType.kBrushless);
-    private final CANSparkMax m_IntakeRoller = new CANSparkMax(IntakeConstants.kIntakeRollerCanId, MotorType.kBrushless);
+    private final CANSparkMax m_IntakeTopRoller = new CANSparkMax(IntakeConstants.kIntakeTopRollerCanId, MotorType.kBrushless);
+    private final CANSparkMax m_IntakeBottomRoller = new CANSparkMax(IntakeConstants.kIntakeBottomRollerCanId, MotorType.kBrushless);
 
     private final DigitalInput m_IntakeLimit = new DigitalInput(0);
 
@@ -22,18 +23,24 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeSubsystem() {
         //Sets motors to brushless config
         m_IntakeArm.setIdleMode(IntakeConstants.kIntakeArmIdleMode);
-        m_IntakeRoller.setIdleMode(IntakeConstants.kIntakeRollerIdleMode);
+        m_IntakeTopRoller.setIdleMode(IntakeConstants.kIntakeTopRollerIdleMode);
+        m_IntakeBottomRoller.setIdleMode(IntakeConstants.kIntakeBottomRollerIdleMode);
 
         //Sets motors currentlimit
         m_IntakeArm.setSmartCurrentLimit(IntakeConstants.kIntakeArmCurrentLimit);
-        m_IntakeRoller.setSmartCurrentLimit(IntakeConstants.kIntakeRollerCurrentLimit);
+        m_IntakeTopRoller.setSmartCurrentLimit(IntakeConstants.kIntakeTopRollerCurrentLimit);
+        m_IntakeBottomRoller.setSmartCurrentLimit(IntakeConstants.kIntakeBottomRollerCurrentLimit);
 
-        m_IntakeRoller.setInverted(true);
+        m_IntakeTopRoller.setInverted(true);
+        m_IntakeBottomRoller.setInverted(true);
     }
 
     public void periodic() {
+        if (this.getAtLimit()){
+            setArmPosition(0);
+        }
         SmartDashboard.putNumber("Intake Arm Position Rotations", m_IntakeArm.getEncoder().getPosition()* 360);
-        SmartDashboard.putNumber("Roller Speed RPM", m_IntakeRoller.getEncoder().getVelocity());
+        SmartDashboard.putNumber("Roller Speed RPM", m_IntakeTopRoller.getEncoder().getVelocity());
         SmartDashboard.putBoolean("limit switch", m_IntakeLimit.get());
     }
 
@@ -44,19 +51,21 @@ public class IntakeSubsystem extends SubsystemBase {
     
     //Function to make intake roller move
     public void moveIntakeRoller(double speed) {
-        m_IntakeRoller.set(speed);
+        
+        m_IntakeTopRoller.set(speed);
+        m_IntakeBottomRoller.set(speed);
     }
 
     public void intakeForward() {
-        m_IntakeRoller.set(1);
+        m_IntakeTopRoller.set(1);
     }
 
     public void intakeBackward() {
-        m_IntakeRoller.set(1);
+        m_IntakeTopRoller.set(1);
     }
 
     public void intakeOff() {
-        m_IntakeRoller.set(0);
+        m_IntakeTopRoller.set(0);
     }
 
     public double getArmPosition() {

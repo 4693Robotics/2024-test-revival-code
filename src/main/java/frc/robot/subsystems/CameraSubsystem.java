@@ -32,6 +32,7 @@ public class CameraSubsystem extends SubsystemBase{
     }
 
         SmartDashboard.putNumber("April Tag Yaw", this.getBestTagYaw());
+        SmartDashboard.putNumber("new april tag yawz", this.get1BestTagYaw());
   }
   public double getBestTagXDistance(){
     if(bestTag != null)
@@ -53,6 +54,14 @@ public class CameraSubsystem extends SubsystemBase{
     else{
       return 4;
      }
+    }
+
+     public double get1BestTagYaw(){
+      if( bestTag != null)
+        return bestTag.getArea();
+      else{
+        return 4;
+       }
 
  }
 }
