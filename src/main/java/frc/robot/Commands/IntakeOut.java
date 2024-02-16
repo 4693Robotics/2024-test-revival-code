@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeNote extends Command {
+public class IntakeOut extends Command {
 
     IntakeSubsystem intakesystem;
     PIDController armPIDController;
@@ -15,7 +15,7 @@ public class IntakeNote extends Command {
     double armPosition;
 
 
-    public IntakeNote(IntakeSubsystem IntakeSubsystem) {
+    public IntakeOut(IntakeSubsystem IntakeSubsystem) {
         this.intakesystem = IntakeSubsystem;
         this.timer = new Timer();
 
@@ -36,10 +36,11 @@ public class IntakeNote extends Command {
     public void end(boolean interrupted) {
      timer.stop();
      intakesystem.moveIntakeArm(0);
+     intakesystem.setArmDown();
     }
 
     @Override
     public boolean isFinished() {
-      return timer.get() > 0.65;
+      return timer.get() > 0.70;
     }
 }

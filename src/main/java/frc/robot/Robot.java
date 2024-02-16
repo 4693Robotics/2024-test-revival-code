@@ -75,6 +75,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+
+    Shuffleboard.selectTab("Auto");
   }
 
   /** This function is called periodically during autonomous. */

@@ -4,8 +4,10 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
@@ -16,9 +18,13 @@ public class IntakeSubsystem extends SubsystemBase {
     private final CANSparkMax m_IntakeTopRoller = new CANSparkMax(IntakeConstants.kIntakeTopRollerCanId, MotorType.kBrushless);
     private final CANSparkMax m_IntakeBottomRoller = new CANSparkMax(IntakeConstants.kIntakeBottomRollerCanId, MotorType.kBrushless);
 
-    private final DigitalInput m_IntakeLimit = new DigitalInput(0);
+    private boolean isUp = true;
 
     ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
+
+    SimpleWidget TeleopArmTab = TeleopTab
+    .add("Arm is Up", isUp)
+    .withWidget(BuiltInWidgets.kBooleanBox);
 
     public IntakeSubsystem() {
         //Sets motors to brushless config
@@ -26,7 +32,7 @@ public class IntakeSubsystem extends SubsystemBase {
         m_IntakeTopRoller.setIdleMode(IntakeConstants.kIntakeTopRollerIdleMode);
         m_IntakeBottomRoller.setIdleMode(IntakeConstants.kIntakeBottomRollerIdleMode);
 
-        //Sets motors currentlimit
+        //Sets motors current limits
         m_IntakeArm.setSmartCurrentLimit(IntakeConstants.kIntakeArmCurrentLimit);
         m_IntakeTopRoller.setSmartCurrentLimit(IntakeConstants.kIntakeTopRollerCurrentLimit);
         m_IntakeBottomRoller.setSmartCurrentLimit(IntakeConstants.kIntakeBottomRollerCurrentLimit);
@@ -36,12 +42,8 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        if (this.getAtLimit()){
-            setArmPosition(0);
-        }
         SmartDashboard.putNumber("Intake Arm Position Rotations", m_IntakeArm.getEncoder().getPosition()* 360);
         SmartDashboard.putNumber("Roller Speed RPM", m_IntakeTopRoller.getEncoder().getVelocity());
-        SmartDashboard.putBoolean("limit switch", m_IntakeLimit.get());
     }
 
     //Function to make intake arm move
@@ -76,7 +78,11 @@ public class IntakeSubsystem extends SubsystemBase {
         m_IntakeArm.getEncoder().setPosition(Position);
     }
 
-    public boolean getAtLimit() {
-        return m_IntakeLimit.get();
+    public void setArmUp() {
+        isUp = true;
+    }
+
+    public void setArmDown() {
+        isUp = false;
     }
 }

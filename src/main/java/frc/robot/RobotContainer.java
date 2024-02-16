@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Commands.IntakeMove;
+import frc.robot.Commands.IntakeOut;
+import frc.robot.Commands.LoadNote;
 import frc.robot.Commands.ShootNote;
 import frc.robot.Commands.Auto.AutosCommands;
 //import frc.robot.Commands.Drive_With_Joysticks;
@@ -23,6 +25,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -122,9 +125,10 @@ public class RobotContainer {
         ));
 
     new JoystickButton(m_subsystemController, Button.kA.value)
-        .toggleOnTrue(new RunCommand(
-            () -> m_robotIntake.moveIntakeRoller(-1),
-            m_robotIntake));
+        .onTrue(new IntakeOut(m_robotIntake));
+
+    new JoystickButton(m_subsystemController, Button.kB.value)
+        .onTrue(new LoadNote(m_robotIntake));
   }
 
   
