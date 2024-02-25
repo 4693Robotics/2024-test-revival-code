@@ -33,12 +33,4 @@ public class ShooterSubsystem extends SubsystemBase {
         m_ShooterRight.set(speed);
         m_ShooterLeft.set(speed);
     }
-
-    public double getShooterSpeed() {
-
-        double avarage = (m_ShooterRight.get() + m_ShooterLeft.get()) / 2;
-
-        return avarage;
-        
-    }
 }

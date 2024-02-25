@@ -61,8 +61,14 @@ public class DriveSubsystem extends SubsystemBase {
 
   ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
   ShuffleboardTab PreGameTab = Shuffleboard.getTab("Pre Game");
+  ShuffleboardTab AutoTab = Shuffleboard.getTab("Auto");
 
-  ComplexWidget Gyro = Shuffleboard.getTab("Teleop")
+  ComplexWidget TeleopWidgetGyro = TeleopTab
+  .add("Gyro", m_gyro)
+  .withWidget(BuiltInWidgets.kGyro)
+  .withPosition(0, 4);
+
+  ComplexWidget AutoWidgetGyro = AutoTab
   .add("Gyro", m_gyro)
   .withWidget(BuiltInWidgets.kGyro)
   .withPosition(0, 4);

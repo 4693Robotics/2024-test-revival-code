@@ -1,7 +1,6 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -12,11 +11,12 @@ public class MoveToTagPosition extends Command {
     private CameraSubsystem camerasystem;
     private PIDController xPIDController;
     private PIDController yPIDController;
+    private PIDController rotPIDController;
 
     private double maxSpeed;
     private double xdistance;
     private double ydistance;
-    
+    private double rotdistance;
 
     private boolean inPosition;
 
@@ -26,10 +26,12 @@ public class MoveToTagPosition extends Command {
         this.camerasystem = CameraSubsystem;
         xPIDController = new PIDController(10, 0, 0);
         yPIDController = new PIDController(10, 0, 0);
+        rotPIDController = new PIDController(5, 0, 0.5);
 
         this.maxSpeed = maxSpeed;
         this.xdistance = xdistance;
         this.ydistance = ydistance;
+        this.rotdistance = 3.15  ; 
 
         addRequirements(DriveSubsystem, CameraSubsystem);
     }
@@ -38,6 +40,9 @@ public class MoveToTagPosition extends Command {
 
         xPIDController.setSetpoint(xdistance);
         yPIDController.setSetpoint(ydistance);
+        rotPIDController.setSetpoint(rotdistance);
+
+        rotPIDController.setTolerance(0.1);
     }
 
     public void execute() {
@@ -48,16 +53,16 @@ public class MoveToTagPosition extends Command {
         double yOutput = yPIDController.calculate(camerasystem.getBestTagYDistance());
         double yOutputLimit = Math.copySign(Math.min(Math.abs(yOutput), maxSpeed), yOutput);
 
-        drivesystem.drive(-xOutputLimit, -yOutputLimit, 0, false, false);
+        double rotOutput = rotPIDController.calculate(camerasystem.get1BestTagYaw());
+        double rotOutputLimit = Math.copySign(Math.min(Math.abs(rotOutput), maxSpeed), rotOutput);
 
-        SmartDashboard.putNumber("April tag x", camerasystem.getBestTagXDistance());
-        SmartDashboard.putNumber("April tag y", camerasystem.getBestTagYDistance());
-        SmartDashboard.putBoolean("in position", inPosition);
+        drivesystem.drive(-xOutputLimit, -yOutputLimit, rotOutputLimit, false, true);
+
         } else {
             drivesystem.drive(0, 0, 0, false, false);
         }
 
-        inPosition = xPIDController.atSetpoint() && yPIDController.atSetpoint();
+        inPosition = xPIDController.atSetpoint() && yPIDController.atSetpoint() && rotPIDController.atSetpoint();
     }
 
     public void end(boolean interrupted) {

@@ -41,6 +41,6 @@ public class IntakeOut extends Command {
 
     @Override
     public boolean isFinished() {
-      return timer.get() > 0.70;
+      return timer.get() > 0.65;
     }
 }

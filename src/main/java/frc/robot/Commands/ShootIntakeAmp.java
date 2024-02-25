@@ -26,7 +26,7 @@ public class ShootIntakeAmp extends Command {
 
     @Override
     public void execute() {
-        if (timer.get() > 0.15) {
+        if (timer.get() > 0.4) {
             intakesystem.moveIntakeArm(0);
             intakesystem.moveIntakeRoller(-1);
         }
@@ -41,6 +41,6 @@ public class ShootIntakeAmp extends Command {
 
     @Override
     public boolean isFinished() {
-      return timer.get() > 0.40;
+      return timer.get() > 0.7;
     }
 }
