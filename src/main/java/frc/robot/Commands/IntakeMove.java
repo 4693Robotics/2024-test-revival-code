@@ -11,24 +11,21 @@ public class IntakeMove extends Command {
     IntakeSubsystem intakeSubsystem;
     XboxController controller;
 
-     public IntakeMove(XboxController controller, IntakeSubsystem Intake) {
-        intakeSubsystem = Intake;
+     public IntakeMove(IntakeSubsystem IntakeSubsystem, XboxController controller) {
+        intakeSubsystem = IntakeSubsystem;
         this.controller = controller;
 
-        addRequirements(Intake);
+        addRequirements(IntakeSubsystem);
      }
 
      @Override
      public void execute() {
-      double XLeftspeed = -MathUtil.applyDeadband(controller.getLeftX(), OIConstants.KSubsystemsDeadband);
       double YRightspeed = -MathUtil.applyDeadband(-controller.getRightY(), OIConstants.KSubsystemsDeadband);
-      intakeSubsystem.moveIntakeArm(XLeftspeed/10);
       intakeSubsystem.moveIntakeRoller(YRightspeed);
      }
 
      @Override
      public void end(boolean interrupted) {
-        intakeSubsystem.moveIntakeArm(0);
         intakeSubsystem.moveIntakeRoller(0);
      }
 

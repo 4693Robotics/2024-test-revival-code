@@ -15,6 +15,10 @@ public class HangerSubsystem extends SubsystemBase {
     private RelativeEncoder m_RightHangerEncoder = m_RightHanger.getEncoder();
     private RelativeEncoder m_LeftHangerEncoder = m_LeftHanger.getEncoder();
     
+    /**
+     * This subsystem contains hangers for hanging the robot from a chain in
+     * 2024 CRESENDO FRC competition
+     */
     public HangerSubsystem() {
 
         //Factory resets all of the sparks to know the state of them
@@ -36,10 +40,6 @@ public class HangerSubsystem extends SubsystemBase {
         //Clears motor faults
         m_RightHanger.clearFaults();
         m_LeftHanger.clearFaults();
-
-        //Sets soft limits
-        m_RightHanger.enableSoftLimit(HangerConstants.kRightHangerSoftLimit, true);
-        m_LeftHanger.enableSoftLimit(HangerConstants.kLeftHangerSoftLimit, true);
 
         //Writes all settings to the sparks
         m_RightHanger.burnFlash();

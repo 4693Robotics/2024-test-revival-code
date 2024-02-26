@@ -81,6 +81,8 @@ public final class Constants {
     public static final int kIntakeArmCurrentLimit = 50; // amps
     public static final int kIntakeTopRollerCurrentLimit = 20; // amps
     public static final int kIntakeBottomRollerCurrentLimit = 20; // amps
+
+    public static final SoftLimitDirection kIntakeArmSoftLimit = SoftLimitDirection.kReverse;
   }
 
   public static final class ShooterConstants {
@@ -99,10 +101,10 @@ public final class Constants {
     public static final boolean kFeederRightInverted = false;
     public static final boolean kFeederLeftInverted = true;
 
-    public static final int kShooterTopCurrentLimit = 50;
-    public static final int kShooterBottomCurrentLimit = 50;
-    public static final int kFeederRightCurrentLimit = 50;
-    public static final int kFeederLeftCurrentLimit = 50;
+    public static final int kShooterTopCurrentLimit = 50; // amps
+    public static final int kShooterBottomCurrentLimit = 50; // amps
+    public static final int kFeederRightCurrentLimit = 50; // amps
+    public static final int kFeederLeftCurrentLimit = 50; // amps
   }
 
   public static final class HangerConstants {
@@ -115,8 +117,8 @@ public final class Constants {
     public static final boolean kRightHangerInverted = true;
     public static final boolean kLeftHangerInverted = true;
 
-    public static final int kRightHangerCurrentLimit = 20;
-    public static final int kLeftHangerCurrentLimit = 20;
+    public static final int kRightHangerCurrentLimit = 20; // amps
+    public static final int kLeftHangerCurrentLimit = 20; // amps
 
     public static final SoftLimitDirection kRightHangerSoftLimit = SoftLimitDirection.kReverse;
     public static final SoftLimitDirection kLeftHangerSoftLimit = SoftLimitDirection.kReverse;
