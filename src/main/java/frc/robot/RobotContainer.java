@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.BumpIntake;
+import frc.robot.Commands.HangerMove;
 import frc.robot.Commands.IntakeMove;
 import frc.robot.Commands.IntakeOut;
 import frc.robot.Commands.LoadNote;
@@ -21,16 +23,15 @@ import frc.robot.Commands.MoveToTagPosition;
 import frc.robot.Commands.ShootIntakeAmp;
 import frc.robot.Commands.ShootNote;
 import frc.robot.Commands.Auto.AutosCommands;
-//import frc.robot.Commands.Drive_With_Joysticks;
+import frc.robot.Constants.AprilTag2024Constants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.CameraSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.HangerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /*
@@ -44,7 +45,8 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
   private final ShooterSubsystem m_robotShooter = new ShooterSubsystem();
-  private final CameraSubsystem m_robotCameras = new CameraSubsystem();
+  private final HangerSubsystem m_robotHanger = new HangerSubsystem();
+  private final VisionSubsystem m_robotCameras = new VisionSubsystem();
 
   //Creates the pdh for pdh widget
   private PowerDistribution m_pdh = new PowerDistribution();
@@ -64,13 +66,19 @@ public class RobotContainer {
   // creates widget for the rev board
   ComplexWidget PdhWidget = TeleopTab
   .add("Power",m_pdh)
-  .withWidget(BuiltInWidgets.kPowerDistribution);
+  .withWidget(BuiltInWidgets.kPowerDistribution)
+  .withPosition(2, 4);
 
   //makes the widget for the auto selector
   ComplexWidget AutoSelector = PreGameTab
   .add("Auto", autoChooser)
   .withWidget(BuiltInWidgets.kComboBoxChooser)
-  .withSize(3, 2);
+  .withSize(3, 2)
+  .withPosition(0, 0);
+
+  public void periodic() {
+    SmartDashboard.putNumber("trigger", m_subsystemController.getRightTriggerAxis());
+  }
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -100,6 +108,8 @@ public class RobotContainer {
     m_robotIntake.setDefaultCommand(new IntakeMove( m_subsystemController, m_robotIntake));
 
     m_robotShooter.setDefaultCommand(new ShootNote(m_robotShooter, m_subsystemController));
+
+    m_robotHanger.setDefaultCommand(new HangerMove(m_robotHanger, m_subsystemController));
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -131,7 +141,7 @@ public class RobotContainer {
         ));
     
     new JoystickButton(m_driverController, Button.kX.value)
-        .onTrue(new MoveToTagPosition(m_robotDrive, m_robotCameras, 1.5, 0, 0.2));
+        .onTrue(new MoveToTagPosition(m_robotDrive, m_robotCameras, 1.5, 0, 0.2, AprilTag2024Constants.kRedSpeakerCenter));
 
     new JoystickButton(m_subsystemController, Button.kA.value)
         .onTrue(new IntakeOut(m_robotIntake));

@@ -13,7 +13,7 @@ import frc.robot.Commands.MoveToTagPosition;
 import frc.robot.Commands.RotateToAngle;
 import frc.robot.Commands.ShootNote;
 import frc.robot.Commands.TrackedTranslation;
-import frc.robot.subsystems.CameraSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;

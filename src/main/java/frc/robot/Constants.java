@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -67,31 +68,59 @@ public final class Constants {
   public static final class IntakeConstants {
     public static final int kIntakeArmCanId = 9;
     public static final int kIntakeTopRollerCanId = 10;
-    public static final int kIntakeBottomRollerCanId = 13;
+    public static final int kIntakeBottomRollerCanId = 11;
 
     public static final IdleMode kIntakeArmIdleMode = IdleMode.kBrake;
     public static final IdleMode kIntakeTopRollerIdleMode = IdleMode.kBrake;
     public static final IdleMode kIntakeBottomRollerIdleMode = IdleMode.kBrake;
 
-    public static final int kIntakeArmCurrentLimit = 50; // amps
-    public static final int kIntakeTopRollerCurrentLimit = 50; // amps
-    public static final int kIntakeBottomRollerCurrentLimit = 50; // amps
+    public static final boolean kIntakeArmInverted = false;
+    public static final boolean kIntakeTopRollerInverted = true;
+    public static final boolean kIntakeBottomRollerInverted = true;
 
+    public static final int kIntakeArmCurrentLimit = 50; // amps
+    public static final int kIntakeTopRollerCurrentLimit = 20; // amps
+    public static final int kIntakeBottomRollerCurrentLimit = 20; // amps
   }
 
   public static final class ShooterConstants {
-    public static final int kShooterRightCanId = 11;
-    public static final int kSchooterLeftCanId  = 12;
+    public static final int kShooterTopCanId = 13;
+    public static final int kShooterBottomCanId  = 12;
+    public static final int kFeederRightCanId = 14;
+    public static final int kFeederLeftCanId = 15;
 
-    public static final IdleMode kShooterRightIdleMode = IdleMode.kCoast;
-    public static final IdleMode kShooterLeftIdleMode = IdleMode.kCoast;
+    public static final IdleMode kShooterTopIdleMode = IdleMode.kCoast;
+    public static final IdleMode kShooterBottomIdleMode = IdleMode.kCoast;
+    public static final IdleMode kFeederRightIdleMode = IdleMode.kBrake;
+    public static final IdleMode kFeederLeftIdleMode = IdleMode.kBrake;
 
-    public static final boolean kShooterRightInverted = false;
-    public static final boolean kShooterLeftInverted = false;
+    public static final boolean kShooterTopInverted = false;
+    public static final boolean kShooterBottomInverted = false;
+    public static final boolean kFeederRightInverted = false;
+    public static final boolean kFeederLeftInverted = true;
 
-    public static final int kShooterRightCurrentLimit = 50;
-    public static final int kShooterLeftCurrentLimit = 50;
+    public static final int kShooterTopCurrentLimit = 50;
+    public static final int kShooterBottomCurrentLimit = 50;
+    public static final int kFeederRightCurrentLimit = 50;
+    public static final int kFeederLeftCurrentLimit = 50;
   }
+
+  public static final class HangerConstants {
+    public static final int kRightHangerCanId = 16;
+    public static final int kLeftHangerCanId = 17;
+
+    public static final IdleMode kRightHangerIdleMode = IdleMode.kCoast;
+    public static final IdleMode kLeftHangerIdleMode = IdleMode.kCoast;
+
+    public static final boolean kRightHangerInverted = true;
+    public static final boolean kLeftHangerInverted = true;
+
+    public static final int kRightHangerCurrentLimit = 20;
+    public static final int kLeftHangerCurrentLimit = 20;
+
+    public static final SoftLimitDirection kRightHangerSoftLimit = SoftLimitDirection.kReverse;
+    public static final SoftLimitDirection kLeftHangerSoftLimit = SoftLimitDirection.kReverse;
+    }
 
   public static final class ModuleConstants {
     // The MAXSwerve module can be configured with one of three pinion gears: 12T, 13T, or 14T.
@@ -168,5 +197,24 @@ public final class Constants {
 
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
+  }
+
+  public static final class AprilTag2024Constants {
+    public static final int kBlueSourceRight = 1;
+    public static final int kBlueSourceLeft = 2;
+    public static final int kRedSpeakerSide = 3;
+    public static final int kRedSpeakerCenter = 4;
+    public static final int kRedAmp = 5;
+    public static final int kBlueAmp = 6;
+    public static final int kBlueSpeakerCenter = 7;
+    public static final int kBlueSpeakerSide = 8;
+    public static final int kRedSourceRight = 9;
+    public static final int kRedSourceLeft = 10;
+    public static final int kRedStageLeft = 11;
+    public static final int kRedStageRight = 12;
+    public static final int kRedStageCenter = 13;
+    public static final int kBlueStageCenter = 14;
+    public static final int kBlueStageLeft = 15;
+    public static final int kBlueStageRight = 16;
   }
 }

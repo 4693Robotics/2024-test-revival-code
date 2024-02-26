@@ -59,9 +59,9 @@ public class DriveSubsystem extends SubsystemBase {
   private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(DriveConstants.kRotationalSlewRate);
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
-  ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
   ShuffleboardTab PreGameTab = Shuffleboard.getTab("Pre Game");
   ShuffleboardTab AutoTab = Shuffleboard.getTab("Auto");
+  ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
 
   ComplexWidget TeleopWidgetGyro = TeleopTab
   .add("Gyro", m_gyro)
@@ -100,16 +100,7 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         });
 
-    SmartDashboard.putNumber("FL Position", m_frontLeft.GetEncode().getPosition() * 180/Math.PI);
-    SmartDashboard.putNumber("FR Position", m_frontRight.GetEncode().getPosition() * 180/Math.PI);
-    SmartDashboard.putNumber("RL Position", m_rearLeft.GetEncode().getPosition() * 180/Math.PI);
-    SmartDashboard.putNumber("RR Position", m_rearRight.GetEncode().getPosition() * 180/Math.PI);
-
-    SmartDashboard.putNumber("FL Speed 0-1", m_frontLeft.getDriveSpeed());
-
-    SmartDashboard.putBoolean("Gyro Connect", m_gyro.isConnected());
-
-        
+    SmartDashboard.putBoolean("Gyro Connect", m_gyro.isConnected());   
   }
 
   /**

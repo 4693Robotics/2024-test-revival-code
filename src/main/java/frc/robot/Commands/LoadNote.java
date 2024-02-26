@@ -36,7 +36,6 @@ public class LoadNote extends Command {
     public void end(boolean interrupted) {
      timer.stop();
      intakesystem.moveIntakeArm(0);
-     intakesystem.setArmUp();
     }
 
     @Override

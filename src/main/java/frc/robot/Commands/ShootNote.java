@@ -7,15 +7,15 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShootNote extends Command {
 
-    private final ShooterSubsystem shooter;
+    private final ShooterSubsystem shootersystem;
     private final XboxController controller;
     private final POVButton upDpad;
     private final POVButton downDpad;
     private final POVButton rightDpad;
     private final POVButton leftDpad;
 
-    public ShootNote(ShooterSubsystem shooter, XboxController XboxController) {
-        this.shooter = shooter;
+    public ShootNote(ShooterSubsystem ShooterSubsystem, XboxController XboxController) {
+        this.shootersystem = ShooterSubsystem;
         this.controller = XboxController;
 
         // Assuming D-pad Up and D-pad Down for increase and decrease
@@ -24,23 +24,27 @@ public class ShootNote extends Command {
         rightDpad = new POVButton(controller, 90);
         leftDpad = new POVButton(controller, 270);
 
-        addRequirements(shooter);
+        addRequirements(shootersystem);
     }
 
     @Override
     public void execute() {
         if (upDpad.getAsBoolean()) {
          
-            shooter.setShooterSpeed(1);
+            shootersystem.setShooterSpeed(1);
+            shootersystem.setFeederSpeed(0.5);
         } else if (downDpad.getAsBoolean()) {
             
-            shooter.setShooterSpeed(0);
+            shootersystem.setShooterSpeed(0);
+            shootersystem.setFeederSpeed(0);
         } else if (rightDpad.getAsBoolean()) {
             
-            shooter.setShooterSpeed(0.3);
+            shootersystem.setShooterSpeed(0);
+            shootersystem.setFeederSpeed(0.3);
         } else if (leftDpad.getAsBoolean()) {
 
-            shooter.setShooterSpeed(-0.1);
+            shootersystem.setShooterSpeed(-0.1);
+            shootersystem.setFeederSpeed(-0.5);
         }
     }
 }

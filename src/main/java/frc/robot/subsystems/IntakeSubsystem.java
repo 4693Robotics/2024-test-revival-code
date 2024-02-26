@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -13,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
+
     //Creates motors
     private final CANSparkMax m_IntakeArm = new CANSparkMax(IntakeConstants.kIntakeArmCanId, MotorType.kBrushless);
     private final CANSparkMax m_IntakeTopRoller = new CANSparkMax(IntakeConstants.kIntakeTopRollerCanId, MotorType.kBrushless);
@@ -27,7 +27,13 @@ public class IntakeSubsystem extends SubsystemBase {
     .withWidget(BuiltInWidgets.kBooleanBox);
 
     public IntakeSubsystem() {
-        //Sets motors to brushless config
+
+        //Factory resets all of the sparks to know the state of them
+        m_IntakeArm.restoreFactoryDefaults();
+        m_IntakeTopRoller.restoreFactoryDefaults();
+        m_IntakeBottomRoller.restoreFactoryDefaults();
+
+        //Sets motors Idle Modes
         m_IntakeArm.setIdleMode(IntakeConstants.kIntakeArmIdleMode);
         m_IntakeTopRoller.setIdleMode(IntakeConstants.kIntakeTopRollerIdleMode);
         m_IntakeBottomRoller.setIdleMode(IntakeConstants.kIntakeBottomRollerIdleMode);
@@ -37,8 +43,14 @@ public class IntakeSubsystem extends SubsystemBase {
         m_IntakeTopRoller.setSmartCurrentLimit(IntakeConstants.kIntakeTopRollerCurrentLimit);
         m_IntakeBottomRoller.setSmartCurrentLimit(IntakeConstants.kIntakeBottomRollerCurrentLimit);
 
-        m_IntakeTopRoller.setInverted(true);
-        m_IntakeBottomRoller.setInverted(true);
+        //Sets if the motors are inverted
+        m_IntakeArm.setInverted(IntakeConstants.kIntakeArmInverted);
+        m_IntakeTopRoller.setInverted(IntakeConstants.kIntakeTopRollerInverted);
+        m_IntakeBottomRoller.setInverted(IntakeConstants.kIntakeBottomRollerInverted);
+
+        m_IntakeArm.burnFlash();
+        m_IntakeTopRoller.burnFlash();
+        m_IntakeBottomRoller.burnFlash();
     }
 
     public void periodic() {
@@ -76,13 +88,5 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void setArmPosition(double Position) {
         m_IntakeArm.getEncoder().setPosition(Position);
-    }
-
-    public void setArmUp() {
-        isUp = true;
-    }
-
-    public void setArmDown() {
-        isUp = false;
     }
 }
