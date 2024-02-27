@@ -26,6 +26,10 @@ public class IntakeSubsystem extends SubsystemBase {
     .add("Arm is Up", isUp)
     .withWidget(BuiltInWidgets.kBooleanBox);
 
+    /**
+     * This subsystem contains the intake for picking up notes for the
+     * 2024 CRESENDO FRC competition
+     */
     public IntakeSubsystem() {
 
         //Factory resets all of the sparks to know the state of them
@@ -48,6 +52,7 @@ public class IntakeSubsystem extends SubsystemBase {
         m_IntakeTopRoller.setInverted(IntakeConstants.kIntakeTopRollerInverted);
         m_IntakeBottomRoller.setInverted(IntakeConstants.kIntakeBottomRollerInverted);
 
+        //Writes all settings to the sparks
         m_IntakeArm.burnFlash();
         m_IntakeTopRoller.burnFlash();
         m_IntakeBottomRoller.burnFlash();

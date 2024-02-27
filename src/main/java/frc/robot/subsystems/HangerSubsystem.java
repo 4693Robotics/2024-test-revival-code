@@ -45,6 +45,7 @@ public class HangerSubsystem extends SubsystemBase {
         m_RightHanger.burnFlash();
         m_LeftHanger.burnFlash();
 
+        //Resets all of the encoders on boot
         m_LeftHangerEncoder.setPosition(0);
         m_RightHangerEncoder.setPosition(0);
     }
@@ -67,6 +68,7 @@ public class HangerSubsystem extends SubsystemBase {
 
     /**
      * Sets the speed of the right hanger
+     * @param speed
      */
     public void setRightHangerSpeed(double speed) {
         m_RightHanger.set(speed);

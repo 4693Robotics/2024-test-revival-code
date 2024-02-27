@@ -18,8 +18,8 @@ public class HangerMove extends Command {
         this.hangersystem = HangerSubsystem;
         this.controller = controller;
 
-        this.rightTrigger = controller.getRightTriggerAxis();
-        this.leftTrigger = controller.getLeftTriggerAxis();
+        this.rightTrigger = controller.getRawAxis(2);
+        this.leftTrigger = controller.getRawAxis(3);
 
         addRequirements(HangerSubsystem);
     }
@@ -31,7 +31,8 @@ public class HangerMove extends Command {
 
     @Override
     public void execute() {
-        hangersystem.setHangerSpeed(controller.getLeftX());
+        hangersystem.setRightHangerSpeed(rightTrigger);
+        hangersystem.setLeftHangerSpeed(leftTrigger);
 
         SmartDashboard.putNumber("Right Trigger", rightTrigger);
         SmartDashboard.putNumber("Left Trigger", leftTrigger);
@@ -40,7 +41,6 @@ public class HangerMove extends Command {
 
     @Override
     public void end(boolean interrupted) {
-
         hangersystem.setHangerSpeed(0);
     }
 

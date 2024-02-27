@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Commands.BumpIntake;
-import frc.robot.Commands.DriveTranslation;
 import frc.robot.Commands.IntakeMove;
 import frc.robot.Commands.IntakeOut;
 import frc.robot.Commands.LoadNote;
