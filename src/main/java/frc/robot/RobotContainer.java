@@ -106,7 +106,7 @@ public class RobotContainer {
             m_robotDrive));
 
     // sets intake default command
-    m_robotIntake.setDefaultCommand(new IntakeMove( m_subsystemController, m_robotIntake));
+    m_robotIntake.setDefaultCommand(new IntakeMove(m_robotIntake, m_subsystemController));
 
     m_robotShooter.setDefaultCommand(new ShootNote(m_robotShooter, m_subsystemController));
 

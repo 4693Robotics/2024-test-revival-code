@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import java.io.File;
+import java.nio.file.Path;
+
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
@@ -11,6 +14,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Filesystem;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -123,6 +127,12 @@ public final class Constants {
     public static final SoftLimitDirection kRightHangerSoftLimit = SoftLimitDirection.kReverse;
     public static final SoftLimitDirection kLeftHangerSoftLimit = SoftLimitDirection.kReverse;
     }
+
+    public static final class VisionConstants {
+      public static final Path k2024AprilTagLayout = new File(Filesystem.getDeployDirectory(), "2024-Crescendo-AprilTags.json").toPath();
+
+      public static final double kCameraHight = 2; //not accurate please change
+    } 
 
   public static final class ModuleConstants {
     // The MAXSwerve module can be configured with one of three pinion gears: 12T, 13T, or 14T.
