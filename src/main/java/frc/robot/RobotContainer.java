@@ -5,7 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -16,7 +15,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.BumpIntake;
-import frc.robot.Commands.FeederMove;
 import frc.robot.Commands.HangerMove;
 import frc.robot.Commands.IntakeMove;
 import frc.robot.Commands.IntakeOut;
@@ -168,8 +166,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
 
-  public Command getAutonomousCommand() {
+  public Command getAutonomousCommand() {  
     return autoChooser.getSelected();
-  }
-
+    }
 }
