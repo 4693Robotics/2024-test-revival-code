@@ -10,7 +10,7 @@ import frc.robot.Commands.IntakeOut;
 import frc.robot.Commands.LoadNote;
 import frc.robot.Commands.MoveToTagPosition;
 import frc.robot.Commands.RotateToAngle;
-import frc.robot.Commands.ShootNote;
+import frc.robot.Commands.ShooterMove;
 import frc.robot.Commands.TrackedTranslation;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -64,10 +64,37 @@ public class AutosCommands {
             new InstantCommand(() -> DriveSubsystem.drive(0, 0, 0, false, false)) //Stops the robot
         );
     }
-    public SequentialCommandGroup TestAuto(DriveSubsystem DriveSubsystem) {
+
+    public SequentialCommandGroup DulthAuto(DriveSubsystem DriveSubsystem, IntakeSubsystem IntakeSubsystem, ShooterSubsystem ShooterSubsystem) {
         return new SequentialCommandGroup(
-            new RotateToAngle(DriveSubsystem, 0, 0),
-            new TrackedTranslation(0.6, 0, 2, DriveSubsystem)
+            new ShootNoteAuto(IntakeSubsystem, ShooterSubsystem),
+            new IntakeOut(IntakeSubsystem),
+            new WaitCommand(.5),
+            new InstantCommand(() -> IntakeSubsystem.moveIntakeRoller(0.5)),
+            new InstantCommand(() -> DriveSubsystem.drive(0, 0, 0, false, false)),
+            new WaitCommand(0.8),
+            new InstantCommand(() -> DriveSubsystem.drive(0, 0, 0, false, false)),
+            new LoadNote(IntakeSubsystem),
+            new InstantCommand(() -> DriveSubsystem.drive(0, 0, 0, false, false)),
+            new WaitCommand(0.7),
+            new InstantCommand(() -> DriveSubsystem.drive(0, 0, 0, false, false)),
+            new ShootNoteAuto(IntakeSubsystem, ShooterSubsystem)
+        );
+    }
+    public SequentialCommandGroup TestAuto(DriveSubsystem DriveSubsystem, IntakeSubsystem IntakeSubsystem, ShooterSubsystem ShooterSubsystem) {
+        return new SequentialCommandGroup(
+                new InstantCommand(() -> DriveSubsystem.drive(-0.4, 0, 0, false, false)),
+                new WaitCommand(0.8),
+                new RotateToAngle(DriveSubsystem, 50, 0.)
+
+        );
+    }
+
+    public SequentialCommandGroup BackUpAuto(DriveSubsystem DriveSubsystem, IntakeSubsystem IntakeSubsystem, ShooterSubsystem ShooterSubsystem) {
+        return new SequentialCommandGroup(
+            new InstantCommand(() -> DriveSubsystem.drive(-0.4, 0, 0, false, false)),
+            new WaitCommand(2),
+            new InstantCommand(() -> DriveSubsystem.drive(0, 0, 0, false, false))
         );
     }
 

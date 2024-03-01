@@ -20,7 +20,7 @@ public class IntakeMove extends Command {
 
      @Override
      public void execute() {
-      double YRightspeed = -MathUtil.applyDeadband(-controller.getRightY(), OIConstants.KSubsystemsDeadband);
+      double YRightspeed = MathUtil.applyDeadband(controller.getRightY(), OIConstants.KSubsystemsDeadband);
       intakeSubsystem.moveIntakeRoller(YRightspeed);
      }
 

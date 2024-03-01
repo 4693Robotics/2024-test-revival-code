@@ -34,9 +34,9 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = 4.8;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
-    public static final double kDirectionSlewRate = 1.2; // radians per second
-    public static final double kMagnitudeSlewRate = 2.0; // percent per second (1 = 100%)
-    public static final double kRotationalSlewRate = 1; // percent per second (1 = 100%)
+    public static final double kDirectionSlewRate = 2.0; // radians per second
+    public static final double kMagnitudeSlewRate = 3.0; // percent per second (1 = 100%)
+    public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
 
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(25);
@@ -92,7 +92,7 @@ public final class Constants {
   public static final class ShooterConstants {
     public static final int kShooterTopCanId = 13;
     public static final int kShooterBottomCanId  = 12;
-    public static final int kFeederRightCanId = 14;
+    public static final int kFeederRightCanId = 16;
     public static final int kFeederLeftCanId = 15;
 
     public static final IdleMode kShooterTopIdleMode = IdleMode.kCoast;
@@ -102,7 +102,7 @@ public final class Constants {
 
     public static final boolean kShooterTopInverted = false;
     public static final boolean kShooterBottomInverted = false;
-    public static final boolean kFeederRightInverted = false;
+    public static final boolean kFeederRightInverted = true;
     public static final boolean kFeederLeftInverted = true;
 
     public static final int kShooterTopCurrentLimit = 50; // amps
@@ -112,7 +112,7 @@ public final class Constants {
   }
 
   public static final class HangerConstants {
-    public static final int kRightHangerCanId = 16;
+    public static final int kRightHangerCanId = 18;
     public static final int kLeftHangerCanId = 17;
 
     public static final IdleMode kRightHangerIdleMode = IdleMode.kCoast;

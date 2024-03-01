@@ -18,8 +18,8 @@ public class HangerMove extends Command {
         this.hangersystem = HangerSubsystem;
         this.controller = controller;
 
-        this.rightTrigger = controller.getRawAxis(2);
-        this.leftTrigger = controller.getRawAxis(3);
+        this.rightTrigger = controller.getRightTriggerAxis();
+        this.leftTrigger = controller.getLeftTriggerAxis();
 
         addRequirements(HangerSubsystem);
     }

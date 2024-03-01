@@ -16,13 +16,14 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.BumpIntake;
+import frc.robot.Commands.FeederMove;
 import frc.robot.Commands.HangerMove;
 import frc.robot.Commands.IntakeMove;
 import frc.robot.Commands.IntakeOut;
 import frc.robot.Commands.LoadNote;
 import frc.robot.Commands.MoveToTagPosition;
 import frc.robot.Commands.ShootIntakeAmp;
-import frc.robot.Commands.ShootNote;
+import frc.robot.Commands.ShooterMove;
 import frc.robot.Commands.Auto.AutosCommands;
 import frc.robot.Constants.AprilTag2024Constants;
 import frc.robot.Constants.OIConstants;
@@ -88,9 +89,11 @@ public class RobotContainer {
 
     // sets all the options for the auto chooser
     autoChooser.addOption("No auto", null);
+    autoChooser.addOption("Back Up", new AutosCommands().BackUpAuto(m_robotDrive, m_robotIntake, m_robotShooter));
     autoChooser.addOption("Middle 2 Note", new AutosCommands().Auto2NoteMiddle(m_robotDrive, m_robotIntake, m_robotShooter));
     autoChooser.addOption("Middle 1 Note", new AutosCommands().Auto1NoteMove(m_robotDrive, m_robotIntake, m_robotShooter));
-    autoChooser.addOption("test", new AutosCommands().TestAuto(m_robotDrive));
+    autoChooser.addOption("Dulth Auto", new AutosCommands().DulthAuto(m_robotDrive, m_robotIntake, m_robotShooter));
+    autoChooser.addOption("test", new AutosCommands().TestAuto(m_robotDrive, m_robotIntake, m_robotShooter));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -108,7 +111,7 @@ public class RobotContainer {
     // sets intake default command
     m_robotIntake.setDefaultCommand(new IntakeMove(m_robotIntake, m_subsystemController));
 
-    m_robotShooter.setDefaultCommand(new ShootNote(m_robotShooter, m_subsystemController));
+    m_robotShooter.setDefaultCommand(new ShooterMove(m_robotShooter, m_subsystemController));
 
     m_robotHanger.setDefaultCommand(new HangerMove(m_robotHanger, m_subsystemController));
   }

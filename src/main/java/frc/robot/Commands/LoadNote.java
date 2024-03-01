@@ -30,6 +30,9 @@ public class LoadNote extends Command {
 
     @Override
     public void execute() {
+        if (timer.get() > 0.75) {
+            intakesystem.moveIntakeArm(0);
+        }
     }
 
     @Override
@@ -40,6 +43,6 @@ public class LoadNote extends Command {
 
     @Override
     public boolean isFinished() {
-      return timer.get() > 0.75;
+      return timer.get() > 0.9;
     }
 }

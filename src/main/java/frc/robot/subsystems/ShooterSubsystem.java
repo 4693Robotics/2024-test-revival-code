@@ -65,6 +65,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public void setShooterSpeed(double speed) {
         m_ShooterTop.set(speed);
         m_ShooterBottom.set(speed);
+        m_FeederRight.set(speed);
     }
 
     /**
@@ -73,6 +74,6 @@ public class ShooterSubsystem extends SubsystemBase {
      */
     public void setFeederSpeed(double speed) {
         m_FeederRight.set(speed);
-        m_FeederLeft.set(speed);
+        
     }
 }

@@ -70,6 +70,6 @@ public class RotateToAngle extends Command {
     @Override
     public boolean isFinished() {
         // This command is finished when the robot's angle is close to the target angle
-        return pidController.atSetpoint() && setpointTimer.get() > 0.2;
+        return pidController.atSetpoint();
     }
 }

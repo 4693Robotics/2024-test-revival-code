@@ -1,11 +1,13 @@
 package frc.robot.Commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class ShootNote extends Command {
+public class ShooterMove extends Command {
 
     private final ShooterSubsystem shootersystem;
     private final XboxController controller;
@@ -14,7 +16,7 @@ public class ShootNote extends Command {
     private final POVButton rightDpad;
     private final POVButton leftDpad;
 
-    public ShootNote(ShooterSubsystem ShooterSubsystem, XboxController XboxController) {
+    public ShooterMove(ShooterSubsystem ShooterSubsystem, XboxController XboxController) {
         this.shootersystem = ShooterSubsystem;
         this.controller = XboxController;
 
@@ -29,22 +31,33 @@ public class ShootNote extends Command {
 
     @Override
     public void execute() {
+                
+        double YRightspeed = MathUtil.applyDeadband(controller.getRightY(), OIConstants.KSubsystemsDeadband);
+        shootersystem.setFeederSpeed(YRightspeed);
+
         if (upDpad.getAsBoolean()) {
          
             shootersystem.setShooterSpeed(1);
-            shootersystem.setFeederSpeed(0.5);
         } else if (downDpad.getAsBoolean()) {
             
             shootersystem.setShooterSpeed(0);
-            shootersystem.setFeederSpeed(0);
         } else if (rightDpad.getAsBoolean()) {
             
             shootersystem.setShooterSpeed(0);
-            shootersystem.setFeederSpeed(0.3);
         } else if (leftDpad.getAsBoolean()) {
 
             shootersystem.setShooterSpeed(-0.1);
-            shootersystem.setFeederSpeed(-0.5);
         }
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        shootersystem.setFeederSpeed(0);
+        shootersystem.setShooterSpeed(0);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 }
