@@ -23,11 +23,12 @@ public class ShootNoteAuto extends Command {
         timer.reset();
         timer.start();
         shootersystem.setShooterSpeed(1);
+        shootersystem.setFeederSpeed(1);
     }
 
     @Override
     public void execute() {
-        if (timer.get() > 0.2) {
+        while (timer.get() > 0.2) {
             intakesystem.moveIntakeRoller(-1);
         }
     }
