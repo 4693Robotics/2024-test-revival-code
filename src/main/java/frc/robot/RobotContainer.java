@@ -92,6 +92,7 @@ public class RobotContainer {
     autoChooser.addOption("Middle 1 Note", new AutosCommands().Auto1NoteMove(m_robotDrive, m_robotIntake, m_robotShooter));
     autoChooser.addOption("Dulth Auto", new AutosCommands().DulthAuto(m_robotDrive, m_robotIntake, m_robotShooter));
     autoChooser.addOption("test", new AutosCommands().TestAuto(m_robotDrive, m_robotIntake, m_robotShooter));
+    autoChooser.addOption("Move Forward", new AutosCommands().MoveForward(m_robotDrive, m_robotIntake, m_robotShooter));
 
     // Configure the button bindings
     configureButtonBindings();

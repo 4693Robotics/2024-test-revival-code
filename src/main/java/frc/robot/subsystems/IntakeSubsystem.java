@@ -71,8 +71,8 @@ public class IntakeSubsystem extends SubsystemBase {
     //Function to make intake roller move
     public void moveIntakeRoller(double speed) {
         
-        m_IntakeTopRoller.set(speed);
-        m_IntakeBottomRoller.set(speed);
+        m_IntakeTopRoller.set(Math.min(0.5, speed));
+        m_IntakeBottomRoller.set(Math.min(0.5, speed));
     }
 
     public void intakeForward() {

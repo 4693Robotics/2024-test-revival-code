@@ -23,7 +23,6 @@ public class ShootNoteAuto extends Command {
         timer.reset();
         timer.start();
         shootersystem.setShooterSpeed(1);
-        shootersystem.setFeederSpeed(1);
     }
 
     @Override
