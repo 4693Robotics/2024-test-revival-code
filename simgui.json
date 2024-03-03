@@ -2,6 +2,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Auto/Gyro": "Gyro",
       "/Shuffleboard/Pre Game/Auto": "String Chooser",
       "/Shuffleboard/Teleop/Gyro": "Gyro"
     }

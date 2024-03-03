@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AprilTag2024Constants;
 import frc.robot.Constants.VisionConstants;
@@ -104,9 +103,7 @@ public class VisionSubsystem extends SubsystemBase {
         }
 
         //Shuffleboard stuff
-        SmartDashboard.putNumber("April tag x", this.getBestTagXDistance());
-        SmartDashboard.putNumber("April tag y", this.getBestTagYDistance());
-        SmartDashboard.putNumber("new april tag yawz", this.getBestTagYaw());
+        
 
         //boolean for apriltag detection
         this.isTagDetected = this.isTagDetected();

@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -12,8 +13,9 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.BumpIntake;
 import frc.robot.Commands.HangerMove;
 import frc.robot.Commands.IntakeMove;
@@ -59,28 +61,36 @@ public class RobotContainer {
   XboxController m_subsystemController = new XboxController(OIConstants.kSubsystemsControllerPort);
 
   public Object drive;
+    
+  Field2d field = new Field2d();
+
+  double gameTime;
 
   // Creates the tabs in shuffleboard
   ShuffleboardTab PreGameTab = Shuffleboard.getTab("Pre Game");
   ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
 
 
-  // creates widget for the rev board
+  // Creates widget for the rev board
   ComplexWidget PdhWidget = TeleopTab
   .add("Power",m_pdh)
   .withWidget(BuiltInWidgets.kPowerDistribution)
   .withPosition(2, 4);
 
-  //makes the widget for the auto selector
+  // Creates widget for the auto selector
   ComplexWidget AutoSelector = PreGameTab
   .add("Auto", autoChooser)
   .withWidget(BuiltInWidgets.kComboBoxChooser)
   .withSize(3, 2)
   .withPosition(0, 0);
 
-  public void periodic() {
-    SmartDashboard.putNumber("trigger", m_subsystemController.getRightTriggerAxis());
-  }
+  // Creates widget for the field
+  ComplexWidget FieldTab = TeleopTab
+  .add("Field", field)
+  .withWidget(BuiltInWidgets.kField);
+
+  SimpleWidget GameTimeWidget = TeleopTab
+  .add("Time", gameTime);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -115,6 +125,13 @@ public class RobotContainer {
     m_robotShooter.setDefaultCommand(new ShooterMove(m_robotShooter, m_subsystemController));
 
     m_robotHanger.setDefaultCommand(new HangerMove(m_robotHanger, m_driverController));
+  }
+
+  public void periodic() {
+    field.setRobotPose(m_robotDrive.getPose());
+
+    gameTime = DriverStation.getMatchTime();
+    GameTimeWidget.getEntry().setDouble(gameTime);
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be

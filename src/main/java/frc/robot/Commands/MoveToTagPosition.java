@@ -42,6 +42,7 @@ public class MoveToTagPosition extends Command {
         addRequirements(DriveSubsystem, CameraSubsystem);
     }
 
+    @Override
     public void initialize() {
 
         xPIDController.setSetpoint(xdistance);
@@ -51,6 +52,7 @@ public class MoveToTagPosition extends Command {
         rotPIDController.setTolerance(0.1);
     }
 
+    @Override
     public void execute() {
         if (camerasystem.getTagXDistance(TagId) != -1 && camerasystem.getTagYDistance(TagId) != -1) {
             double xOutput = xPIDController.calculate(camerasystem.getTagXDistance(TagId));
@@ -72,10 +74,12 @@ public class MoveToTagPosition extends Command {
         isTagDetected = camerasystem.isTagDetected();
     }
 
+    @Override
     public void end(boolean interrupted) {
         drivesystem.drive(0, 0, 0, false, false);
     }
 
+    @Override
     public boolean isFinished() {
         return inPosition || isTagDetected;
     }

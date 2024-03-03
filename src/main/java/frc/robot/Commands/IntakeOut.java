@@ -22,6 +22,7 @@ public class IntakeOut extends Command {
         addRequirements(IntakeSubsystem);
     }
 
+    @Override
     public void initialize() {
         timer.reset();
         timer.start();
