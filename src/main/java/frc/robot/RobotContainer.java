@@ -20,7 +20,7 @@ import frc.robot.Commands.BumpIntake;
 import frc.robot.Commands.HangerMove;
 import frc.robot.Commands.IntakeMove;
 import frc.robot.Commands.IntakeOut;
-import frc.robot.Commands.LoadNote;
+import frc.robot.Commands.IntakeIn;
 import frc.robot.Commands.MoveToTagPosition;
 import frc.robot.Commands.ShootIntakeAmp;
 import frc.robot.Commands.ShooterMove;
@@ -169,7 +169,7 @@ public class RobotContainer {
         .onTrue(new IntakeOut(m_robotIntake));
 
     new JoystickButton(m_subsystemController, Button.kB.value)
-        .onTrue(new LoadNote(m_robotIntake));
+        .onTrue(new IntakeIn(m_robotIntake));
 
     new JoystickButton(m_subsystemController, Button.kX.value)
         .onTrue(new ShootIntakeAmp(m_robotIntake));

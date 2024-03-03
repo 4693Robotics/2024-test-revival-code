@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Commands.IntakeOut;
-import frc.robot.Commands.LoadNote;
+import frc.robot.Commands.IntakeIn;
 import frc.robot.Commands.RotateToAngle;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -42,7 +42,7 @@ public class AutosCommands {
            new WaitCommand(0.6),
            new InstantCommand(() -> DriveSubsystem.drive(0, 0, 0, false, false)), //Stops the robot
            new InstantCommand(() -> IntakeSubsystem.setIntakeRollerSpeed(0)),
-           new LoadNote(IntakeSubsystem), //Move the intake inwards
+           new IntakeIn(IntakeSubsystem), //Move the intake inwards
            new WaitCommand(0.7),
            new InstantCommand(() -> DriveSubsystem.drive(0.7, 0, 0, false, false)), //Moves Robot back to get ready to shoot 
            new WaitCommand(0.4),
@@ -81,7 +81,7 @@ public class AutosCommands {
             new InstantCommand(() -> DriveSubsystem.drive(0, 0, 0, false, false)),
             new WaitCommand(0.8),
             new InstantCommand(() -> DriveSubsystem.drive(0, 0, 0, false, false)),
-            new LoadNote(IntakeSubsystem),
+            new IntakeIn(IntakeSubsystem),
             new InstantCommand(() -> DriveSubsystem.drive(0, 0, 0, false, false)),
             new WaitCommand(0.7),
             new InstantCommand(() -> DriveSubsystem.drive(0, 0, 0, false, false)),

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class LoadNote extends Command {
+public class IntakeIn extends Command {
 
     IntakeSubsystem intakesystem;
     PIDController armPIDController;
@@ -15,7 +15,7 @@ public class LoadNote extends Command {
     double armPosition;
 
 
-    public LoadNote(IntakeSubsystem IntakeSubsystem) {
+    public IntakeIn(IntakeSubsystem IntakeSubsystem) {
         this.intakesystem = IntakeSubsystem;
         this.timer = new Timer();
 
