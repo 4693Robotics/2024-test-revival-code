@@ -21,24 +21,24 @@ public class ShootIntakeAmp extends Command {
     public void initialize() {
         timer.reset();
         timer.start();
-        intakesystem.moveIntakeArm(0.2);
+        intakesystem.setIntakeArmSpeed(0.2);
     }
 
     @Override
     public void execute() {
         if (timer.get() > 0.36) {
-            intakesystem.moveIntakeRoller(-1);
+            intakesystem.setIntakeRollerSpeed(-1);
         }
         if (timer.get() > 0.4) {
-            intakesystem.moveIntakeArm(0);
+            intakesystem.setIntakeArmSpeed(0);
         }
     }
 
     @Override
     public void end(boolean interrupted) {
      timer.stop();
-     intakesystem.moveIntakeArm(0);
-     intakesystem.moveIntakeRoller(0);
+     intakesystem.setIntakeArmSpeed(0);
+     intakesystem.setIntakeRollerSpeed(0);
     }
 
     @Override

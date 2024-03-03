@@ -51,6 +51,7 @@ public class RobotContainer {
   //Creates the pdh for pdh widget
   private PowerDistribution m_pdh = new PowerDistribution();
 
+  //Creates the auto chooser
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
    
   // The driver's controller
@@ -60,8 +61,9 @@ public class RobotContainer {
   public Object drive;
 
   // Creates the tabs in shuffleboard
-  ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
   ShuffleboardTab PreGameTab = Shuffleboard.getTab("Pre Game");
+  ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
+
 
   // creates widget for the rev board
   ComplexWidget PdhWidget = TeleopTab
@@ -112,7 +114,7 @@ public class RobotContainer {
 
     m_robotShooter.setDefaultCommand(new ShooterMove(m_robotShooter, m_subsystemController));
 
-    m_robotHanger.setDefaultCommand(new HangerMove(m_robotHanger, m_subsystemController));
+    m_robotHanger.setDefaultCommand(new HangerMove(m_robotHanger, m_driverController));
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -154,6 +156,9 @@ public class RobotContainer {
 
     new JoystickButton(m_subsystemController, Button.kX.value)
         .onTrue(new ShootIntakeAmp(m_robotIntake));
+
+    new JoystickButton(m_subsystemController, Button.kStart.value)
+        .whileTrue(new HangerMove(m_robotHanger, m_subsystemController));
 
     new JoystickButton(m_subsystemController, Button.kRightBumper.value)
         .onTrue(new BumpIntake(m_robotIntake));

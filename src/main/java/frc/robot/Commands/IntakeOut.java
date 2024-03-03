@@ -25,20 +25,20 @@ public class IntakeOut extends Command {
     public void initialize() {
         timer.reset();
         timer.start();
-        intakesystem.moveIntakeArm(0.2);
+        intakesystem.setIntakeArmSpeed(0.2);
     }
 
     @Override
     public void execute() {
         if (timer.get() > 0.65) {
-            intakesystem.moveIntakeArm(0);
+            intakesystem.setIntakeArmSpeed(0);
         }
     }
 
     @Override
     public void end(boolean interrupted) {
      timer.stop();
-     intakesystem.moveIntakeArm(0);
+     intakesystem.setIntakeArmSpeed(0);
     }
 
     @Override

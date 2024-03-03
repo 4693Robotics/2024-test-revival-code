@@ -1,18 +1,28 @@
 package frc.robot.subsystems;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.AprilTag2024Constants;
+import frc.robot.Constants.VisionConstants;
 
 public class VisionSubsystem extends SubsystemBase {
 
@@ -20,8 +30,18 @@ public class VisionSubsystem extends SubsystemBase {
     PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
 
     PhotonPipelineResult result;
-    List < PhotonTrackedTarget > tags;
+    List<PhotonTrackedTarget> tags;
     PhotonTrackedTarget bestTag;
+
+    AprilTagFieldLayout aprilTagFieldLayout;
+
+    PhotonPoseEstimator photonPoseEstimator;
+
+    int SpeakercenterID;
+    int SpeakerSideID;
+    int AmpID;
+    int SourceRightID;
+    int SourceLeftID;
 
     boolean isTagDetected;
 
@@ -34,7 +54,39 @@ public class VisionSubsystem extends SubsystemBase {
      * This subsystem contains the vision system for apriltag vision for the
      * 2024 CRESENDO FRC competition
      */
-    public VisionSubsystem() {}
+    public VisionSubsystem() {
+
+        try {
+
+            aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(
+                AprilTagFields.k2024Crescendo.m_resourceFile
+            );
+
+            photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout,
+             PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+              camera,
+              VisionConstants.kcameraPose);
+
+        } catch (IOException e) {
+
+            DriverStation.reportWarning(
+                "April Tag layout could not be loaded", false);
+        }
+
+        if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red) {
+            SpeakercenterID = AprilTag2024Constants.kRedSpeakerCenter;
+            SpeakerSideID = AprilTag2024Constants.kRedSpeakerSide;
+            AmpID = AprilTag2024Constants.kRedAmp;
+            SourceRightID = AprilTag2024Constants.kRedSourceRight;
+            SourceLeftID = AprilTag2024Constants.kRedSourceLeft;
+        } else {
+            SpeakercenterID = AprilTag2024Constants.kBlueSpeakerCenter;
+            SpeakerSideID = AprilTag2024Constants.kBlueSpeakerSide;
+            AmpID = AprilTag2024Constants.kBlueAmp;
+            SourceRightID = AprilTag2024Constants.kBlueSourceRight;
+            SourceLeftID = AprilTag2024Constants.kBlueSourceLeft;
+        }
+    }
 
     @Override
     public void periodic() {
@@ -58,6 +110,47 @@ public class VisionSubsystem extends SubsystemBase {
 
         //boolean for apriltag detection
         this.isTagDetected = this.isTagDetected();
+    }
+
+    public Optional<PhotonTrackedTarget> getTarget(int id) {
+        for (PhotonTrackedTarget target : tags) {
+            if (target.getFiducialId() == id) return Optional.of(target);
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Pose3d> getTargetPose(PhotonTrackedTarget target) {
+        int fiducialId = target.getFiducialId();
+        Optional<Pose3d> tagPose = aprilTagFieldLayout.getTagPose(fiducialId);
+        // Ensure the existence of this tag id, print warning
+        if (tagPose.isEmpty()) {
+            DriverStation.reportWarning("Fiducial id " + fiducialId + " not recognized", false);
+        }
+        // Return with optional null value
+        return tagPose;
+    }
+    
+        public double getDistanceToTarget(PhotonTrackedTarget target) {
+        Optional<Pose3d> tagPose = getTargetPose(target);
+        // Ensure the existence of this tag id
+        if (tagPose.isEmpty()) {
+            return -1;
+        }
+
+        Transform3d cameraToTarget = target.getBestCameraToTarget();
+        return Math.hypot(cameraToTarget.getX(), cameraToTarget.getY());
+    }
+
+    public double getDistanceFromSpeaker() {
+        
+        Optional<PhotonTrackedTarget> target = getTarget(SpeakercenterID);
+
+        if (target.isPresent()) {
+            return getDistanceToTarget(target.get());
+        } else {
+            return -1;
+        }
+
     }
 
     /**
@@ -148,15 +241,7 @@ public class VisionSubsystem extends SubsystemBase {
     }
   } 
 
-  /**
-   * returns a boolean equal to if the tag is detected
-   * @return true if tag detected
-   */
   public boolean isTagDetected() {
-    if (bestTag != null)
-        return true;
-    else {
-        return false;
-    }
-}
+    return result.hasTargets();
+  }
 }

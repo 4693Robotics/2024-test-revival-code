@@ -26,16 +26,16 @@ public class BumpIntake extends Command {
     @Override
     public void execute() {
         if (time.get() < 0.05) {
-            intakesystem.moveIntakeRoller(-0.4);
+            intakesystem.setIntakeRollerSpeed(-0.4);
         } else {
-            intakesystem.moveIntakeRoller(0);
+            intakesystem.setIntakeRollerSpeed(0);
         }
      
     }
     
     @Override
     public void end(boolean interrupted) {
-        intakesystem.moveIntakeRoller(0);
+        intakesystem.setIntakeRollerSpeed(0);
         time.stop();
     }
 

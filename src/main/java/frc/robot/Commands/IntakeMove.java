@@ -21,12 +21,12 @@ public class IntakeMove extends Command {
      @Override
      public void execute() {
       double YRightspeed = MathUtil.applyDeadband(controller.getRightY(), OIConstants.KSubsystemsDeadband);
-      intakeSubsystem.moveIntakeRoller(YRightspeed);
+      intakeSubsystem.setIntakeRollerSpeed(YRightspeed);
      }
 
      @Override
      public void end(boolean interrupted) {
-        intakeSubsystem.moveIntakeRoller(0);
+        intakeSubsystem.setIntakeRollerSpeed(0);
      }
 
      @Override

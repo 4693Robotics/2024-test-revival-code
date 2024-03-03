@@ -10,16 +10,10 @@ public class HangerMove extends Command {
     HangerSubsystem hangersystem;
     XboxController controller;
 
-    double rightTrigger;
-    double leftTrigger;
-
     public HangerMove(HangerSubsystem HangerSubsystem, XboxController controller) {
 
         this.hangersystem = HangerSubsystem;
         this.controller = controller;
-
-        this.rightTrigger = controller.getRightTriggerAxis();
-        this.leftTrigger = controller.getLeftTriggerAxis();
 
         addRequirements(HangerSubsystem);
     }
@@ -31,11 +25,11 @@ public class HangerMove extends Command {
 
     @Override
     public void execute() {
-        hangersystem.setRightHangerSpeed(rightTrigger);
-        hangersystem.setLeftHangerSpeed(leftTrigger);
-
-        SmartDashboard.putNumber("Right Trigger", rightTrigger);
-        SmartDashboard.putNumber("Left Trigger", leftTrigger);
+        if (controller.getYButton()){
+        hangersystem.setHangerSpeed(1);
+        } else {
+            hangersystem.setHangerSpeed(0);
+        }
         
     }
 

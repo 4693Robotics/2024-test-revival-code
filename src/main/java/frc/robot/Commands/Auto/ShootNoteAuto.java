@@ -29,7 +29,7 @@ public class ShootNoteAuto extends Command {
     @Override
     public void execute() {
         while (timer.get() > 0.2) {
-            intakesystem.moveIntakeRoller(-1);
+            intakesystem.setIntakeRollerSpeed(-1);
         }
     }
 
@@ -37,7 +37,7 @@ public class ShootNoteAuto extends Command {
     public void end(boolean interrupted) {
         shootersystem.setShooterSpeed(0);
         shootersystem.setFeederSpeed(0);
-        intakesystem.moveIntakeRoller(0);
+        intakesystem.setIntakeRollerSpeed(0);
         timer.stop();
     }
 
