@@ -128,9 +128,7 @@ public class AutosCommands {
             List.of(new Translation2d(0, 0)),
             new Pose2d(0, 0, new Rotation2d(0)),
              config);
-
-        
-            
+    
         return new SequentialCommandGroup(
         );
     }
@@ -139,22 +137,25 @@ public class AutosCommands {
 
     // An example trajectory to follow. All units in meters.
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-        new Pose2d(0, 0, new Rotation2d(Units.degreesToRadians(0))),
-        List.of(new Translation2d(1, 0)),
-        new Pose2d(2, 0, new Rotation2d(Units.degreesToRadians(0))),
-        config);
+        new Pose2d(0, 0, new Rotation2d(Units.degreesToRadians(180))),
+        List.of(new Translation2d(0.8, 0)),
+        new Pose2d(0.8, 0, new Rotation2d(Units.degreesToRadians(180))),
+        config); 
 
 
     SwerveControllerCommand swerveControllerCommand = this.getCommandWithTrajectory(DriveSubsystem, exampleTrajectory);
+
+    DriveSubsystem.setGyroPosition(180);
 
     // Reset odometry to the starting pose of the trajectory.
     DriveSubsystem.resetOdometry(exampleTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
     return new ShootNoteAuto(IntakeSubsystem, ShooterSubsystem)
-    .andThen(new WaitCommand(1)
-    .andThen(swerveControllerCommand
-    .andThen(() -> DriveSubsystem.drive(0, 0, 0, false, false))));
+    .andThen(new IntakeOut(IntakeSubsystem))
+    .andThen(new RotateToAngle(DriveSubsystem, 0, 0))
+    .andThen(swerveControllerCommand);
+   // .andThen(() -> DriveSubsystem.drive(0, 0, 0, false, false));
     }
 
     private SwerveControllerCommand getCommandWithTrajectory(DriveSubsystem DriveSubsystem, Trajectory Trajectory) {

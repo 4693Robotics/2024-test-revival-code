@@ -15,6 +15,8 @@ public class BumpIntake extends Command {
         time = new Timer();
 
         this.intakesystem = IntakeSubsystem;
+
+        addRequirements(IntakeSubsystem);
     }
 
     @Override

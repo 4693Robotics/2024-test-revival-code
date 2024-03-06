@@ -15,6 +15,8 @@ public class FeederMove extends Command {
 
         this.shootersystem = ShooterSubsystem;
         this.controller = controller;
+
+        addRequirements(ShooterSubsystem);
     }
 
     @Override

@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ShuffleboardConstants;
 import frc.utils.SwerveUtils;
@@ -280,4 +279,8 @@ public class DriveSubsystem extends SubsystemBase {
   public double invertGyro_Angle(){
     return -m_gyro.getAngle();
   }  
+
+  public void setGyroPosition(double angle) {
+    m_gyro.setAngleAdjustment(angle);
+  }
 }

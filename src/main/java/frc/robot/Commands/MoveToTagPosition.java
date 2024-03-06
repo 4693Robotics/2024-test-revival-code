@@ -24,10 +24,10 @@ public class MoveToTagPosition extends Command {
     private boolean inPosition;
     private boolean isTagDetected;
 
-    public MoveToTagPosition(DriveSubsystem DriveSubsystem, VisionSubsystem CameraSubsystem, double xdistance, double ydistance, double maxSpeed, int TagId) {
+    public MoveToTagPosition(DriveSubsystem DriveSubsystem, VisionSubsystem VisionSubsystem, double xdistance, double ydistance, double maxSpeed, int TagId) {
 
         this.drivesystem = DriveSubsystem;
-        this.camerasystem = CameraSubsystem;
+        this.camerasystem = VisionSubsystem;
         this.xPIDController = new PIDController(10, 0, 0);
         this.yPIDController = new PIDController(10, 0, 0);
         this.rotPIDController = new PIDController(5, 0, 0.5);
@@ -39,7 +39,7 @@ public class MoveToTagPosition extends Command {
         this.rotdistance = 3.15;
         this.TagId = TagId;
 
-        addRequirements(DriveSubsystem, CameraSubsystem);
+        addRequirements(DriveSubsystem, VisionSubsystem);
     }
 
     @Override

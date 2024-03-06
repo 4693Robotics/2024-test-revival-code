@@ -46,7 +46,7 @@ public class ShooterMove extends Command {
             shootersystem.setShooterSpeed(0);
         } else if (leftDpad.getAsBoolean()) {
 
-            shootersystem.setShooterSpeed(-0.1);
+            shootersystem.setShooterSpeed(-0.3);
         }
     }
 
