@@ -104,12 +104,8 @@ public class RobotContainer {
 
     // sets all the options for the auto chooser
     autoChooser.addOption("No auto", null);
-    autoChooser.addOption("Back Up", new AutosCommands().BackUpAuto(m_robotDrive, m_robotIntake, m_robotShooter));
-    autoChooser.addOption("Middle 2 Note", new AutosCommands().Auto2NoteMiddle(m_robotDrive, m_robotIntake, m_robotShooter));
-    autoChooser.addOption("Middle 1 Note", new AutosCommands().Auto1NoteMove(m_robotDrive, m_robotIntake, m_robotShooter));
-    autoChooser.addOption("Dulth Auto", new AutosCommands().DulthAuto(m_robotDrive, m_robotIntake, m_robotShooter));
-    autoChooser.addOption("test", new AutosCommands().TestAuto(m_robotDrive, m_robotIntake, m_robotShooter));
-    autoChooser.addOption("Move Forward", new AutosCommands().MoveForward(m_robotDrive, m_robotIntake, m_robotShooter));
+    autoChooser.addOption("Move Forward", new AutosCommands().MoveForward(m_robotDrive));
+    autoChooser.addOption("Middle 2 Note", new AutosCommands().Middle2Note(m_robotDrive, m_robotIntake, m_robotShooter));
 
     // Configure the button bindings
     configureButtonBindings();

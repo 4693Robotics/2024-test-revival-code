@@ -133,13 +133,13 @@ public class AutosCommands {
         );
     }
 
-        public SequentialCommandGroup MoveForward(DriveSubsystem DriveSubsystem, IntakeSubsystem IntakeSubsystem, ShooterSubsystem ShooterSubsystem) {
+    public SequentialCommandGroup Middle2Note(DriveSubsystem DriveSubsystem, IntakeSubsystem IntakeSubsystem, ShooterSubsystem ShooterSubsystem) {
 
     // An example trajectory to follow. All units in meters.
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-        new Pose2d(0, 0, new Rotation2d(Units.degreesToRadians(180))),
+        new Pose2d(0, 0, new Rotation2d(Units.degreesToRadians(0))),
         List.of(new Translation2d(0.8, 0)),
-        new Pose2d(0.8, 0, new Rotation2d(Units.degreesToRadians(180))),
+        new Pose2d(0.8, 0, new Rotation2d(Units.degreesToRadians(0))),
         config); 
 
 
@@ -156,6 +156,20 @@ public class AutosCommands {
     .andThen(new RotateToAngle(DriveSubsystem, 0, 0))
     .andThen(swerveControllerCommand);
    // .andThen(() -> DriveSubsystem.drive(0, 0, 0, false, false));
+    }
+
+    public SequentialCommandGroup MoveForward(DriveSubsystem DriveSubsystem) {
+
+        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+            new Pose2d(0, 0, new Rotation2d(Units.degreesToRadians(0))),
+            List.of(new Translation2d(1, 0)),
+            new Pose2d(1, 0, new Rotation2d(Units.degreesToRadians(0))),
+            config); 
+
+        SwerveControllerCommand trajectoryCommand = this.getCommandWithTrajectory(DriveSubsystem, trajectory);
+
+        return new SequentialCommandGroup(
+            trajectoryCommand);
     }
 
     private SwerveControllerCommand getCommandWithTrajectory(DriveSubsystem DriveSubsystem, Trajectory Trajectory) {
