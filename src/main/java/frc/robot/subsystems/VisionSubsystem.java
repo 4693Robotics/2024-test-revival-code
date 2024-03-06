@@ -19,8 +19,10 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AprilTag2024Constants;
+import frc.robot.Constants.ShuffleboardConstants;
 import frc.robot.Constants.VisionConstants;
 
 public class VisionSubsystem extends SubsystemBase {
@@ -42,9 +44,12 @@ public class VisionSubsystem extends SubsystemBase {
     int SourceRightID;
     int SourceLeftID;
 
+    Transform3d robotpose;
+
     boolean isTagDetected;
 
-    ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
+    ShuffleboardTab PreGameTab = Shuffleboard.getTab(ShuffleboardConstants.kPreGameTabName);
+    ShuffleboardTab TeleopTab = Shuffleboard.getTab(ShuffleboardConstants.kTeleopTabName);
 
     SimpleWidget AprilTagDetectedWidget = TeleopTab
         .add("Tag Detected", isTagDetected);
@@ -89,6 +94,9 @@ public class VisionSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        //boolean for apriltag detection
+        this.isTagDetected = this.isTagDetected();
+        AprilTagDetectedWidget.getEntry().setBoolean(isTagDetected);
         
         //gets latest result from the camera
         result = camera.getLatestResult();
@@ -102,11 +110,11 @@ public class VisionSubsystem extends SubsystemBase {
             bestTag = null;
         }
 
-        //Shuffleboard stuff
-        
+        if (result.getMultiTagResult().estimatedPose.isPresent) {
+            robotpose = result.getMultiTagResult().estimatedPose.best;
+        }
 
-        //boolean for apriltag detection
-        this.isTagDetected = this.isTagDetected();
+        //Shuffleboard stuff
     }
 
     public Optional<PhotonTrackedTarget> getTarget(int id) {
@@ -239,6 +247,14 @@ public class VisionSubsystem extends SubsystemBase {
   } 
 
   public boolean isTagDetected() {
+    if (result != null) {
     return result.hasTargets();
+    } else  {
+      return false;
+    }  
+  }
+
+  public Transform3d getRobotPose() {
+    return robotpose;
   }
 }

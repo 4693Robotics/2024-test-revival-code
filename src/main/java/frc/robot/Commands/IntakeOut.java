@@ -40,6 +40,7 @@ public class IntakeOut extends Command {
     public void end(boolean interrupted) {
      timer.stop();
      intakesystem.setIntakeArmSpeed(0);
+     intakesystem.setIsIntakeUp(false);
     }
 
     @Override

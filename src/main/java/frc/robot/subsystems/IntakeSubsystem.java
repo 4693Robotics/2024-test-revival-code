@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.ShuffleboardConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
 
@@ -20,6 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private boolean isUp = true;
 
+    ShuffleboardTab PreGameTab = Shuffleboard.getTab(ShuffleboardConstants.kPreGameTabName);
     ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
 
     SimpleWidget TeleopArmTab = TeleopTab
@@ -59,8 +61,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        SmartDashboard.putNumber("Intake Arm Position Rotations", m_IntakeArm.getEncoder().getPosition()* 360);
-        SmartDashboard.putNumber("Roller Speed RPM", m_IntakeTopRoller.getEncoder().getVelocity());
+        TeleopArmTab.getEntry().setBoolean(isUp);
     }
 
     //Function to make intake arm move
@@ -86,6 +87,11 @@ public class IntakeSubsystem extends SubsystemBase {
     public void intakeOff() {
         m_IntakeTopRoller.set(0);
     }
+
+    public void setIsIntakeUp(boolean value) {
+        isUp = value;
+    }
+
 
     public double getArmPosition() {
         return m_IntakeArm.getEncoder().getPosition();

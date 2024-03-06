@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.ShuffleboardConstants;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -30,12 +31,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    Shuffleboard.selectTab("Pre Game");
+    Shuffleboard.selectTab(ShuffleboardConstants.kPreGameTabName);
   }
     
-
- 
-
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
@@ -64,19 +62,12 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    /*
-     * String autoSelected = SmartDashboard.getString("Auto Selector",
-     * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-     * = new MyAutoCommand(); break; case "Default Auto": default:
-     * autonomousCommand = new ExampleCommand(); break; }
-     */
-
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
 
-    Shuffleboard.selectTab("Auto");
+    Shuffleboard.selectTab(ShuffleboardConstants.kAutoTabName);
   }
 
   /** This function is called periodically during autonomous. */
@@ -93,7 +84,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    Shuffleboard.selectTab("Teleop");
+    Shuffleboard.selectTab(ShuffleboardConstants.kTeleopTabName);
   }
 
   /** This function is called periodically during operator control. */

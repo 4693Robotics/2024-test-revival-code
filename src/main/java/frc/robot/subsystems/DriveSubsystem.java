@@ -20,8 +20,10 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ShuffleboardConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -59,19 +61,22 @@ public class DriveSubsystem extends SubsystemBase {
   private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(DriveConstants.kRotationalSlewRate);
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
-  ShuffleboardTab PreGameTab = Shuffleboard.getTab("Pre Game");
+  ShuffleboardTab PreGameTab = Shuffleboard.getTab(ShuffleboardConstants.kPreGameTabName);
   ShuffleboardTab AutoTab = Shuffleboard.getTab("Auto");
   ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
 
-  ComplexWidget TeleopWidgetGyro = TeleopTab
-  .add("Gyro", m_gyro)
-  .withWidget(BuiltInWidgets.kGyro)
-  .withPosition(0, 4);
+  SimpleWidget PreGameGyroConnectionWidget = PreGameTab
+  .add("Gyro is connected", m_gyro.isConnected());
 
   ComplexWidget AutoWidgetGyro = AutoTab
   .add("Gyro", m_gyro)
   .withWidget(BuiltInWidgets.kGyro)
   .withPosition(0, 4);
+
+  ComplexWidget TeleopWidgetGyro = TeleopTab
+  .add("Gyro", m_gyro)
+  .withWidget(BuiltInWidgets.kGyro)
+  .withPosition(8, 0);
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
@@ -100,7 +105,10 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         });
 
-    SmartDashboard.putBoolean("Gyro Connect", m_gyro.isConnected());   
+      //Updating for Shuffleboard widgets
+      PreGameGyroConnectionWidget.getEntry().setBoolean(m_gyro.isConnected());
+
+      Shuffleboard.update();
   }
 
   /**

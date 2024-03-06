@@ -1,15 +1,28 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "SPARK MAX [18]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
       "/Shuffleboard/Auto/Gyro": "Gyro",
       "/Shuffleboard/Pre Game/Auto": "String Chooser",
+      "/Shuffleboard/Teleop/Field": "Field2d",
       "/Shuffleboard/Teleop/Gyro": "Gyro"
     }
   },
   "NetworkTables": {
     "transitory": {
       "Shuffleboard": {
+        "Teleop": {
+          "open": true
+        },
         "open": true
       }
     }

@@ -4,9 +4,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.hal.can.CANStatus;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -16,6 +18,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.BumpIntake;
 import frc.robot.Commands.HangerMove;
 import frc.robot.Commands.IntakeMove;
@@ -27,7 +30,9 @@ import frc.robot.Commands.ShooterMove;
 import frc.robot.Commands.Auto.AutosCommands;
 import frc.robot.Constants.AprilTag2024Constants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.ShuffleboardConstants;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.utils.ShuffleboardUtils;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HangerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -43,6 +48,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+    
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
@@ -50,32 +56,29 @@ public class RobotContainer {
   private final HangerSubsystem m_robotHanger = new HangerSubsystem();
   private final VisionSubsystem m_robotCameras = new VisionSubsystem();
 
+  public Object drive;
+
   //Creates the pdh for pdh widget
   private PowerDistribution m_pdh = new PowerDistribution();
+
+  //Creates the field for field wiget
+  Field2d field = new Field2d();
 
   //Creates the auto chooser
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
    
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  // The subsystem's controller
   XboxController m_subsystemController = new XboxController(OIConstants.kSubsystemsControllerPort);
 
-  public Object drive;
-    
-  Field2d field = new Field2d();
-
+  // The current game time
   double gameTime;
 
   // Creates the tabs in shuffleboard
-  ShuffleboardTab PreGameTab = Shuffleboard.getTab("Pre Game");
-  ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
-
-
-  // Creates widget for the rev board
-  ComplexWidget PdhWidget = TeleopTab
-  .add("Power",m_pdh)
-  .withWidget(BuiltInWidgets.kPowerDistribution)
-  .withPosition(2, 4);
+  ShuffleboardTab PreGameTab = Shuffleboard.getTab(ShuffleboardConstants.kPreGameTabName);
+  ShuffleboardTab AutoTab = Shuffleboard.getTab(ShuffleboardConstants.kAutoTabName);
+  ShuffleboardTab TeleopTab = Shuffleboard.getTab(ShuffleboardConstants.kTeleopTabName);
 
   // Creates widget for the auto selector
   ComplexWidget AutoSelector = PreGameTab
@@ -84,13 +87,22 @@ public class RobotContainer {
   .withSize(3, 2)
   .withPosition(0, 0);
 
+  // Creates widget for the rev board
+  ComplexWidget PdhWidget = TeleopTab
+  .add("Power",m_pdh)
+  .withWidget(BuiltInWidgets.kPowerDistribution)
+  .withPosition(10, 0);
+
   // Creates widget for the field
   ComplexWidget FieldTab = TeleopTab
   .add("Field", field)
-  .withWidget(BuiltInWidgets.kField);
+  .withWidget(BuiltInWidgets.kField)
+  .withSize(6, 3)
+  .withPosition(7, 3);
 
-  SimpleWidget GameTimeWidget = TeleopTab
-  .add("Time", gameTime);
+  SimpleWidget BooleanTestSpark = PreGameTab
+   .add("Boolean Test Spark", false)
+   .withWidget(BuiltInWidgets.kBooleanBox);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -128,11 +140,30 @@ public class RobotContainer {
   }
 
   public void periodic() {
-    field.setRobotPose(m_robotDrive.getPose());
 
-    gameTime = DriverStation.getMatchTime();
-    GameTimeWidget.getEntry().setDouble(gameTime);
+    // Sets the field position for the robot
+    
+
+    BooleanTestSpark.getEntry().setBoolean(ShuffleboardUtils.isSparkMaxConnected(3));
+
+    Shuffleboard.update();
+
+    SmartDashboard.putBoolean("is Spark max 1 connected", true);
+    SmartDashboard.putBoolean("is Spark max 2 connected", ShuffleboardUtils.isSparkMaxConnected(2));
+    SmartDashboard.putBoolean("is Spark max 3 connected", ShuffleboardUtils.isSparkMaxConnected(3));
+    SmartDashboard.putBoolean("is Spark max 4 connected", ShuffleboardUtils.isSparkMaxConnected(4));
+    SmartDashboard.putBoolean("is Spark max 5 connected", ShuffleboardUtils.isSparkMaxConnected(5));
+    SmartDashboard.putBoolean("is Spark max 6 connected", ShuffleboardUtils.isSparkMaxConnected(6));
+    SmartDashboard.putBoolean("is Spark max 7 connected", ShuffleboardUtils.isSparkMaxConnected(7));
+    SmartDashboard.putBoolean("is Spark max 8 connected", ShuffleboardUtils.isSparkMaxConnected(8));
+    SmartDashboard.putBoolean("is Spark max 9 connected", ShuffleboardUtils.isSparkMaxConnected(9));
+    SmartDashboard.putBoolean("is Spark max 10 connected", ShuffleboardUtils.isSparkMaxConnected(10));
+    SmartDashboard.putBoolean("is Spark max 11 connected", ShuffleboardUtils.isSparkMaxConnected(11));
+    SmartDashboard.putBoolean("is Spark max 12 connected", ShuffleboardUtils.isSparkMaxConnected(12));
+    SmartDashboard.putBoolean("is Spark max 22 connected", ShuffleboardUtils.isSparkMaxConnected(22));
+    
   }
+
   /**
    * Use this method to define your button->command mappings. Buttons can be
    * created by
@@ -159,8 +190,8 @@ public class RobotContainer {
 
     new JoystickButton(m_driverController, Button.kLeftBumper.value)
         .whileTrue(new RunCommand(
-            () -> m_robotDrive.zeroHeading()
-        ));
+            () -> m_robotDrive.zeroHeading(),
+        m_robotDrive));
     
     new JoystickButton(m_driverController, Button.kX.value)
         .onTrue(new MoveToTagPosition(m_robotDrive, m_robotCameras, 1.5, 0, 0.2, AprilTag2024Constants.kRedSpeakerCenter));
