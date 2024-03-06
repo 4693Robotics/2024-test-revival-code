@@ -4,21 +4,16 @@
 
 package frc.robot;
 
-import edu.wpi.first.hal.can.CANStatus;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.BumpIntake;
 import frc.robot.Commands.HangerMove;
 import frc.robot.Commands.IntakeMove;
@@ -28,11 +23,11 @@ import frc.robot.Commands.MoveToTagPosition;
 import frc.robot.Commands.ShootIntakeAmp;
 import frc.robot.Commands.ShooterMove;
 import frc.robot.Commands.Auto.AutosCommands;
+import frc.robot.Commands.Auto.ShootNoteAuto;
 import frc.robot.Constants.AprilTag2024Constants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShuffleboardConstants;
 import frc.robot.subsystems.VisionSubsystem;
-import frc.utils.ShuffleboardUtils;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HangerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -72,9 +67,6 @@ public class RobotContainer {
   // The subsystem's controller
   XboxController m_subsystemController = new XboxController(OIConstants.kSubsystemsControllerPort);
 
-  // The current game time
-  double gameTime;
-
   // Creates the tabs in shuffleboard
   ShuffleboardTab PreGameTab = Shuffleboard.getTab(ShuffleboardConstants.kPreGameTabName);
   ShuffleboardTab AutoTab = Shuffleboard.getTab(ShuffleboardConstants.kAutoTabName);
@@ -100,9 +92,10 @@ public class RobotContainer {
   .withSize(6, 3)
   .withPosition(7, 3);
 
-  SimpleWidget BooleanTestSpark = PreGameTab
-   .add("Boolean Test Spark", false)
-   .withWidget(BuiltInWidgets.kBooleanBox);
+  ComplexWidget CommandRunner = TeleopTab
+  .add("Command Runner", new ShootNoteAuto(m_robotIntake, m_robotShooter))
+  .withWidget(BuiltInWidgets.kCommand);
+
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -141,24 +134,7 @@ public class RobotContainer {
 
   public void periodic() {
 
-    BooleanTestSpark.getEntry().setBoolean(ShuffleboardUtils.isSparkMaxConnected(3));
-
     Shuffleboard.update();
-
-    SmartDashboard.putBoolean("is Spark max 1 connected", true);
-    SmartDashboard.putBoolean("is Spark max 2 connected", ShuffleboardUtils.isSparkMaxConnected(2));
-    SmartDashboard.putBoolean("is Spark max 3 connected", ShuffleboardUtils.isSparkMaxConnected(3));
-    SmartDashboard.putBoolean("is Spark max 4 connected", ShuffleboardUtils.isSparkMaxConnected(4));
-    SmartDashboard.putBoolean("is Spark max 5 connected", ShuffleboardUtils.isSparkMaxConnected(5));
-    SmartDashboard.putBoolean("is Spark max 6 connected", ShuffleboardUtils.isSparkMaxConnected(6));
-    SmartDashboard.putBoolean("is Spark max 7 connected", ShuffleboardUtils.isSparkMaxConnected(7));
-    SmartDashboard.putBoolean("is Spark max 8 connected", ShuffleboardUtils.isSparkMaxConnected(8));
-    SmartDashboard.putBoolean("is Spark max 9 connected", ShuffleboardUtils.isSparkMaxConnected(9));
-    SmartDashboard.putBoolean("is Spark max 10 connected", ShuffleboardUtils.isSparkMaxConnected(10));
-    SmartDashboard.putBoolean("is Spark max 11 connected", ShuffleboardUtils.isSparkMaxConnected(11));
-    SmartDashboard.putBoolean("is Spark max 12 connected", ShuffleboardUtils.isSparkMaxConnected(12));
-    SmartDashboard.putBoolean("is Spark max 22 connected", ShuffleboardUtils.isSparkMaxConnected(22));
-    
   }
 
   /**

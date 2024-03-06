@@ -17,6 +17,8 @@ public class ShootNoteAuto extends Command {
         this.intakesystem = IntakeSubsystem;
         this.shootersystem = ShooterSubsystem;
         this.timer = new Timer();
+
+        addRequirements(IntakeSubsystem, ShooterSubsystem);
     }
 
     @Override
@@ -37,7 +39,7 @@ public class ShootNoteAuto extends Command {
     @Override
     public void end(boolean interrupted) {
         shootersystem.setShooterSpeed(0);
-       // shootersystem.setFeederSpeed(0);
+        shootersystem.setFeederSpeed(0);
         intakesystem.setIntakeRollerSpeed(0);
         timer.stop();
     }
