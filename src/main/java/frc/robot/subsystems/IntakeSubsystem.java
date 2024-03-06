@@ -62,6 +62,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void periodic() {
         TeleopArmTab.getEntry().setBoolean(isUp);
+
+        SmartDashboard.putNumber("Intake Roller Bottom Speed", m_IntakeBottomRoller.get());
+        SmartDashboard.putNumber("Intake Roller Top Speed", m_IntakeTopRoller.get());
     }
 
     //Function to make intake arm move

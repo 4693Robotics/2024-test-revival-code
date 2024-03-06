@@ -141,9 +141,6 @@ public class RobotContainer {
 
   public void periodic() {
 
-    // Sets the field position for the robot
-    
-
     BooleanTestSpark.getEntry().setBoolean(ShuffleboardUtils.isSparkMaxConnected(3));
 
     Shuffleboard.update();

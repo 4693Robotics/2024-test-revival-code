@@ -1,6 +1,7 @@
 package frc.robot.Commands.Auto;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -23,12 +24,12 @@ public class ShootNoteAuto extends Command {
         timer.reset();
         timer.start();
         shootersystem.setShooterSpeed(1);
-        shootersystem.setFeederSpeed(1);
     }
 
     @Override
     public void execute() {
-        while (timer.get() > 0.2) {
+        if (timer.get() > 0.2) {
+            shootersystem.setFeederSpeed(-1);
             intakesystem.setIntakeRollerSpeed(-1);
         }
     }
@@ -36,7 +37,7 @@ public class ShootNoteAuto extends Command {
     @Override
     public void end(boolean interrupted) {
         shootersystem.setShooterSpeed(0);
-        shootersystem.setFeederSpeed(0);
+       // shootersystem.setFeederSpeed(0);
         intakesystem.setIntakeRollerSpeed(0);
         timer.stop();
     }
