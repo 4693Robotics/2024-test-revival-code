@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.75,
+      "y": 6.5
+    },
+    "rotation": -120.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Right Backup"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Right Note 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Right Note 1 Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

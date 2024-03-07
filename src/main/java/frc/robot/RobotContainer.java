@@ -4,7 +4,12 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -25,6 +30,7 @@ import frc.robot.Commands.ShooterMove;
 import frc.robot.Commands.Auto.AutosCommands;
 import frc.robot.Commands.Auto.ShootNoteAuto;
 import frc.robot.Constants.AprilTag2024Constants;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShuffleboardConstants;
 import frc.robot.subsystems.VisionSubsystem;
@@ -61,6 +67,7 @@ public class RobotContainer {
 
   //Creates the auto chooser
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+  private final SendableChooser<Command> pathPlannerChooser = AutoBuilder.buildAutoChooser();
    
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
@@ -79,6 +86,12 @@ public class RobotContainer {
   .withSize(3, 2)
   .withPosition(0, 0);
 
+  ComplexWidget PathPlannerSelector = PreGameTab
+  .add("Path Auto", pathPlannerChooser)
+  .withWidget(BuiltInWidgets.kComboBoxChooser)
+  .withSize(3, 2)
+  .withPosition(3, 0);
+
   // Creates widget for the rev board
   ComplexWidget PdhWidget = TeleopTab
   .add("Power",m_pdh)
@@ -96,7 +109,6 @@ public class RobotContainer {
   .add("Command Runner", new ShootNoteAuto(m_robotIntake, m_robotShooter))
   .withWidget(BuiltInWidgets.kCommand);
 
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -106,6 +118,9 @@ public class RobotContainer {
     autoChooser.addOption("No auto", null);
     autoChooser.addOption("Move Forward", new AutosCommands().MoveForward(m_robotDrive));
     autoChooser.addOption("Middle 2 Note", new AutosCommands().Middle2Note(m_robotDrive, m_robotIntake, m_robotShooter));
+
+    //Configure path planner
+    configurePathPlanner();
 
     // Configure the button bindings
     configureButtonBindings();
@@ -131,6 +146,27 @@ public class RobotContainer {
   public void periodic() {
 
     Shuffleboard.update();
+  }
+
+  private void configurePathPlanner() {
+    HolonomicPathFollowerConfig pathConfig = new HolonomicPathFollowerConfig(
+        AutoConstants.kMaxSpeedMetersPerSecond,
+        AutoConstants.kDistanceToFarthestModuleMeters,
+        new ReplanningConfig(false, false));
+
+    AutoBuilder.configureHolonomic(
+        m_robotDrive::getPose,
+        m_robotDrive::resetOdometry,
+        m_robotDrive::getCurrentspeeds,
+        m_robotDrive::setCurrentspeeds,
+        pathConfig,
+        () ->   {
+                var alliance = DriverStation.getAlliance();
+            if (alliance.isPresent()) {
+              return alliance.get() == DriverStation.Alliance.Blue;
+            }
+            return false;},
+        m_robotDrive);
   }
 
   /**

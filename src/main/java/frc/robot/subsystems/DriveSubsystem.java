@@ -14,7 +14,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
@@ -50,6 +49,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   // The gyro sensor
   private final AHRS m_gyro = new AHRS(Port.kOnboard);
+
+  SwerveModuleState[] m_moduleStates;
 
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
@@ -117,6 +118,14 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
+  }
+
+  public ChassisSpeeds getCurrentspeeds() {
+    return DriveConstants.kDriveKinematics.toChassisSpeeds(m_moduleStates);
+  }
+
+  public void setCurrentspeeds(ChassisSpeeds ChassisSpeeds) {
+    this.setModuleStates(DriveConstants.kDriveKinematics.toSwerveModuleStates(ChassisSpeeds));
   }
 
   /**
@@ -237,6 +246,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param desiredStates The desired SwerveModule states.
    */
   public void setModuleStates(SwerveModuleState[] desiredStates) {
+    m_moduleStates = desiredStates;
     SwerveDriveKinematics.desaturateWheelSpeeds(
         desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(desiredStates[0]);
@@ -281,6 +291,6 @@ public class DriveSubsystem extends SubsystemBase {
   }  
 
   public void setGyroPosition(double angle) {
-    m_gyro.setAngleAdjustment(angle);
+    m_gyro.setAngleAdjustment(angle);;
   }
 }

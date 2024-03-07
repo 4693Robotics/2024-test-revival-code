@@ -2,7 +2,9 @@ package frc.robot.Commands.Auto;
 
 import java.util.List;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -13,6 +15,8 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -34,6 +38,8 @@ public class AutosCommands {
         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
         // Add kinematics to ensure max speed is actually obeyed
         .setKinematics(DriveConstants.kDriveKinematics);
+
+    boolean isRed = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red;
 
         
     ProfiledPIDController thetaController = new ProfiledPIDController(
@@ -138,23 +144,25 @@ public class AutosCommands {
     // An example trajectory to follow. All units in meters.
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
         new Pose2d(0, 0, new Rotation2d(Units.degreesToRadians(0))),
-        List.of(new Translation2d(0.8, 0)),
-        new Pose2d(0.8, 0, new Rotation2d(Units.degreesToRadians(0))),
+        List.of(new Translation2d(1, 0)),
+        new Pose2d(1, 0, new Rotation2d(Units.degreesToRadians(0))),
         config); 
 
 
     SwerveControllerCommand swerveControllerCommand = this.getCommandWithTrajectory(DriveSubsystem, exampleTrajectory);
 
-    DriveSubsystem.setGyroPosition(180);
+    DriveSubsystem.setGyroPosition(0);
 
     // Reset odometry to the starting pose of the trajectory.
     DriveSubsystem.resetOdometry(exampleTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return new ShootNoteAuto(IntakeSubsystem, ShooterSubsystem)
-    .andThen(new IntakeOut(IntakeSubsystem))
-    .andThen(new RotateToAngle(DriveSubsystem, 0, 0))
-    .andThen(swerveControllerCommand);
+    return new SequentialCommandGroup(
+    new ShootNoteAuto(IntakeSubsystem, ShooterSubsystem),
+    //new IntakeOut(IntakeSubsystem),
+    //new RotateToAngle(DriveSubsystem, 0, 0),
+    swerveControllerCommand);
+  
    // .andThen(() -> DriveSubsystem.drive(0, 0, 0, false, false));
     }
 
@@ -170,6 +178,30 @@ public class AutosCommands {
 
         return new SequentialCommandGroup(
             trajectoryCommand);
+
+    }
+
+    public void PathPlannerAutotest(DriveSubsystem DriveSubsystem) {
+        HolonomicPathFollowerConfig pathConfig = new HolonomicPathFollowerConfig(
+            AutoConstants.kMaxSpeedMetersPerSecond,
+             AutoConstants.kDistanceToFarthestModuleMeters,
+              new ReplanningConfig(false, false));
+
+        AutoBuilder.configureHolonomic(
+            DriveSubsystem::getPose,
+            DriveSubsystem::resetOdometry,
+            DriveSubsystem::getCurrentspeeds,
+            DriveSubsystem::setCurrentspeeds,
+            pathConfig,
+            () ->   {
+                var alliance = DriverStation.getAlliance();
+            if (alliance.isPresent()) {
+              return alliance.get() == DriverStation.Alliance.Blue;
+            }
+            return false;}
+          ,
+            DriveSubsystem);
+        
     }
 
     private SwerveControllerCommand getCommandWithTrajectory(DriveSubsystem DriveSubsystem, Trajectory Trajectory) {
