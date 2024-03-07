@@ -50,7 +50,11 @@ public class DriveSubsystem extends SubsystemBase {
   // The gyro sensor
   private final AHRS m_gyro = new AHRS(Port.kOnboard);
 
-  SwerveModuleState[] m_moduleStates;
+  SwerveModuleState m_moduleStates[] = {
+    new SwerveModuleState(0, new Rotation2d(0)),
+    new SwerveModuleState(0, new Rotation2d(0)),
+    new SwerveModuleState(0, new Rotation2d(0)),
+    new SwerveModuleState(0, new Rotation2d(0))};
 
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
@@ -91,6 +95,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    setModuleStates(new SwerveModuleState[4]);
   }
 
   @Override

@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.218136527501125,
-        "y": 5.55
+        "x": 1.1879425513236992,
+        "y": 5.546502145635871
       },
       "isLocked": false,
       "linkedName": "Center Speaker"
     },
     {
       "anchor": {
-        "x": 2.3124072563934606,
-        "y": 5.537433881885308
+        "x": 2.3,
+        "y": 7.0
       },
       "prevControl": {
-        "x": 2.3342210163882546,
-        "y": 5.537433881885308
+        "x": 2.2900360502475396,
+        "y": 6.999915333164001
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Center 2 Note",
+  "folder": "Center 4 Note",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

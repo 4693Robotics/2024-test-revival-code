@@ -18,6 +18,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "IntakeOut"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Right Note 1"

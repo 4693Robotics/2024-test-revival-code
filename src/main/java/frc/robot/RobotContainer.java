@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.BumpIntake;
 import frc.robot.Commands.HangerMove;
 import frc.robot.Commands.IntakeMove;
@@ -67,7 +68,7 @@ public class RobotContainer {
 
   //Creates the auto chooser
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
-  private final SendableChooser<Command> pathPlannerChooser = AutoBuilder.buildAutoChooser();
+  private SendableChooser<Command> pathPlannerChooser;
    
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
@@ -79,39 +80,6 @@ public class RobotContainer {
   ShuffleboardTab AutoTab = Shuffleboard.getTab(ShuffleboardConstants.kAutoTabName);
   ShuffleboardTab TeleopTab = Shuffleboard.getTab(ShuffleboardConstants.kTeleopTabName);
 
-  // Creates widget for the auto selector
-  ComplexWidget AutoSelector = PreGameTab
-  .add("Auto", autoChooser)
-  .withWidget(BuiltInWidgets.kComboBoxChooser)
-  .withSize(3, 2)
-  .withPosition(0, 0);
-
-  ComplexWidget PathPlannerSelector = PreGameTab
-  .add("Path Auto", pathPlannerChooser)
-  .withWidget(BuiltInWidgets.kComboBoxChooser)
-  .withSize(3, 2)
-  .withPosition(3, 0);
-
-  // Creates widget for the rev board
-  ComplexWidget PdhWidget = TeleopTab
-  .add("Power",m_pdh)
-  .withWidget(BuiltInWidgets.kPowerDistribution)
-  .withPosition(10, 0);
-
-  // Creates widget for the field
-  ComplexWidget FieldTab = TeleopTab
-  .add("Field", field)
-  .withWidget(BuiltInWidgets.kField)
-  .withSize(6, 3)
-  .withPosition(7, 3);
-
-  ComplexWidget CommandRunner = TeleopTab
-  .add("Command Runner", new ShootNoteAuto(m_robotIntake, m_robotShooter))
-  .withWidget(BuiltInWidgets.kCommand);
-
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer() { 
 
     // sets all the options for the auto chooser
@@ -121,6 +89,8 @@ public class RobotContainer {
 
     //Configure path planner
     configurePathPlanner();
+    pathPlannerChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("chooser",pathPlannerChooser);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -143,7 +113,42 @@ public class RobotContainer {
     m_robotHanger.setDefaultCommand(new HangerMove(m_robotHanger, m_driverController));
   }
 
+  // Creates widget for the auto selector
+  ComplexWidget AutoSelector = PreGameTab
+  .add("Auto", autoChooser)
+  .withWidget(BuiltInWidgets.kComboBoxChooser)
+  .withSize(3, 2)
+  .withPosition(0, 0);
+
+  /*ComplexWidget PathPlannerSelector = PreGameTab
+  .add("Path Auto", pathPlannerChooser)
+  .withWidget(BuiltInWidgets.kComboBoxChooser)
+  .withSize(3, 2)
+  .withPosition(3, 0); */
+
+  // Creates widget for the rev board
+  ComplexWidget PdhWidget = TeleopTab
+  .add("Power",m_pdh)
+  .withWidget(BuiltInWidgets.kPowerDistribution)
+  .withPosition(10, 0);
+
+  // Creates widget for the field
+  ComplexWidget FieldTab = TeleopTab
+  .add("Field", field)
+  .withWidget(BuiltInWidgets.kField)
+  .withSize(6, 3)
+  .withPosition(7, 3);
+
+  ComplexWidget CommandRunner = TeleopTab
+  .add("Command Runner", new ShootNoteAuto(m_robotIntake, m_robotShooter))
+  .withWidget(BuiltInWidgets.kCommand);
+
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
+
   public void periodic() {
+
 
     Shuffleboard.update();
   }
@@ -226,6 +231,6 @@ public class RobotContainer {
    */
 
   public Command getAutonomousCommand() {  
-    return autoChooser.getSelected();
+    return pathPlannerChooser.getSelected();
     }
 }
