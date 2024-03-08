@@ -60,6 +60,7 @@ public class HangerSubsystem extends SubsystemBase {
 
     /**
      * Sets the speed of the motors
+     * @param speed
      */
     public void setHangerSpeed(double speed) {
         m_RightHanger.set(speed);
@@ -76,6 +77,7 @@ public class HangerSubsystem extends SubsystemBase {
 
     /**
      * Sets the speed of the left hanger
+     * @param speed
      */
     public void setLeftHangerSpeed(double speed) {
         m_LeftHanger.set(speed);

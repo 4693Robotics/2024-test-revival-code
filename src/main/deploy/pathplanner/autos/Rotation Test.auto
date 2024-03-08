@@ -5,7 +5,7 @@
       "x": 1.2,
       "y": 5.55
     },
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -14,13 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "First Rotation"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Second Rotation"
+            "pathName": "Test Rotation"
           }
         }
       ]

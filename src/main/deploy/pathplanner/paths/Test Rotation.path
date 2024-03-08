@@ -8,24 +8,40 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2151473425753871,
-        "y": 5.537433881885308
+        "x": 1.2332838700765123,
+        "y": 5.5555704093864335
       },
       "isLocked": false,
       "linkedName": "Center Speaker"
     },
     {
       "anchor": {
-        "x": 2.3,
-        "y": 6.4
+        "x": 2.5,
+        "y": 5.550777208133364
       },
       "prevControl": {
-        "x": 2.299104313998102,
-        "y": 6.399915333164001
+        "x": 2.5092613821192558,
+        "y": 5.553173808759899
+      },
+      "nextControl": {
+        "x": 2.4907386178807442,
+        "y": 5.548380607506829
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.2,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 1.2060790788248243,
+        "y": 5.546502145635871
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Center Speaker"
     }
   ],
   "rotationTargets": [],
@@ -39,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Test Paths",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

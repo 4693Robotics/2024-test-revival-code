@@ -19,13 +19,13 @@ public class IntakeSubsystem extends SubsystemBase {
     private final CANSparkMax m_IntakeTopRoller = new CANSparkMax(IntakeConstants.kIntakeTopRollerCanId, MotorType.kBrushless);
     private final CANSparkMax m_IntakeBottomRoller = new CANSparkMax(IntakeConstants.kIntakeBottomRollerCanId, MotorType.kBrushless);
 
-    private boolean isUp = true;
+    private boolean isIn = true;
 
     ShuffleboardTab PreGameTab = Shuffleboard.getTab(ShuffleboardConstants.kPreGameTabName);
     ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
 
     SimpleWidget TeleopArmTab = TeleopTab
-    .add("Arm is Up", isUp)
+    .add("Arm is in", isIn)
     .withWidget(BuiltInWidgets.kBooleanBox);
 
     /**
@@ -61,10 +61,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        TeleopArmTab.getEntry().setBoolean(isUp);
-
-        SmartDashboard.putNumber("Intake Roller Bottom Speed", m_IntakeBottomRoller.get());
-        SmartDashboard.putNumber("Intake Roller Top Speed", m_IntakeTopRoller.get());
+        TeleopArmTab.getEntry().setBoolean(isIn);
     }
 
     //Function to make intake arm move
@@ -92,7 +89,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void setIsIntakeUp(boolean value) {
-        isUp = value;
+        isIn = value;
     }
 
 
