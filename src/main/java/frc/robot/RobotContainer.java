@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.ReplanningConfig;
 
@@ -14,12 +15,10 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.BumpIntake;
 import frc.robot.Commands.HangerMove;
 import frc.robot.Commands.IntakeMove;
@@ -28,7 +27,8 @@ import frc.robot.Commands.IntakeIn;
 import frc.robot.Commands.MoveToTagPosition;
 import frc.robot.Commands.ShootIntakeAmp;
 import frc.robot.Commands.ShooterMove;
-import frc.robot.Commands.Auto.AutosCommands;
+import frc.robot.Commands.Auto.IntakeInAuto;
+import frc.robot.Commands.Auto.IntakeOutAuto;
 import frc.robot.Commands.Auto.ShootNoteAuto;
 import frc.robot.Constants.AprilTag2024Constants;
 import frc.robot.Constants.AutoConstants;
@@ -56,7 +56,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_robotIntake = new IntakeSubsystem();
   private final ShooterSubsystem m_robotShooter = new ShooterSubsystem();
   private final HangerSubsystem m_robotHanger = new HangerSubsystem();
-  private final VisionSubsystem m_robotCameras = new VisionSubsystem();
+  private final VisionSubsystem m_robotVision = new VisionSubsystem();
 
   public Object drive;
 
@@ -67,7 +67,6 @@ public class RobotContainer {
   Field2d field = new Field2d();
 
   //Creates the auto chooser
-  private final SendableChooser<Command> autoChooser = new SendableChooser<>();
   private SendableChooser<Command> pathPlannerChooser;
    
   // The driver's controller
@@ -75,84 +74,31 @@ public class RobotContainer {
   // The subsystem's controller
   XboxController m_subsystemController = new XboxController(OIConstants.kSubsystemsControllerPort);
 
-  // Creates the tabs in shuffleboard
-  ShuffleboardTab PreGameTab = Shuffleboard.getTab(ShuffleboardConstants.kPreGameTabName);
-  ShuffleboardTab AutoTab = Shuffleboard.getTab(ShuffleboardConstants.kAutoTabName);
-  ShuffleboardTab TeleopTab = Shuffleboard.getTab(ShuffleboardConstants.kTeleopTabName);
-
   public RobotContainer() { 
-
-    // sets all the options for the auto chooser
-    autoChooser.addOption("No auto", null);
-    autoChooser.addOption("Move Forward", new AutosCommands().MoveForward(m_robotDrive));
-    autoChooser.addOption("Middle 2 Note", new AutosCommands().Middle2Note(m_robotDrive, m_robotIntake, m_robotShooter));
-
-    //Configure path planner
+    // Configure path planner
     configurePathPlanner();
-    pathPlannerChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("chooser",pathPlannerChooser);
+
+    // Configure shuffleboard widgets
+    configureShuffleboardWidgets();
 
     // Configure the button bindings
     configureButtonBindings();
   
-    // sets drive default command
-    m_robotDrive.setDefaultCommand(
-        new RunCommand(
-            () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-                true, true),
-            m_robotDrive));
-
-    // sets intake default command
-    m_robotIntake.setDefaultCommand(new IntakeMove(m_robotIntake, m_subsystemController));
-
-    m_robotShooter.setDefaultCommand(new ShooterMove(m_robotShooter, m_subsystemController));
-
-    m_robotHanger.setDefaultCommand(new HangerMove(m_robotHanger, m_driverController));
+    // Configure defualt commands
+    configureDefaultCommands();
   }
-
-  // Creates widget for the auto selector
-  ComplexWidget AutoSelector = PreGameTab
-  .add("Auto", autoChooser)
-  .withWidget(BuiltInWidgets.kComboBoxChooser)
-  .withSize(3, 2)
-  .withPosition(0, 0);
-
-  /*ComplexWidget PathPlannerSelector = PreGameTab
-  .add("Path Auto", pathPlannerChooser)
-  .withWidget(BuiltInWidgets.kComboBoxChooser)
-  .withSize(3, 2)
-  .withPosition(3, 0); */
-
-  // Creates widget for the rev board
-  ComplexWidget PdhWidget = TeleopTab
-  .add("Power",m_pdh)
-  .withWidget(BuiltInWidgets.kPowerDistribution)
-  .withPosition(10, 0);
-
-  // Creates widget for the field
-  ComplexWidget FieldTab = TeleopTab
-  .add("Field", field)
-  .withWidget(BuiltInWidgets.kField)
-  .withSize(6, 3)
-  .withPosition(7, 3);
-
-  ComplexWidget CommandRunner = TeleopTab
-  .add("Command Runner", new ShootNoteAuto(m_robotIntake, m_robotShooter))
-  .withWidget(BuiltInWidgets.kCommand);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
 
   public void periodic() {
-
-
     Shuffleboard.update();
   }
 
+  /**
+   * This method is used to configure path planner with your robot
+   */
   private void configurePathPlanner() {
     HolonomicPathFollowerConfig pathConfig = new HolonomicPathFollowerConfig(
         AutoConstants.kMaxSpeedMetersPerSecond,
@@ -172,6 +118,52 @@ public class RobotContainer {
             }
             return false;},
         m_robotDrive);
+
+    pathPlannerChooser = AutoBuilder.buildAutoChooser();
+
+    NamedCommands.registerCommand("ShootNoteAuto", new ShootNoteAuto(m_robotIntake, m_robotShooter));
+    NamedCommands.registerCommand("IntakeOut", new IntakeOutAuto(m_robotIntake));
+    NamedCommands.registerCommand("IntakeIn", new IntakeInAuto(m_robotIntake));
+  }
+
+  /**
+   * Use this method to difine your shuffleboard widgets.
+   * Widgets can be created by geting your {@link ShuffleboardTab}
+   * Then calling {@link ShuffleboardTab.add} then adding properties
+   */
+  private void configureShuffleboardWidgets() {
+
+    
+  // Creates the tabs in shuffleboard
+  ShuffleboardTab PreGameTab = Shuffleboard.getTab(ShuffleboardConstants.kPreGameTabName);
+  ShuffleboardTab AutoTab = Shuffleboard.getTab(ShuffleboardConstants.kAutoTabName);
+  ShuffleboardTab TeleopTab = Shuffleboard.getTab(ShuffleboardConstants.kTeleopTabName);
+
+    // Creates widget for the auto selector
+  PreGameTab
+    .add("Path Auto", pathPlannerChooser)
+    .withWidget(BuiltInWidgets.kComboBoxChooser)
+    .withSize(3, 2)
+    .withPosition(3, 0); 
+
+    // Creates widget for the rev board
+    TeleopTab
+    .add("Power",m_pdh)
+    .withWidget(BuiltInWidgets.kPowerDistribution)
+    .withPosition(10, 0);
+
+    // Creates widget for the field
+    TeleopTab
+    .add("Field", field)
+    .withWidget(BuiltInWidgets.kField)
+    .withSize(6, 3)
+    .withPosition(7, 3);
+
+  // Creates widget for shoot note auto command
+  TeleopTab
+  .add("Shoot note", new ShootNoteAuto(m_robotIntake, m_robotShooter))
+  .withWidget(BuiltInWidgets.kCommand);
+
   }
 
   /**
@@ -184,6 +176,8 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
+
+    // Create X stance button
     new JoystickButton(m_driverController, Button.kRightBumper.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
@@ -204,7 +198,7 @@ public class RobotContainer {
         m_robotDrive));
     
     new JoystickButton(m_driverController, Button.kX.value)
-        .onTrue(new MoveToTagPosition(m_robotDrive, m_robotCameras, 1.5, 0, 0.2, AprilTag2024Constants.kRedSpeakerCenter));
+        .onTrue(new MoveToTagPosition(m_robotDrive, m_robotVision, 1.5, 0, 0.2, AprilTag2024Constants.kRedSpeakerCenter));
 
     new JoystickButton(m_subsystemController, Button.kA.value)
         .onTrue(new IntakeOut(m_robotIntake));
@@ -220,6 +214,28 @@ public class RobotContainer {
 
     new JoystickButton(m_subsystemController, Button.kRightBumper.value)
         .onTrue(new BumpIntake(m_robotIntake));
+  }
+
+  private void configureDefaultCommands() {
+
+    // sets drive default command
+    m_robotDrive.setDefaultCommand(
+        new RunCommand(
+            () -> m_robotDrive.drive(
+                    -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+                    -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+                    -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
+                    true, true),
+                    m_robotDrive));
+    
+    // sets intake default command
+    m_robotIntake.setDefaultCommand(new IntakeMove(m_robotIntake, m_subsystemController));
+    
+     // sets the shooters defult command
+    m_robotShooter.setDefaultCommand(new ShooterMove(m_robotShooter, m_subsystemController));
+    
+    // sets the hangers defult command
+    m_robotHanger.setDefaultCommand(new HangerMove(m_robotHanger, m_driverController));
   }
 
   

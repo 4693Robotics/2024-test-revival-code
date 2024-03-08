@@ -95,7 +95,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    setModuleStates(new SwerveModuleState[4]);
   }
 
   @Override
@@ -126,7 +125,12 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public ChassisSpeeds getCurrentspeeds() {
-    return DriveConstants.kDriveKinematics.toChassisSpeeds(m_moduleStates);
+    return DriveConstants.kDriveKinematics.toChassisSpeeds(
+      m_frontLeft.getState(),
+      m_frontRight.getState(),
+      m_rearLeft.getState(),
+      m_rearRight.getState()
+    );
   }
 
   public void setCurrentspeeds(ChassisSpeeds ChassisSpeeds) {

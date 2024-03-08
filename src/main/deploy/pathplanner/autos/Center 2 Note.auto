@@ -46,6 +46,12 @@
           "data": {
             "pathName": "Center Note 1 Shoot"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNoteAuto"
+          }
         }
       ]
     }
