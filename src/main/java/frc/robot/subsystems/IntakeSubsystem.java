@@ -25,8 +25,8 @@ public class IntakeSubsystem extends SubsystemBase {
     ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
 
     SimpleWidget TeleopArmTab = TeleopTab
-    .add("Arm is in", isIn)
-    .withWidget(BuiltInWidgets.kBooleanBox);
+        .add("Arm is in", isIn)
+        .withWidget(BuiltInWidgets.kBooleanBox);
 
     /**
      * This subsystem contains the intake for picking up notes for the
@@ -71,7 +71,6 @@ public class IntakeSubsystem extends SubsystemBase {
     
     //Function to make intake roller move
     public void setIntakeRollerSpeed(double speed) {
-        
         m_IntakeTopRoller.set(Math.min(0.5, speed));
         m_IntakeBottomRoller.set(Math.min(0.5, speed));
     }
@@ -91,7 +90,6 @@ public class IntakeSubsystem extends SubsystemBase {
     public void setIsIntakeUp(boolean value) {
         isIn = value;
     }
-
 
     public double getArmPosition() {
         return m_IntakeArm.getEncoder().getPosition();

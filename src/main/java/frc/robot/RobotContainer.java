@@ -6,7 +6,6 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.ReplanningConfig;
 
@@ -75,7 +74,11 @@ public class RobotContainer {
   // The subsystem's controller
   XboxController m_subsystemController = new XboxController(OIConstants.kSubsystemsControllerPort);
 
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
   public RobotContainer() { 
+    
     // Configure path planner
     configurePathPlanner();
 
@@ -89,11 +92,8 @@ public class RobotContainer {
     configureDefaultCommands();
   }
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-
   public void periodic() {
+    field.setRobotPose(m_robotDrive.getPose());
     Shuffleboard.update();
   }
 
@@ -102,23 +102,23 @@ public class RobotContainer {
    */
   private void configurePathPlanner() {
     HolonomicPathFollowerConfig pathConfig = new HolonomicPathFollowerConfig(
-        AutoConstants.kMaxSpeedMetersPerSecond,
-        AutoConstants.kDistanceToFarthestModuleMeters,
-        new ReplanningConfig(false, false));
+      AutoConstants.kMaxSpeedMetersPerSecond,
+      AutoConstants.kDistanceToFarthestModuleMeters,
+      new ReplanningConfig(false, false));
 
     AutoBuilder.configureHolonomic(
-        m_robotDrive::getPose,
-        m_robotDrive::resetOdometry,
-        m_robotDrive::getCurrentspeeds,
-        m_robotDrive::setCurrentspeeds,
-        pathConfig,
-        () ->   {
-                var alliance = DriverStation.getAlliance();
-            if (alliance.isPresent()) {
-              return alliance.get() == DriverStation.Alliance.Blue;
-            }
-            return false;},
-        m_robotDrive);
+      m_robotDrive::getPose,
+      m_robotDrive::resetOdometry,
+      m_robotDrive::getCurrentspeeds,
+      m_robotDrive::setCurrentspeeds,
+      pathConfig,
+      () ->   {
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+          return alliance.get() == DriverStation.Alliance.Blue;
+        }
+        return false;},
+      m_robotDrive);
 
     pathPlannerChooser = AutoBuilder.buildAutoChooser();
 
@@ -134,13 +134,12 @@ public class RobotContainer {
    */
   private void configureShuffleboardWidgets() {
 
-    
   // Creates the tabs in shuffleboard
   ShuffleboardTab PreGameTab = Shuffleboard.getTab(ShuffleboardConstants.kPreGameTabName);
   ShuffleboardTab AutoTab = Shuffleboard.getTab(ShuffleboardConstants.kAutoTabName);
   ShuffleboardTab TeleopTab = Shuffleboard.getTab(ShuffleboardConstants.kTeleopTabName);
 
-    // Creates widget for the auto selector
+  // Creates widget for the auto selector
   PreGameTab
     .add("Path Auto", pathPlannerChooser)
     .withWidget(BuiltInWidgets.kComboBoxChooser)
@@ -148,13 +147,13 @@ public class RobotContainer {
     .withPosition(3, 0); 
 
     // Creates widget for the rev board
-    TeleopTab
+  TeleopTab
     .add("Power",m_pdh)
     .withWidget(BuiltInWidgets.kPowerDistribution)
     .withPosition(10, 0);
 
     // Creates widget for the field
-    TeleopTab
+  TeleopTab
     .add("Field", field)
     .withWidget(BuiltInWidgets.kField)
     .withSize(6, 3)
@@ -162,9 +161,8 @@ public class RobotContainer {
 
   // Creates widget for shoot note auto command
   TeleopTab
-  .add("Shoot note", new ShootNoteAuto(m_robotIntake, m_robotShooter))
-  .withWidget(BuiltInWidgets.kCommand);
-
+    .add("Shoot note", new ShootNoteAuto(m_robotIntake, m_robotShooter))
+    .withWidget(BuiltInWidgets.kCommand);
   }
 
   /**
@@ -180,54 +178,56 @@ public class RobotContainer {
 
     // Create X stance button
     new JoystickButton(m_driverController, Button.kRightBumper.value)
-        .whileTrue(new RunCommand(
-            () -> m_robotDrive.setX(),
-            m_robotDrive));
+      .whileTrue(new RunCommand(
+        () -> m_robotDrive.setX(),
+        m_robotDrive));
 
     new JoystickButton(m_driverController, 1)
-        .toggleOnTrue(new RunCommand(
-            () -> m_robotDrive.drive(
-               -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-               -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-               -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-               false,   true),
-              m_robotDrive));
+      .toggleOnTrue(new RunCommand(
+        () -> m_robotDrive.drive(
+          -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
+          false,
+          true),
+          m_robotDrive));
 
     new JoystickButton(m_driverController, Button.kLeftBumper.value)
-        .whileTrue(new RunCommand(
-            () -> m_robotDrive.zeroHeading(),
+      .whileTrue(new RunCommand(
+        () -> m_robotDrive.zeroHeading(),
         m_robotDrive));
     
     new JoystickButton(m_driverController, Button.kX.value)
-        .onTrue(new MoveToTagPosition(m_robotDrive, m_robotVision, 1.5, 0, 0.2, AprilTag2024Constants.kRedSpeakerCenter));
+      .onTrue(new MoveToTagPosition(m_robotDrive, m_robotVision, 1.5, 0, 0.2, AprilTag2024Constants.kRedSpeakerCenter));
 
     new JoystickButton(m_subsystemController, Button.kA.value)
-        .onTrue(new IntakeOut(m_robotIntake));
+      .onTrue(new IntakeOut(m_robotIntake));
 
     new JoystickButton(m_subsystemController, Button.kB.value)
-        .onTrue(new IntakeIn(m_robotIntake));
+      .onTrue(new IntakeIn(m_robotIntake));
 
     new JoystickButton(m_subsystemController, Button.kX.value)
-        .onTrue(new ShootIntakeAmp(m_robotIntake));
+      .onTrue(new ShootIntakeAmp(m_robotIntake));
 
     new JoystickButton(m_subsystemController, Button.kStart.value)
-        .whileTrue(new HangerMove(m_robotHanger, m_subsystemController));
+      .whileTrue(new HangerMove(m_robotHanger, m_subsystemController));
 
     new JoystickButton(m_subsystemController, Button.kRightBumper.value)
-        .onTrue(new BumpIntake(m_robotIntake));
+      .onTrue(new BumpIntake(m_robotIntake));
   }
 
   private void configureDefaultCommands() {
 
     // sets drive default command
     m_robotDrive.setDefaultCommand(
-        new RunCommand(
-            () -> m_robotDrive.drive(
-                    -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-                    -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                    -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-                    true, true),
-                    m_robotDrive));
+      new RunCommand(
+        () -> m_robotDrive.drive(
+          -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
+          true,
+          true),
+          m_robotDrive));
     
     // sets intake default command
     m_robotIntake.setDefaultCommand(new IntakeMove(m_robotIntake, m_subsystemController));
@@ -249,5 +249,5 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {  
     return pathPlannerChooser.getSelected();
-    }
+  }
 }

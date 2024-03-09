@@ -134,7 +134,7 @@ public class VisionSubsystem extends SubsystemBase {
         return tagPose;
     }
     
-        public double getDistanceToTarget(PhotonTrackedTarget target) {
+    public double getDistanceToTarget(PhotonTrackedTarget target) {
         Optional<Pose3d> tagPose = getTargetPose(target);
         // Ensure the existence of this tag id
         if (tagPose.isEmpty()) {

@@ -46,9 +46,6 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        SmartDashboard.putNumber("Shooter Top Speed", m_ShooterTop.get());
-        SmartDashboard.putNumber("Shooter Bottom Speed", m_ShooterBottom.get());
-        SmartDashboard.putNumber("Feeder Speed", m_FeederRight.get());
     }
 
     /**
