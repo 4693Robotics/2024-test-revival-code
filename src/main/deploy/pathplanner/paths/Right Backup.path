@@ -4,23 +4,23 @@
     {
       "anchor": {
         "x": 0.7526658912966949,
-        "y": 6.4986698394449425
+        "y": 6.75
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.7481317594214135,
-        "y": 6.4908164926687375
+        "x": 0.906826375056259,
+        "y": 7.305745313245013
       },
       "isLocked": false,
-      "linkedName": "Right Speaker"
+      "linkedName": "Amp Speaker"
     },
     {
       "anchor": {
-        "x": 2.3,
+        "x": 2.2,
         "y": 7.0
       },
       "prevControl": {
-        "x": 2.312270581297575,
+        "x": 2.212270581297575,
         "y": 7.0
       },
       "nextControl": null,

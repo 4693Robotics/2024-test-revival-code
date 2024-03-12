@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.75,
-      "y": 6.5
+      "x": 0.7526658912966949,
+      "y": 6.75
     },
     "rotation": -120.0
   },
@@ -21,12 +21,6 @@
           "type": "named",
           "data": {
             "name": "IntakeOut"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Right Note 1"
           }
         },
         {

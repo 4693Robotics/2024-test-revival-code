@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.3,
-        "y": 7.0
+        "x": 7.6,
+        "y": 7.45
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3033389926428978,
-        "y": 6.997424345725884
+        "x": 6.86467565917588,
+        "y": 7.478042324505703
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.6,
-        "y": 7.0
+        "x": 0.7526658912966949,
+        "y": 6.75
       },
       "prevControl": {
-        "x": 2.5991043139981023,
-        "y": 6.999915333164001
+        "x": 1.5053317825933898,
+        "y": 6.979287818224759
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Amp Speaker"
     }
   ],
   "rotationTargets": [],
@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": -120.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Right 2 Note",
+  "folder": "Amp 3 Note",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

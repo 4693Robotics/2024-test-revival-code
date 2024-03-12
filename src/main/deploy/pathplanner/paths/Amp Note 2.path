@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6,
-        "y": 5.55
+        "x": 0.7526658912966949,
+        "y": 6.75
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5935234326609007,
-        "y": 5.5511608268830575
+        "x": 1.7048335851057668,
+        "y": 6.897673444469697
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Amp Speaker"
     },
     {
       "anchor": {
-        "x": 1.2,
-        "y": 5.55
+        "x": 7.6,
+        "y": 7.45
       },
       "prevControl": {
-        "x": 1.2202322288833225,
-        "y": 5.55
+        "x": 7.590931736249437,
+        "y": 7.45
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Center Speaker"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -43,9 +43,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Center 2 Note",
+  "folder": "Amp 3 Note",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": -120.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

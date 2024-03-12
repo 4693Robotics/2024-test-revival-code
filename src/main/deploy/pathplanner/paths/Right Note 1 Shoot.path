@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6,
+        "x": 2.2,
         "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5918162324396987,
+        "x": 2.191816232439699,
         "y": 7.0
       },
       "isLocked": false,
@@ -17,15 +17,15 @@
     {
       "anchor": {
         "x": 0.7526658912966949,
-        "y": 6.4986698394449425
+        "y": 6.75
       },
       "prevControl": {
         "x": 0.7567523994494789,
-        "y": 6.505747879191109
+        "y": 6.757078039746166
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Right Speaker"
+      "linkedName": "Amp Speaker"
     }
   ],
   "rotationTargets": [],
