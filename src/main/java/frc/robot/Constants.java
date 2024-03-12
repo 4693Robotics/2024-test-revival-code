@@ -158,6 +158,11 @@ public final class Constants {
         public static final int kShooterBottomCurrentLimit = 50; // amps
         public static final int kFeederRightCurrentLimit = 50; // amps
         public static final int kFeederLeftCurrentLimit = 50; // amps
+
+        public static final int kMaxWheelRPM = 4200;
+        public static final int kWheelDiameter = 4; // inches
+        public static final double kShooterEfficiency = 1;
+        public static final double InitialNoteVelocity = (kMaxWheelRPM * kWheelDiameter * Math.PI / 60 / 12) * kShooterEfficiency;
     }
 
     public static final class HangerConstants {
@@ -178,6 +183,7 @@ public final class Constants {
     }
 
     public static final class VisionConstants {
+        public static final double kCameraDistanceFromGround = 0.36576; // meters
         public static final Transform3d kcameraPose = new Transform3d(new Translation3d(0, 0, 0.45), new Rotation3d(0, 0, 0));
     }
 

@@ -16,6 +16,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
@@ -52,6 +53,10 @@ public class VisionSubsystem extends SubsystemBase {
 
     SimpleWidget AprilTagDetectedWidget = TeleopTab
         .add("Tag Detected", isTagDetected);
+
+    /*SimpleWidget SpeakerDistanceFromWallWidget = TeleopTab
+    .add("Distance From Speaker Wall", getDistanceFromSpeakerWall())
+    .withWidget(BuiltInWidgets.kTextView);*/
 
     /**
      * This subsystem contains the vision system for apriltag vision for the
@@ -114,11 +119,16 @@ public class VisionSubsystem extends SubsystemBase {
         }
 
         //Shuffleboard stuff
+        //SpeakerDistanceFromWallWidget.getEntry().setDouble(getDistanceFromSpeakerWall());
     }
 
     public Optional<PhotonTrackedTarget> getTarget(int id) {
-        for (PhotonTrackedTarget target : tags) {
-            if (target.getFiducialId() == id) return Optional.of(target);
+        if (tags != null) {
+            for (PhotonTrackedTarget target : tags) {
+                if (target.getFiducialId() == id) return Optional.of(target);
+            }
+        } else {
+        return Optional.empty();
         }
         return Optional.empty();
     }
@@ -137,15 +147,21 @@ public class VisionSubsystem extends SubsystemBase {
     public double getDistanceToTarget(PhotonTrackedTarget target) {
         Optional<Pose3d> tagPose = getTargetPose(target);
         // Ensure the existence of this tag id
-        if (tagPose.isEmpty()) {
+        if (tagPose != null) {
+            Transform3d cameraToTarget = target.getBestCameraToTarget();
+            return Math.hypot(cameraToTarget.getX(), cameraToTarget.getY());
+          
+        } else {
             return -1;
         }
-
-        Transform3d cameraToTarget = target.getBestCameraToTarget();
-        return Math.hypot(cameraToTarget.getX(), cameraToTarget.getY());
     }
 
-    public double getDistanceFromSpeaker() {
+    /**
+     * returns the direct distance from the april tag
+     * like the hypotonuse
+     * @return distance in meters from speaker tag id
+     */
+    public double getDistanceFromSpeakerTag() {
         
         Optional<PhotonTrackedTarget> target = getTarget(SpeakercenterID);
 
@@ -155,6 +171,19 @@ public class VisionSubsystem extends SubsystemBase {
             return -1;
         }
 
+    }
+
+    public double getDistanceFromSpeakerWall() {
+        
+        Optional<PhotonTrackedTarget> target = getTarget(SpeakercenterID);
+
+        if (target != null) {
+            double hypotonuse = getDistanceToTarget(target.get());
+            double leg =  1.4511020 - VisionConstants.kCameraDistanceFromGround; 
+            return Math.sqrt(Math.pow(hypotonuse, 2) - Math.pow(leg, 2));
+        } else {
+            return -1;
+        }
     }
 
     /**
