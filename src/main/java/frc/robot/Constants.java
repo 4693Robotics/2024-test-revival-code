@@ -143,21 +143,22 @@ public final class Constants {
         public static final int kShooterBottomCanId = 12;
         public static final int kFeederRightCanId = 16;
         public static final int kFeederLeftCanId = 15;
+        public static final int kShooterAngleCanId = 19;
 
         public static final IdleMode kShooterTopIdleMode = IdleMode.kCoast;
         public static final IdleMode kShooterBottomIdleMode = IdleMode.kCoast;
         public static final IdleMode kFeederRightIdleMode = IdleMode.kBrake;
-        public static final IdleMode kFeederLeftIdleMode = IdleMode.kBrake;
+        public static final IdleMode kShooterAngleIdleMode = IdleMode.kBrake;
 
         public static final boolean kShooterTopInverted = false;
         public static final boolean kShooterBottomInverted = false;
         public static final boolean kFeederRightInverted = true;
-        public static final boolean kFeederLeftInverted = true;
+        public static final boolean kShooterAngleInverted = false;
 
         public static final int kShooterTopCurrentLimit = 50; // amps
         public static final int kShooterBottomCurrentLimit = 50; // amps
         public static final int kFeederRightCurrentLimit = 50; // amps
-        public static final int kFeederLeftCurrentLimit = 50; // amps
+        public static final int kShooterAngleCurrentLimit = 50; // amps
 
         public static final int kMaxWheelRPM = 4200;
         public static final int kWheelDiameter = 4; // inches
