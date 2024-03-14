@@ -12,6 +12,18 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "ShootNoteAuto"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeOut"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Right Backup"
@@ -20,7 +32,7 @@
         {
           "type": "named",
           "data": {
-            "name": "IntakeOut"
+            "name": "IntakeIn"
           }
         },
         {

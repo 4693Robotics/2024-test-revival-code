@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.396512617586639,
-        "y": 5.546502145635871
+        "x": 1.395060686155985,
+        "y": 5.55
       },
       "isLocked": false,
       "linkedName": "Center Speaker"
@@ -20,8 +20,8 @@
         "y": 5.55
       },
       "prevControl": {
-        "x": 2.2,
-        "y": 5.557013571451913
+        "x": 2.2065013286557598,
+        "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,21 +32,21 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
-    "maxAcceleration": 1.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Test Paths",
+  "folder": "Center 2 Note",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

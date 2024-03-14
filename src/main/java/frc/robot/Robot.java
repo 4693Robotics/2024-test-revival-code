@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.schedule();
     }
 
-   // Shuffleboard.selectTab(ShuffleboardConstants.kAutoTabName);
+    Shuffleboard.selectTab(ShuffleboardConstants.kAutoTabName);
   }
 
   /** This function is called periodically during autonomous. */

@@ -40,6 +40,7 @@ import frc.robot.subsystems.HangerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -101,6 +102,11 @@ public class RobotContainer {
    * This method is used to configure path planner with your robot
    */
   private void configurePathPlanner() {
+
+    NamedCommands.registerCommand("ShootNoteAuto", new ShootNoteAuto(m_robotIntake, m_robotShooter));
+    NamedCommands.registerCommand("IntakeOut", new IntakeOutAuto(m_robotIntake));
+    NamedCommands.registerCommand("IntakeIn", new IntakeInAuto(m_robotIntake));
+
     HolonomicPathFollowerConfig pathConfig = new HolonomicPathFollowerConfig(
       AutoConstants.kMaxSpeedMetersPerSecond,
       AutoConstants.kDistanceToFarthestModuleMeters,
@@ -121,10 +127,6 @@ public class RobotContainer {
       m_robotDrive);
 
     pathPlannerChooser = AutoBuilder.buildAutoChooser();
-
-    NamedCommands.registerCommand("ShootNoteAuto", new ShootNoteAuto(m_robotIntake, m_robotShooter));
-    NamedCommands.registerCommand("IntakeOut", new IntakeOutAuto(m_robotIntake));
-    NamedCommands.registerCommand("IntakeIn", new IntakeInAuto(m_robotIntake));
   }
 
   /**
@@ -144,7 +146,7 @@ public class RobotContainer {
     .add("Path Auto", pathPlannerChooser)
     .withWidget(BuiltInWidgets.kComboBoxChooser)
     .withSize(3, 2)
-    .withPosition(3, 0); 
+    .withPosition(0, 0); 
 
     // Creates widget for the rev board
   TeleopTab
@@ -191,6 +193,14 @@ public class RobotContainer {
           false,
           true),
           m_robotDrive));
+
+    new JoystickButton(m_driverController, 1)
+      .toggleOnTrue(new InstantCommand(
+        () -> m_robotDrive.isFieldRelitive(false)));
+    
+    new JoystickButton(m_driverController, 1)
+      .toggleOnFalse(new InstantCommand(
+        () -> m_robotDrive.isFieldRelitive(true)));
 
     new JoystickButton(m_driverController, Button.kLeftBumper.value)
       .whileTrue(new RunCommand(

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.2,
-        "y": 7.0
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 2.1859497613732075,
-        "y": 7.006492609476448
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
         "x": 1.4,
         "y": 5.55
       },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.4871952550922645,
+        "y": 6.716308169458444
+      },
+      "isLocked": false,
+      "linkedName": "Center Speaker"
+    },
+    {
+      "anchor": {
+        "x": 2.15,
+        "y": 7.0
+      },
       "prevControl": {
-        "x": 1.387942551323699,
-        "y": 5.546502145635871
+        "x": 1.8361988601170185,
+        "y": 6.979287818224759
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Center Speaker"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Center 4 Note",
+  "folder": "Center 3 Note Amp",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

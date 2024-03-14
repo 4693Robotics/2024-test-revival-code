@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ShuffleboardConstants;
 import frc.utils.SwerveUtils;
@@ -60,12 +61,16 @@ public class DriveSubsystem extends SubsystemBase {
   private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(DriveConstants.kRotationalSlewRate);
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
+  private boolean isFieldRelitive = true;
+
   ShuffleboardTab PreGameTab = Shuffleboard.getTab(ShuffleboardConstants.kPreGameTabName);
   ShuffleboardTab AutoTab = Shuffleboard.getTab("Auto");
   ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
 
   SimpleWidget PreGameGyroConnectionWidget = PreGameTab
-    .add("Gyro is connected", m_gyro.isConnected());
+    .add("Gyro is connected", m_gyro.isConnected())
+    .withWidget(BuiltInWidgets.kBooleanBox)
+    .withPosition(0, 2);
 
   ComplexWidget AutoWidgetGyro = AutoTab
     .add("Gyro", m_gyro)
@@ -76,6 +81,11 @@ public class DriveSubsystem extends SubsystemBase {
     .add("Gyro", m_gyro)
     .withWidget(BuiltInWidgets.kGyro)
     .withPosition(8, 0);
+
+  SimpleWidget TeleopFieldRelitiveWidget = TeleopTab
+  .add("Field Relitive", isFieldRelitive)
+  .withWidget(BuiltInWidgets.kBooleanBox)
+  .withPosition(8, 2);
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
@@ -106,8 +116,11 @@ public class DriveSubsystem extends SubsystemBase {
 
       //Updating for Shuffleboard widgets
     PreGameGyroConnectionWidget.getEntry().setBoolean(m_gyro.isConnected());
+    TeleopFieldRelitiveWidget.getEntry().setBoolean(isFieldRelitive);
 
     Shuffleboard.update();
+
+    SmartDashboard.putNumber("FR speed", m_frontRight.getDriveSpeed());
   }
 
   /**
@@ -291,7 +304,15 @@ public class DriveSubsystem extends SubsystemBase {
     return m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
+  /**
+   * gyro need to be inverted because it will make everything flipped
+   * @return inverted gyro value
+   */
   public double invertGyro_Angle(){
     return -m_gyro.getAngle();
   }  
+
+  public void isFieldRelitive(boolean condition) {
+    isFieldRelitive = condition;
+  }
 }

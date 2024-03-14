@@ -46,6 +46,6 @@ public class IntakeInAuto extends Command {
 
     @Override
     public boolean isFinished() {
-      return timer.get() > 0.9;
+      return timer.get() > 1;
     }
 }
