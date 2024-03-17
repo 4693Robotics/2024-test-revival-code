@@ -3,7 +3,7 @@
   "startingPose": {
     "position": {
       "x": 0.7526658912966949,
-      "y": 6.75
+      "y": 6.65
     },
     "rotation": -120.0
   },
@@ -39,6 +39,12 @@
           "type": "path",
           "data": {
             "pathName": "Right Note 1 Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNoteAuto"
           }
         }
       ]

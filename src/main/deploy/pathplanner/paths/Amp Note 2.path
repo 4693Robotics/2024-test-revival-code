@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 0.7526658912966949,
-        "y": 6.75
+        "y": 6.65
       },
       "prevControl": null,
       "nextControl": {
         "x": 1.7048335851057668,
-        "y": 6.897673444469697
+        "y": 6.797673444469697
       },
       "isLocked": false,
       "linkedName": "Amp Speaker"
