@@ -32,12 +32,14 @@ import frc.robot.Commands.Auto.IntakeOutAuto;
 import frc.robot.Commands.Auto.ShootNoteAuto;
 import frc.robot.Constants.AprilTag2024Constants;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.LightConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShuffleboardConstants;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HangerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -58,6 +60,7 @@ public class RobotContainer {
   private final ShooterSubsystem m_robotShooter = new ShooterSubsystem();
   private final HangerSubsystem m_robotHanger = new HangerSubsystem();
   private final VisionSubsystem m_robotVision = new VisionSubsystem();
+  private final LightSubsystem m_robotLight = new LightSubsystem();
 
   public Object drive;
 
@@ -69,7 +72,7 @@ public class RobotContainer {
 
   //Creates the auto chooser
   private SendableChooser<Command> pathPlannerChooser;
-   
+
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   // The subsystem's controller
@@ -105,7 +108,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("ShootNoteAuto", new ShootNoteAuto(m_robotIntake, m_robotShooter));
     NamedCommands.registerCommand("IntakeOut", new IntakeOutAuto(m_robotIntake));
-    NamedCommands.registerCommand("IntakeIn", new IntakeInAuto(m_robotIntake));
+    NamedCommands.registerCommand("IntakeIn", new IntakeInAuto(m_robotIntake, m_robotLight));
 
     HolonomicPathFollowerConfig pathConfig = new HolonomicPathFollowerConfig(
       AutoConstants.kMaxSpeedMetersPerSecond,
@@ -165,6 +168,12 @@ public class RobotContainer {
   TeleopTab
     .add("Shoot note", new ShootNoteAuto(m_robotIntake, m_robotShooter))
     .withWidget(BuiltInWidgets.kCommand);
+
+  TeleopTab
+    .add("Red command", new InstantCommand(() -> m_robotLight.setLightColor(LightConstants.kPWMColorRed)));
+
+  TeleopTab
+    .add("Green command", new InstantCommand(() -> m_robotLight.setBlinkingLightColor(LightConstants.kPWMColorGreen)));
   }
 
   /**

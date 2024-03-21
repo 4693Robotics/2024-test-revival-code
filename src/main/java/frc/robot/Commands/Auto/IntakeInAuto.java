@@ -4,10 +4,12 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LightSubsystem;
 
 public class IntakeInAuto extends Command {
 
     IntakeSubsystem intakesystem;
+    LightSubsystem lightsystem;
     PIDController armPIDController;
     Timer timer;
 
@@ -15,8 +17,9 @@ public class IntakeInAuto extends Command {
     double armPosition;
 
 
-    public IntakeInAuto(IntakeSubsystem IntakeSubsystem) {
+    public IntakeInAuto(IntakeSubsystem IntakeSubsystem, LightSubsystem lightSubsystem) {
         this.intakesystem = IntakeSubsystem;
+        this.lightsystem = lightSubsystem;
         this.timer = new Timer();
 
         addRequirements(IntakeSubsystem);

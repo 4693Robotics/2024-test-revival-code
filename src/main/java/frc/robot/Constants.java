@@ -188,6 +188,15 @@ public final class Constants {
         public static final Transform3d kcameraPose = new Transform3d(new Translation3d(0, 0, 0.45), new Rotation3d(0, 0, 0));
     }
 
+    public static final class LightConstants {
+        public static final double kPWMColorRed = 0.61;
+        public static final double kPWMColorOrange = 0.65;
+        public static final double kPWMColorYellow = 0.69;
+        public static final double kPWMColorGreen = 0.77;
+        public static final double kPWMColorBlue = 0.87;
+        public static final double kPWMColorViolet = 0.91;
+    }
+
     public static final class ShuffleboardConstants {
       public static final String kPreGameTabName = "Pre Game";
       public static final String kAutoTabName = "Auto";
