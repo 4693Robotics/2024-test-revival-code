@@ -142,8 +142,7 @@ public final class Constants {
         public static final int kShooterTopCanId = 13;
         public static final int kShooterBottomCanId = 12;
         public static final int kFeederRightCanId = 16;
-        public static final int kFeederLeftCanId = 15;
-        public static final int kShooterAngleCanId = 19;
+        public static final int kShooterAngleCanId = 15;
 
         public static final IdleMode kShooterTopIdleMode = IdleMode.kCoast;
         public static final IdleMode kShooterBottomIdleMode = IdleMode.kCoast;

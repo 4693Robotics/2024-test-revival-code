@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -19,7 +20,7 @@ public class IntakeSubsystem extends SubsystemBase {
     private final CANSparkMax m_IntakeTopRoller = new CANSparkMax(IntakeConstants.kIntakeTopRollerCanId, MotorType.kBrushless);
     private final CANSparkMax m_IntakeBottomRoller = new CANSparkMax(IntakeConstants.kIntakeBottomRollerCanId, MotorType.kBrushless);
 
-    private final AbsoluteEncoder m_IntakeArmEncoder = m_IntakeArm.getAbsoluteEncoder();
+    private final AbsoluteEncoder m_IntakeArmEncoder = m_IntakeArm.getAbsoluteEncoder(Type.kDutyCycle);
 
     private boolean isIn = true;
 
@@ -30,12 +31,14 @@ public class IntakeSubsystem extends SubsystemBase {
         .add("Arm is in", isIn)
         .withWidget(BuiltInWidgets.kBooleanBox);
 
+    SimpleWidget TeleopIntakePositionTab = TeleopTab
+        .add("Arm Position", m_IntakeArmEncoder.getPosition());
+
     /**
      * This subsystem contains the intake for picking up notes for the
      * 2024 CRESENDO FRC competition
      */
     public IntakeSubsystem() {
-        System.out.println();
 
         //Factory resets all of the sparks to know the state of them
         m_IntakeArm.restoreFactoryDefaults();
@@ -57,6 +60,8 @@ public class IntakeSubsystem extends SubsystemBase {
         m_IntakeTopRoller.setInverted(IntakeConstants.kIntakeTopRollerInverted);
         m_IntakeBottomRoller.setInverted(IntakeConstants.kIntakeBottomRollerInverted);
 
+        m_IntakeArmEncoder.setPositionConversionFactor(Math.PI * 2);
+
         //Writes all settings to the sparks
         m_IntakeArm.burnFlash();
         m_IntakeTopRoller.burnFlash();
@@ -65,6 +70,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void periodic() {
         TeleopArmTab.getEntry().setBoolean(isIn);
+        TeleopIntakePositionTab.getEntry().setDouble(m_IntakeArmEncoder.getPosition());
     }
 
     //Function to make intake arm move
