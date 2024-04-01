@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkAbsoluteEncoder;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -12,6 +14,8 @@ public class ShooterSubsystem extends SubsystemBase {
     private CANSparkMax m_ShooterBottom = new CANSparkMax(ShooterConstants.kShooterBottomCanId, MotorType.kBrushless);
     private CANSparkMax m_FeederRight = new CANSparkMax(ShooterConstants.kFeederRightCanId, MotorType.kBrushless);
     private CANSparkMax m_ShooterAngle = new CANSparkMax(ShooterConstants.kShooterAngleCanId, MotorType.kBrushless);
+
+    private SparkAbsoluteEncoder m_ShooterAngleEncoder = m_ShooterAngle.getAbsoluteEncoder(Type.kDutyCycle);
 
     /**
      * This subsystem contains the shooter for shooting notes for the
@@ -42,6 +46,8 @@ public class ShooterSubsystem extends SubsystemBase {
         m_ShooterBottom.setInverted(ShooterConstants.kShooterBottomInverted);
         m_FeederRight.setInverted(ShooterConstants.kFeederRightInverted);
         m_ShooterAngle.setInverted(ShooterConstants.kShooterAngleInverted);
+
+        m_ShooterAngleEncoder.setPositionConversionFactor(Math.PI * 2);
 
         //Writes all settings to the sparks
         m_ShooterTop.burnFlash();

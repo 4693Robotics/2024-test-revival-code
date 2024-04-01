@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -20,7 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
     private final CANSparkMax m_IntakeTopRoller = new CANSparkMax(IntakeConstants.kIntakeTopRollerCanId, MotorType.kBrushless);
     private final CANSparkMax m_IntakeBottomRoller = new CANSparkMax(IntakeConstants.kIntakeBottomRollerCanId, MotorType.kBrushless);
 
-    private final AbsoluteEncoder m_IntakeArmEncoder = m_IntakeArm.getAbsoluteEncoder(Type.kDutyCycle);
+    private final SparkAbsoluteEncoder m_IntakeArmEncoder = m_IntakeArm.getAbsoluteEncoder(Type.kDutyCycle);
 
     private boolean isIn = true;
 

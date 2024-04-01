@@ -120,7 +120,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     Shuffleboard.update();
 
-    SmartDashboard.putNumber("FR speed", m_frontRight.getDriveSpeed());
+    SmartDashboard.putNumber("fl encoder position", m_frontLeft.getEncoderPosition());
   }
 
   /**
