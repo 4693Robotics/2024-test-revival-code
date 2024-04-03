@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import java.util.Map;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
@@ -69,7 +67,7 @@ public class IntakeSubsystem extends SubsystemBase {
         m_IntakeTopRoller.setInverted(IntakeConstants.kIntakeTopRollerInverted);
         m_IntakeBottomRoller.setInverted(IntakeConstants.kIntakeBottomRollerInverted);
 
-        m_ArmPIDController.setP(0.2);
+        m_ArmPIDController.setP(0.3);
         m_ArmPIDController.setI(0);
         m_ArmPIDController.setD(0);
 

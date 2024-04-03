@@ -22,8 +22,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Commands.BumpIntake;
 import frc.robot.Commands.HangerMove;
 import frc.robot.Commands.IntakeMove;
-import frc.robot.Commands.IntakeOut;
-import frc.robot.Commands.IntakeIn;
 import frc.robot.Commands.MoveToTagPosition;
 import frc.robot.Commands.ShootIntakeAmp;
 import frc.robot.Commands.ShooterMove;
