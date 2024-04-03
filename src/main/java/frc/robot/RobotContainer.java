@@ -220,10 +220,10 @@ public class RobotContainer {
       .onTrue(new MoveToTagPosition(m_robotDrive, m_robotVision, 1.5, 0, 0.2, AprilTag2024Constants.kRedSpeakerCenter));
 
     new JoystickButton(m_subsystemController, Button.kA.value)
-      .onTrue(new IntakeOut(m_robotIntake));
+      .onTrue(new InstantCommand(() -> m_robotIntake.setArmPosition(1)));
 
     new JoystickButton(m_subsystemController, Button.kB.value)
-      .onTrue(new IntakeIn(m_robotIntake));
+      .onTrue(new InstantCommand(() -> m_robotIntake.setArmPosition(0)));
 
     new JoystickButton(m_subsystemController, Button.kX.value)
       .onTrue(new ShootIntakeAmp(m_robotIntake));

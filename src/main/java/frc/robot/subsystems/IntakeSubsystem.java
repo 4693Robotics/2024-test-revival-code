@@ -1,6 +1,9 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import java.util.Map;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
@@ -39,9 +42,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     SimpleWidget TeleopIntakePositionTab = TeleopTab
         .add("Arm Position", m_IntakeArmEncoder.getPosition());
-
-    SimpleWidget TeleopArmPositionTab = TeleopTab
-        .add("Arm set Position", armDisiredPosition);
 
     /**
      * This subsystem contains the intake for picking up notes for the
