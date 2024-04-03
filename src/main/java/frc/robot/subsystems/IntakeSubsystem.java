@@ -1,10 +1,11 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkAbsoluteEncoder;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.SparkMaxAlternateEncoder.Type;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -21,7 +22,11 @@ public class IntakeSubsystem extends SubsystemBase {
     private final CANSparkMax m_IntakeTopRoller = new CANSparkMax(IntakeConstants.kIntakeTopRollerCanId, MotorType.kBrushless);
     private final CANSparkMax m_IntakeBottomRoller = new CANSparkMax(IntakeConstants.kIntakeBottomRollerCanId, MotorType.kBrushless);
 
-    private final SparkAbsoluteEncoder m_IntakeArmEncoder = m_IntakeArm.getAbsoluteEncoder(Type.kDutyCycle);
+    private final SparkPIDController m_ArmPIDController = m_IntakeArm.getPIDController();
+
+    private final RelativeEncoder m_IntakeArmEncoder = m_IntakeArm.getAlternateEncoder(Type.kQuadrature, 1);
+
+    private double armDisiredPosition = 0; 
 
     private boolean isIn = true;
 
@@ -34,6 +39,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
     SimpleWidget TeleopIntakePositionTab = TeleopTab
         .add("Arm Position", m_IntakeArmEncoder.getPosition());
+
+    SimpleWidget TeleopArmPositionTab = TeleopTab
+        .add("Arm set Position", armDisiredPosition);
 
     /**
      * This subsystem contains the intake for picking up notes for the
@@ -61,7 +69,11 @@ public class IntakeSubsystem extends SubsystemBase {
         m_IntakeTopRoller.setInverted(IntakeConstants.kIntakeTopRollerInverted);
         m_IntakeBottomRoller.setInverted(IntakeConstants.kIntakeBottomRollerInverted);
 
-        m_IntakeArmEncoder.setPositionConversionFactor(Math.PI * 2);
+        m_ArmPIDController.setP(0.2);
+        m_ArmPIDController.setI(0);
+        m_ArmPIDController.setD(0);
+
+        m_ArmPIDController.setFeedbackDevice(m_IntakeArmEncoder);
 
         //Writes all settings to the sparks
         m_IntakeArm.burnFlash();
@@ -72,11 +84,16 @@ public class IntakeSubsystem extends SubsystemBase {
     public void periodic() {
         TeleopArmTab.getEntry().setBoolean(isIn);
         TeleopIntakePositionTab.getEntry().setDouble(m_IntakeArmEncoder.getPosition());
+        m_ArmPIDController.setReference(armDisiredPosition, ControlType.kPosition);
     }
 
     //Function to make intake arm move
     public void setIntakeArmSpeed(double speed) {
         m_IntakeArm.set(speed);
+    }
+
+    public void setArmPosition(double setPosition) {
+        armDisiredPosition = setPosition;
     }
     
     //Function to make intake roller move

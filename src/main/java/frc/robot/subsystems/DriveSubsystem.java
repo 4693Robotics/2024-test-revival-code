@@ -119,8 +119,6 @@ public class DriveSubsystem extends SubsystemBase {
     TeleopFieldRelitiveWidget.getEntry().setBoolean(isFieldRelitive);
 
     Shuffleboard.update();
-
-    SmartDashboard.putNumber("fl encoder position", m_frontLeft.getEncoderPosition());
   }
 
   /**
