@@ -150,7 +150,7 @@ public final class Constants {
         public static final IdleMode kShooterAngleIdleMode = IdleMode.kBrake;
 
         public static final boolean kShooterTopInverted = false;
-        public static final boolean kShooterBottomInverted = false;
+        public static final boolean kShooterBottomInverted = true;
         public static final boolean kFeederRightInverted = true;
         public static final boolean kShooterAngleInverted = false;
 

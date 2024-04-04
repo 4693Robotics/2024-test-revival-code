@@ -35,9 +35,6 @@ public class ShooterMove extends Command {
         double YRightspeed = MathUtil.applyDeadband(controller.getRightY(), OIConstants.KSubsystemsDeadband);
         shootersystem.setFeederSpeed(YRightspeed);
 
-        double YLeftspeed = MathUtil.applyDeadband(controller.getLeftY(), OIConstants.KSubsystemsDeadband);
-        shootersystem.setShooterAngleSpeed(YLeftspeed / 5);
-
         if (upDpad.getAsBoolean()) {
          
             shootersystem.setShooterSpeed(1);
@@ -57,7 +54,6 @@ public class ShooterMove extends Command {
     public void end(boolean interrupted) {
         shootersystem.setFeederSpeed(0);
         shootersystem.setShooterSpeed(0);
-        shootersystem.setShooterAngleSpeed(0);
     }
 
     @Override
