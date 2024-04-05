@@ -2,19 +2,25 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4,
-      "y": 5.55
+      "x": 0.8,
+      "y": 4.4
     },
-    "rotation": 180.0
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "ShootNoteAuto"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Test Rotation"
+            "pathName": "Shoot Back Up"
           }
         }
       ]

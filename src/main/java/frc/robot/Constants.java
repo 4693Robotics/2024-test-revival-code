@@ -152,7 +152,7 @@ public final class Constants {
         public static final boolean kShooterTopInverted = false;
         public static final boolean kShooterBottomInverted = true;
         public static final boolean kFeederRightInverted = true;
-        public static final boolean kShooterAngleInverted = false;
+        public static final boolean kShooterAngleInverted = true;
 
         public static final int kShooterTopCurrentLimit = 50; // amps
         public static final int kShooterBottomCurrentLimit = 50; // amps

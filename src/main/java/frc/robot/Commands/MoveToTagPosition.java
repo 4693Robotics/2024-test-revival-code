@@ -18,13 +18,13 @@ public class MoveToTagPosition extends Command {
     private double maxSpeed;
     private double xdistance;
     private double ydistance;
-    private double rotdistance;
+    private double rotSetpoint;
     private int TagId;
 
     private boolean inPosition;
     private boolean isTagDetected;
 
-    public MoveToTagPosition(DriveSubsystem DriveSubsystem, VisionSubsystem VisionSubsystem, double xdistance, double ydistance, double maxSpeed, int TagId) {
+    public MoveToTagPosition(DriveSubsystem DriveSubsystem, VisionSubsystem VisionSubsystem, double xdistance, double ydistance, double rotSetpoint, double maxSpeed, int TagId) {
 
         this.drivesystem = DriveSubsystem;
         this.camerasystem = VisionSubsystem;
@@ -36,7 +36,7 @@ public class MoveToTagPosition extends Command {
         this.maxSpeed = maxSpeed;
         this.xdistance = xdistance;
         this.ydistance = ydistance;
-        this.rotdistance = 3.15;
+        this.rotSetpoint = rotSetpoint;
         this.TagId = TagId;
 
         addRequirements(DriveSubsystem, VisionSubsystem);
@@ -47,7 +47,7 @@ public class MoveToTagPosition extends Command {
 
         xPIDController.setSetpoint(xdistance);
         yPIDController.setSetpoint(ydistance);
-        rotPIDController.setSetpoint(rotdistance);
+        rotPIDController.setSetpoint(rotSetpoint);
 
         rotPIDController.setTolerance(0.1);
     }
@@ -61,7 +61,7 @@ public class MoveToTagPosition extends Command {
             double yOutput = yPIDController.calculate(camerasystem.getTagYDistance(TagId));
             double yOutputLimit = Math.copySign(Math.min(Math.abs(yOutput), maxSpeed), yOutput);
 
-            double rotOutput = rotPIDController.calculate(camerasystem.getTagYaw(TagId));
+            double rotOutput = rotPIDController.calculate(drivesystem.getHeading());
             double rotOutputLimit = Math.copySign(Math.min(Math.abs(rotOutput), maxSpeed), rotOutput);
 
             drivesystem.drive(-xOutputLimit, -yOutputLimit, rotOutputLimit, false, true);
@@ -81,6 +81,6 @@ public class MoveToTagPosition extends Command {
 
     @Override
     public boolean isFinished() {
-        return inPosition || isTagDetected;
+        return inPosition;
     }
 }

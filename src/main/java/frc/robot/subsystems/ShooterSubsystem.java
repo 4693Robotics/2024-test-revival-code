@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.ShuffleboardConstants;
@@ -28,7 +29,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private RelativeEncoder m_ShooterAngleEncoder = m_ShooterAngle.getAlternateEncoder(Type.kQuadrature, 1);
 
-    private double shooterDisiredPosition = 0;
+    private double shooterDisiredPosition = 0.1;
 
     ShuffleboardTab PreGameTab = Shuffleboard.getTab(ShuffleboardConstants.kPreGameTabName);
     ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
@@ -39,7 +40,7 @@ public class ShooterSubsystem extends SubsystemBase {
     SimpleWidget ShooterSetPositionWidget = TeleopTab
         .add("Shooter set Position", shooterDisiredPosition)
         .withWidget(BuiltInWidgets.kNumberSlider)
-        .withProperties(Map.of("max", 1, "min", 0));
+        .withProperties(Map.of("max", 0.6, "min", 0));
 
 
     /**
@@ -72,12 +73,14 @@ public class ShooterSubsystem extends SubsystemBase {
         m_FeederRight.setInverted(ShooterConstants.kFeederRightInverted);
         m_ShooterAngle.setInverted(ShooterConstants.kShooterAngleInverted);
 
-        m_ShooterAnglePID.setP(0.4);
+        m_ShooterAnglePID.setP(0.15);
         m_ShooterAnglePID.setI(0);
         m_ShooterAnglePID.setD(0);
 
-        m_ShooterAnglePID.setFeedbackDevice(m_ShooterAngleEncoder);
+        m_ShooterAnglePID.setOutputRange(0, 0.2);
 
+        m_ShooterAnglePID.setFeedbackDevice(m_ShooterAngleEncoder);
+        
         //Writes all settings to the sparks
         m_ShooterTop.burnFlash();
         m_ShooterBottom.burnFlash();
@@ -89,6 +92,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
         ShooterGetPositionTab.getEntry().setDouble(m_ShooterAngleEncoder.getPosition());
         shooterDisiredPosition = ShooterSetPositionWidget.getEntry().getDouble(shooterDisiredPosition);
+
+        SmartDashboard.putNumber("Shooter Top speed", m_ShooterTop.get());
+        SmartDashboard.putNumber("Shooter Bottom Speed", m_ShooterBottom.get());
 
         m_ShooterAnglePID.setReference(shooterDisiredPosition, ControlType.kPosition);
     }

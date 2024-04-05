@@ -19,14 +19,11 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.Commands.BumpIntake;
 import frc.robot.Commands.HangerMove;
 import frc.robot.Commands.IntakeMove;
 import frc.robot.Commands.MoveToTagPosition;
 import frc.robot.Commands.ShootIntakeAmp;
 import frc.robot.Commands.ShooterMove;
-import frc.robot.Commands.Auto.IntakeInAuto;
-import frc.robot.Commands.Auto.IntakeOutAuto;
 import frc.robot.Commands.Auto.ShootNoteAuto;
 import frc.robot.Constants.AprilTag2024Constants;
 import frc.robot.Constants.AutoConstants;
@@ -105,8 +102,8 @@ public class RobotContainer {
   private void configurePathPlanner() {
 
     NamedCommands.registerCommand("ShootNoteAuto", new ShootNoteAuto(m_robotIntake, m_robotShooter));
-    NamedCommands.registerCommand("IntakeOut", new IntakeOutAuto(m_robotIntake));
-    NamedCommands.registerCommand("IntakeIn", new IntakeInAuto(m_robotIntake, m_robotLight));
+    NamedCommands.registerCommand("IntakeOut", new InstantCommand(() -> m_robotIntake.setArmPosition(1)));
+    NamedCommands.registerCommand("IntakeIn", new InstantCommand(() -> m_robotIntake.setArmPosition(0)));
 
     HolonomicPathFollowerConfig pathConfig = new HolonomicPathFollowerConfig(
       AutoConstants.kMaxSpeedMetersPerSecond,
@@ -166,12 +163,6 @@ public class RobotContainer {
   TeleopTab
     .add("Shoot note", new ShootNoteAuto(m_robotIntake, m_robotShooter))
     .withWidget(BuiltInWidgets.kCommand);
-
-  TeleopTab
-    .add("Red command", new InstantCommand(() -> m_robotLight.setLightColor(LightConstants.kPWMColorRed)));
-
-  TeleopTab
-    .add("Green command", new InstantCommand(() -> m_robotLight.setBlinkingLightColor(LightConstants.kPWMColorGreen)));
   }
 
   /**
@@ -218,19 +209,17 @@ public class RobotContainer {
       .onTrue(new MoveToTagPosition(m_robotDrive, m_robotVision, 1.5, 0, 0.2, AprilTag2024Constants.kRedSpeakerCenter));
 
     new JoystickButton(m_subsystemController, Button.kA.value)
-      .onTrue(new InstantCommand(() -> m_robotIntake.setArmPosition(1)));
+      .toggleOnTrue(new InstantCommand(() -> m_robotIntake.setArmPosition(1)));
 
-    new JoystickButton(m_subsystemController, Button.kB.value)
-      .onTrue(new InstantCommand(() -> m_robotIntake.setArmPosition(0)));
+    new JoystickButton(m_subsystemController, Button.kA.value)
+      .toggleOnFalse
+      (new InstantCommand(() -> m_robotIntake.setArmPosition(0)));
 
     new JoystickButton(m_subsystemController, Button.kX.value)
       .onTrue(new ShootIntakeAmp(m_robotIntake));
 
-    new JoystickButton(m_subsystemController, Button.kStart.value)
+    new JoystickButton(m_subsystemController, Button.kY.value)
       .whileTrue(new HangerMove(m_robotHanger, m_subsystemController));
-
-    new JoystickButton(m_subsystemController, Button.kRightBumper.value)
-      .onTrue(new BumpIntake(m_robotIntake));
   }
 
   private void configureDefaultCommands() {

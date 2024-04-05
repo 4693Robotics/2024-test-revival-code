@@ -24,10 +24,16 @@ public class HangerMove extends Command {
 
     @Override
     public void execute() {
-        if (controller.getYButton()){
-            hangersystem.setHangerSpeed(1);
+        if (controller.getRightBumper()){
+            hangersystem.setRightHangerSpeed(1);
         } else {
             hangersystem.setHangerSpeed(0);
+        }
+
+        if (controller.getLeftBumper()) {
+            hangersystem.setLeftHangerSpeed(1);
+        } else {
+            hangersystem.setLeftHangerSpeed(0);
         }
         
     }
