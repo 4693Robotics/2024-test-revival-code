@@ -204,9 +204,6 @@ public class RobotContainer {
       .whileTrue(new RunCommand(
         () -> m_robotDrive.zeroHeading(),
         m_robotDrive));
-    
-    new JoystickButton(m_driverController, Button.kX.value)
-      .onTrue(new MoveToTagPosition(m_robotDrive, m_robotVision, 1.5, 0, 0.2, AprilTag2024Constants.kRedSpeakerCenter));
 
     new JoystickButton(m_subsystemController, Button.kA.value)
       .toggleOnTrue(new InstantCommand(() -> m_robotIntake.setArmPosition(1)));
