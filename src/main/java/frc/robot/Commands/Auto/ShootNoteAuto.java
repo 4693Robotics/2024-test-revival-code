@@ -29,7 +29,7 @@ public class ShootNoteAuto extends Command {
 
     @Override
     public void execute() {
-        if (timer.get() > 0.2) {
+        if (timer.get() > 0.4) {
             shootersystem.setFeederSpeed(-1);
             intakesystem.setIntakeRollerSpeed(-1);
         }

@@ -29,7 +29,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private RelativeEncoder m_ShooterAngleEncoder = m_ShooterAngle.getAlternateEncoder(Type.kQuadrature, 1);
 
-    private double shooterDisiredPosition = 0.1;
+    private double shooterDisiredPosition = 0.28;
 
     ShuffleboardTab PreGameTab = Shuffleboard.getTab(ShuffleboardConstants.kPreGameTabName);
     ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
@@ -73,7 +73,7 @@ public class ShooterSubsystem extends SubsystemBase {
         m_FeederRight.setInverted(ShooterConstants.kFeederRightInverted);
         m_ShooterAngle.setInverted(ShooterConstants.kShooterAngleInverted);
 
-        m_ShooterAnglePID.setP(0.15);
+        m_ShooterAnglePID.setP(0.2);
         m_ShooterAnglePID.setI(0);
         m_ShooterAnglePID.setD(0);
 
@@ -91,7 +91,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public void periodic() {
 
         ShooterGetPositionTab.getEntry().setDouble(m_ShooterAngleEncoder.getPosition());
-        shooterDisiredPosition = ShooterSetPositionWidget.getEntry().getDouble(shooterDisiredPosition);
+        //shooterDisiredPosition = ShooterSetPositionWidget.getEntry().getDouble(shooterDisiredPosition);
 
         SmartDashboard.putNumber("Shooter Top speed", m_ShooterTop.get());
         SmartDashboard.putNumber("Shooter Bottom Speed", m_ShooterBottom.get());

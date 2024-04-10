@@ -213,9 +213,14 @@ public class RobotContainer {
       (new InstantCommand(() -> m_robotIntake.setArmPosition(0)));
 
     new JoystickButton(m_subsystemController, Button.kX.value)
-      .onTrue(new ShootIntakeAmp(m_robotIntake));
+      .onTrue
+        (new InstantCommand(() -> m_robotShooter.setShooterPosition(0)));
 
-    new JoystickButton(m_subsystemController, Button.kY.value)
+      new JoystickButton(m_subsystemController, Button.kB.value)
+      .onTrue
+        (new InstantCommand(() -> m_robotShooter.setShooterPosition(0.28)));
+    
+    new JoystickButton(m_subsystemController, Button.kStart.value)
       .whileTrue(new HangerMove(m_robotHanger, m_subsystemController));
   }
 
@@ -238,8 +243,6 @@ public class RobotContainer {
      // sets the shooters defult command
     m_robotShooter.setDefaultCommand(new ShooterMove(m_robotShooter, m_subsystemController));
     
-    // sets the hangers defult command
-    m_robotHanger.setDefaultCommand(new HangerMove(m_robotHanger, m_driverController));
   }
 
   

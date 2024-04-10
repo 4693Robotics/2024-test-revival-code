@@ -71,6 +71,11 @@ public class DriveSubsystem extends SubsystemBase {
     .withWidget(BuiltInWidgets.kBooleanBox)
     .withPosition(0, 2);
 
+  SimpleWidget TeleopGyroConnectionWidget = TeleopTab
+    .add("Gyro is connected", m_gyro.isConnected())
+    .withWidget(BuiltInWidgets.kBooleanBox);
+    
+
   ComplexWidget AutoWidgetGyro = AutoTab
     .add("Gyro", m_gyro)
     .withWidget(BuiltInWidgets.kGyro)

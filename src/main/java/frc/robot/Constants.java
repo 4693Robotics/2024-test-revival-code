@@ -149,7 +149,7 @@ public final class Constants {
         public static final IdleMode kFeederRightIdleMode = IdleMode.kBrake;
         public static final IdleMode kShooterAngleIdleMode = IdleMode.kBrake;
 
-        public static final boolean kShooterTopInverted = false;
+        public static final boolean kShooterTopInverted = true;
         public static final boolean kShooterBottomInverted = true;
         public static final boolean kFeederRightInverted = true;
         public static final boolean kShooterAngleInverted = true;
@@ -169,8 +169,8 @@ public final class Constants {
         public static final int kRightHangerCanId = 18;
         public static final int kLeftHangerCanId = 17;
 
-        public static final IdleMode kRightHangerIdleMode = IdleMode.kCoast;
-        public static final IdleMode kLeftHangerIdleMode = IdleMode.kCoast;
+        public static final IdleMode kRightHangerIdleMode = IdleMode.kBrake;
+        public static final IdleMode kLeftHangerIdleMode = IdleMode.kBrake;
 
         public static final boolean kRightHangerInverted = true;
         public static final boolean kLeftHangerInverted = false;
