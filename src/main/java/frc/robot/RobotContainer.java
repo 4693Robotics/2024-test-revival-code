@@ -214,11 +214,15 @@ public class RobotContainer {
 
     new JoystickButton(m_subsystemController, Button.kX.value)
       .onTrue
-        (new InstantCommand(() -> m_robotShooter.setShooterPosition(0)));
+        (new InstantCommand(() -> m_robotShooter.setShooterPosition(0.15)));
 
       new JoystickButton(m_subsystemController, Button.kB.value)
       .onTrue
-        (new InstantCommand(() -> m_robotShooter.setShooterPosition(0.28)));
+        (new InstantCommand(() -> m_robotShooter.setShooterPosition(0.34)));
+
+    new JoystickButton(m_subsystemController, Button.kY.value)
+      .onTrue
+        (new InstantCommand(() -> m_robotShooter.setShooterPosition(0)));
     
     new JoystickButton(m_subsystemController, Button.kStart.value)
       .whileTrue(new HangerMove(m_robotHanger, m_subsystemController));

@@ -2,10 +2,12 @@ package frc.robot.Commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.utils.JoystickUtils;
 
 public class ShooterMove extends Command {
 
@@ -15,6 +17,8 @@ public class ShooterMove extends Command {
     private final POVButton downDpad;
     private final POVButton rightDpad;
     private final POVButton leftDpad;
+
+    private double shooterSpeedSetpoint;
 
     public ShooterMove(ShooterSubsystem ShooterSubsystem, XboxController XboxController) {
         this.shootersystem = ShooterSubsystem;
@@ -30,11 +34,16 @@ public class ShooterMove extends Command {
     }
 
     @Override
+    public void initialize() {
+        shooterSpeedSetpoint = 0;
+    }
+
+    @Override
     public void execute() {
-                
+               
         double YRightspeed = MathUtil.applyDeadband(controller.getRightY(), OIConstants.KSubsystemsDeadband);
         shootersystem.setFeederSpeed(YRightspeed);
-
+    /* 
         if (upDpad.getAsBoolean()) {
          
             shootersystem.setShooterSpeed(1);
@@ -47,7 +56,19 @@ public class ShooterMove extends Command {
         } else if (leftDpad.getAsBoolean()) {
 
             shootersystem.setShooterSpeed(-0.3);
+        } */
+
+        double YLeftspeed = MathUtil.applyDeadband(controller.getLeftY(), OIConstants.KSubsystemsDeadband);
+
+        shooterSpeedSetpoint = JoystickUtils.joystickSlider(-YLeftspeed, shooterSpeedSetpoint);
+
+        SmartDashboard.putNumber("joystick setpoint", shooterSpeedSetpoint);
+        shootersystem.setShooterSpeed(shooterSpeedSetpoint);
+
+        if (controller.getBackButton()) {
+            shooterSpeedSetpoint = 0;
         }
+        SmartDashboard.putNumber("right trigger", controller.getRightTriggerAxis());
     }
 
     @Override
