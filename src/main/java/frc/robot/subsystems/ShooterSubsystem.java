@@ -29,7 +29,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private RelativeEncoder m_ShooterAngleEncoder = m_ShooterAngle.getAlternateEncoder(Type.kQuadrature, 1);
 
-    private double shooterDisiredPosition = 0.15;
+    private double shooterDisiredPosition = 0.18;
 
     ShuffleboardTab PreGameTab = Shuffleboard.getTab(ShuffleboardConstants.kPreGameTabName);
     ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
