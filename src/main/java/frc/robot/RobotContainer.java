@@ -137,7 +137,7 @@ public class RobotContainer {
 
   // Creates widget for the auto selector
   PreGameTab
-    .add("Path Auto", pathPlannerChooser)
+    .add("Path Aut", pathPlannerChooser)
     .withWidget(BuiltInWidgets.kComboBoxChooser)
     .withSize(3, 2)
     .withPosition(0, 0); 

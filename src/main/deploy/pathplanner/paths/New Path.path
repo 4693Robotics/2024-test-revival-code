@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4,
+        "x": 1.35,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4871952550922645,
-        "y": 6.716308169458444
+        "x": 1.257091882946204,
+        "y": 5.55
       },
       "isLocked": false,
-      "linkedName": "Center Speaker"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.15,
-        "y": 7.0
+        "x": 2.2,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 1.8361988601170185,
-        "y": 6.979287818224759
+        "x": 2.218489406348182,
+        "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Center 3 Note Amp",
+  "folder": "New Folder",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0
