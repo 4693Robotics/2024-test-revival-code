@@ -63,7 +63,7 @@ public class ShooterMove extends Command {
         shooterSpeedSetpoint = JoystickUtils.joystickSlider(-YLeftspeed, shooterSpeedSetpoint);
 
         SmartDashboard.putNumber("joystick setpoint", shooterSpeedSetpoint);
-        shootersystem.setShooterSpeed(shooterSpeedSetpoint);
+        shootersystem.setShooterSpeed(-shooterSpeedSetpoint);
 
         if (controller.getBackButton()) {
             shooterSpeedSetpoint = 0;

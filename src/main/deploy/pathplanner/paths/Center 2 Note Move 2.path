@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3182397535966242,
-        "y": 5.509843091758257
+        "x": 2.4,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3182397535966204,
-        "y": 5.509843091758257
+        "x": 2.4,
+        "y": 5.537577201280529
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.2519547741761454,
-        "y": 7.007485005956504
+        "x": 1.35,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 1.207303315503859,
-        "y": 7.118421444045597
+        "x": 1.3737079726411703,
+        "y": 5.556066607628711
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Center 2 Note",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

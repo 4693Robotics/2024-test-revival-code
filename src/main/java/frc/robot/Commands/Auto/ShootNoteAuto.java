@@ -24,7 +24,7 @@ public class ShootNoteAuto extends Command {
     public void initialize() {
         timer.reset();
         timer.start();
-        shootersystem.setShooterSpeed(1);
+        shootersystem.setShooterSpeed(-0.55);
     }
 
     @Override

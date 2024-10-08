@@ -22,6 +22,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Commands.HangerMove;
 import frc.robot.Commands.IntakeMove;
 import frc.robot.Commands.ShooterMove;
+import frc.robot.Commands.Auto.IntakeNoteAuto;
+import frc.robot.Commands.Auto.IntakeStart;
+import frc.robot.Commands.Auto.IntakeStop;
 import frc.robot.Commands.Auto.ShootNoteAuto;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
@@ -62,7 +65,7 @@ public class RobotContainer {
   Field2d field = new Field2d();
 
   //Creates the auto chooser
-  private SendableChooser<Command> pathPlannerChooser;
+  private SendableChooser<Command> autoChooser;
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
@@ -98,9 +101,8 @@ public class RobotContainer {
   private void configurePathPlanner() {
 
     NamedCommands.registerCommand("ShootNoteAuto", new ShootNoteAuto(m_robotIntake, m_robotShooter));
-    NamedCommands.registerCommand("IntakeOut", new InstantCommand(() -> m_robotIntake.setArmPosition(1)));
-    NamedCommands.registerCommand("IntakeIn", new InstantCommand(() -> m_robotIntake.setArmPosition(0)));
-
+    NamedCommands.registerCommand("IntakeOut", new IntakeStart(m_robotIntake));
+    NamedCommands.registerCommand("IntakeIn", new IntakeStop(m_robotIntake));
     HolonomicPathFollowerConfig pathConfig = new HolonomicPathFollowerConfig(
       AutoConstants.kMaxSpeedMetersPerSecond,
       AutoConstants.kDistanceToFarthestModuleMeters,
@@ -120,7 +122,7 @@ public class RobotContainer {
         return false;},
       m_robotDrive);
 
-    pathPlannerChooser = AutoBuilder.buildAutoChooser();
+    autoChooser = AutoBuilder.buildAutoChooser();
   }
 
   /**
@@ -137,7 +139,7 @@ public class RobotContainer {
 
   // Creates widget for the auto selector
   PreGameTab
-    .add("Path Aut", pathPlannerChooser)
+    .add("Path Auto", autoChooser)
     .withWidget(BuiltInWidgets.kComboBoxChooser)
     .withSize(3, 2)
     .withPosition(0, 0); 
@@ -159,7 +161,13 @@ public class RobotContainer {
   TeleopTab
     .add("Shoot note", new ShootNoteAuto(m_robotIntake, m_robotShooter))
     .withWidget(BuiltInWidgets.kCommand);
+
+  TeleopTab
+    .add("Intake note", new IntakeNoteAuto(m_robotIntake, m_robotDrive))
+    .withWidget(BuiltInWidgets.kCommand);
   }
+
+  
 
   /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -201,7 +209,7 @@ public class RobotContainer {
         () -> m_robotDrive.zeroHeading(),
         m_robotDrive));
 
-    new JoystickButton(m_subsystemController, Button.kA.value)
+    new JoystickButton(m_subsystemController, Button.kRightBumper.value)
       .toggleOnTrue(new InstantCommand(() -> m_robotIntake.setArmPosition(1)));
 
     new JoystickButton(m_subsystemController, Button.kA.value)
@@ -254,6 +262,6 @@ public class RobotContainer {
    */
 
   public Command getAutonomousCommand() {  
-    return pathPlannerChooser.getSelected();
+    return autoChooser.getSelected();
   }
 }

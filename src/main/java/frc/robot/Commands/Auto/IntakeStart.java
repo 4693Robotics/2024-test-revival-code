@@ -1,46 +1,46 @@
-package frc.robot.Commands;
+package frc.robot.Commands.Auto;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
-public class ShootIntakeAmp extends Command {
-        
+public class IntakeStart extends Command {
+
     IntakeSubsystem intakesystem;
-    PIDController armPIDController;
     Timer timer;
+    
+    public IntakeStart(IntakeSubsystem IntakeSubsystem) {
 
-    public ShootIntakeAmp(IntakeSubsystem IntakeSubsystem) {
         this.intakesystem = IntakeSubsystem;
+        
         this.timer = new Timer();
 
         addRequirements(IntakeSubsystem);
     }
 
+    @Override
     public void initialize() {
         timer.reset();
         timer.start();
-        intakesystem.setArmPosition(0.35);
+
+        intakesystem.setArmPosition(1);
+        intakesystem.setIntakeRollerSpeed(0.55);
     }
 
     @Override
     public void execute() {
-        if (timer.get() > 0.36) {
-            intakesystem.setIntakeRollerSpeed(-1);
-        }
 
     }
 
     @Override
     public void end(boolean interrupted) {
-     timer.stop();
-     intakesystem.setIntakeRollerSpeed(0);
-     intakesystem.setArmPosition(0);
+        timer.stop();
     }
 
     @Override
     public boolean isFinished() {
-      return timer.get() > 0.6;
+        return timer.get() > 0.1;
+        
     }
 }
