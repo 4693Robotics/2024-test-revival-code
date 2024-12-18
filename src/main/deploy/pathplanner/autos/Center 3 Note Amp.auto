@@ -64,6 +64,48 @@
           "data": {
             "name": "ShootNoteAuto"
           }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.45
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeOut"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center 3 Note Move 1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeIn"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center 3 Note Move 2"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.25
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNoteAuto"
+          }
         }
       ]
     }

@@ -212,7 +212,7 @@ public class RobotContainer {
     new JoystickButton(m_subsystemController, Button.kRightBumper.value)
       .toggleOnTrue(new InstantCommand(() -> m_robotIntake.setArmPosition(1)));
 
-    new JoystickButton(m_subsystemController, Button.kA.value)
+    new JoystickButton(m_subsystemController, Button.kRightBumper.value)
       .toggleOnFalse
       (new InstantCommand(() -> m_robotIntake.setArmPosition(0)));
 

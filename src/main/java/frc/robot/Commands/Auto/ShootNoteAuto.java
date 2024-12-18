@@ -24,14 +24,14 @@ public class ShootNoteAuto extends Command {
     public void initialize() {
         timer.reset();
         timer.start();
-        shootersystem.setShooterSpeed(-0.55);
+        shootersystem.setShooterSpeed(-0.6);
     }
 
     @Override
     public void execute() {
         if (timer.get() > 0.4) {
-            shootersystem.setFeederSpeed(-1);
-            intakesystem.setIntakeRollerSpeed(-1);
+            shootersystem.setFeederSpeed(-0.25);
+            intakesystem.setIntakeRollerSpeed(-0.25);
         }
     }
 
@@ -45,7 +45,7 @@ public class ShootNoteAuto extends Command {
 
     @Override
     public boolean isFinished() {
-        return timer.get() > 1;
+        return timer.get() > 1.1;
         
     }
 }

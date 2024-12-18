@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3182397535966242,
-        "y": 5.509843091758257
+        "x": 0.717334047280707,
+        "y": 4.428212820389605
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3182397535966204,
-        "y": 5.509843091758257
+        "x": 1.7173340472807057,
+        "y": 4.428212820389605
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.2519547741761454,
-        "y": 7.007485005956504
+        "x": 2.455338244009821,
+        "y": 1.6732912745104773
       },
       "prevControl": {
-        "x": 1.207303315503859,
-        "y": 7.118421444045597
+        "x": 2.2427100710057273,
+        "y": 2.0523241046482092
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": 120.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Center 3 Note Amp",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": 120.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
